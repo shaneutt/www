@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Rust - Coveralls.io for Rust</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Shane Utt" />
+    <meta name="description" content="My Programming Blog">
+    <link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/favicon.ico">
+    <meta name="generator" content="Hugo 0.74.3" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://shaneutt.com/"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/blog/">BLOG</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="https://shaneutt.com/blog/rust-coveralls-2017/">Rust - Coveralls.io for Rust</a></strong>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          April 11, 2017
+            &nbsp;&nbsp;
+            <span class="label label-success">rust</span>
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              <p>While looking for a way to provide code coverage with <!-- raw HTML omitted --><a href="https://coveralls.io">https://coveralls.io</a><!-- raw HTML omitted --> for Rust, I stumbled upon a solution while reading through <!-- raw HTML omitted -->Iron<!-- raw HTML omitted -->.</p>
+<p>The solution involves a tool called <!-- raw HTML omitted -->kcov<!-- raw HTML omitted --> which is a Linux/OSX code coverage tester for compiled languages.</p>
+<p>This tool can be implemented inside a <!-- raw HTML omitted -->.travis.yml<!-- raw HTML omitted --> file to push coverage data from a <!-- raw HTML omitted -->Travis CI <!-- raw HTML omitted --> build.</p>
+<p>Here is an example <!-- raw HTML omitted -->.travis.yml <!-- raw HTML omitted -->file:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Basically all you have to do is run:</p>
+<!-- raw HTML omitted -->
+<p>Changing &ldquo;riak-*&rdquo; for your own project, and everything before that is just to compiled kcov inside the Travis CI environment.</p>
+<p>This configuration was used for my <!-- raw HTML omitted -->Riak Rust Client<!-- raw HTML omitted -->.</p>
+<p>Since the above example uses <!-- raw HTML omitted -->master.tar.gz<!-- raw HTML omitted -->, I recommend you fork the original repo and use your fork for stability.</p>
+<p>Happy Coding!</p>
+        </div>
+      </div>
+    </div>
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; 2020 Shane Utt. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+  </body>
+</html>

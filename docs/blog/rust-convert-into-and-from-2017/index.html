@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Rust - std::convert::Into and std::convert::From</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Shane Utt" />
+    <meta name="description" content="My Programming Blog">
+    <link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/favicon.ico">
+    <meta name="generator" content="Hugo 0.74.3" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </head>
+
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://shaneutt.com/"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/blog/">BLOG</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="https://shaneutt.com/blog/rust-convert-into-and-from-2017/">Rust - std::convert::Into and std::convert::From</a></strong>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          January 12, 2017
+            &nbsp;&nbsp;
+            <span class="label label-success">rust</span>
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              <p>I&rsquo;ve been spending time recently learning the <!-- raw HTML omitted -->Rust Programming Language<!-- raw HTML omitted --> by writing a <!-- raw HTML omitted -->Riak Client<!-- raw HTML omitted --> using <!-- raw HTML omitted -->Riak&rsquo;s Protocol Buffers API<!-- raw HTML omitted -->.</p>
+<p>Through <!-- raw HTML omitted -->Ownership<!-- raw HTML omitted --> &amp; <!-- raw HTML omitted -->Borrowing<!-- raw HTML omitted --> Rust enables safety that generally comes at the cost of flexibility. Through features like <!-- raw HTML omitted -->Traits<!-- raw HTML omitted --> Rust is able to give some flexibility back to the programmer.</p>
+<p>Some traits I&rsquo;ve started to use recently include <!-- raw HTML omitted -->std::convert::Into<!-- raw HTML omitted --> and <!-- raw HTML omitted -->std::convert::From<!-- raw HTML omitted -->.</p>
+<p>When the Into trait is applied to a type, it allows it to consume itself to convert to another type.</p>
+<p>The <!-- raw HTML omitted -->String<!-- raw HTML omitted --> type provides conversion into Vec&lt;u8&gt;:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>One of the things I&rsquo;ve been striving for while writing the Rust Riak Client has been clean interfaces where a Vec&lt;u8&gt; is ultimately needed under the hood, but I want to make it easy for the end-users to provide string types where applicable.</p>
+<p>By using Into in a <!-- raw HTML omitted -->Generic<!-- raw HTML omitted --> one can make a very flexible interface to provide a Vec&lt;u8&gt;:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>This function can now take String, &amp;String, &amp;str making the conversion of a string type to bytes (for the purposes of sending via TCP to Riak) a matter of function definition, which is super sleek.</p>
+<p>I really enjoy writing code in Rust. I expect I&rsquo;ll have a lot more write-ups to come as I discover things and learn better ways to do things I had already been doing.</p>
+<p>If you&rsquo;ve never checked out rust, try the <!-- raw HTML omitted -->Rust Playground<!-- raw HTML omitted -->!</p>
+<p>Happy coding!</p>
+        </div>
+      </div>
+    </div>
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; 2020 Shane Utt. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+  </body>
+</html>
