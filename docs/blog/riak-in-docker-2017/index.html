@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Docker - Riak in Docker</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Shane Utt" />
+    <meta name="description" content="My Programming Blog">
+    <link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/favicon.ico">
+    <meta name="generator" content="Hugo 0.74.3" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://shaneutt.com/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </head>
+
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://shaneutt.com/"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/blog/">BLOG</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="https://shaneutt.com/blog/riak-in-docker-2017/">Docker - Riak in Docker</a></strong>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          February 21, 2017
+            &nbsp;&nbsp;
+            <span class="label label-success">docker</span>
+            <span class="label label-success">riak</span>
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              <p><!-- raw HTML omitted -->Riak<!-- raw HTML omitted --> was designed to be deployed and run on dedicated infrastructure, as opposed to containers or virtualization platforms.</p>
+<p>Nonetheless, being able to quickly deploy a Riak cluster for testing and development purposes can be very useful.</p>
+<p>I&rsquo;ve created a repository today that enables the user to build <!-- raw HTML omitted -->Docker<!-- raw HTML omitted --> images for most versions of Riak KV, TS, and CS ever produced:</p>
+<p><!-- raw HTML omitted --><a href="https://github.com/shaneutt/riak-docker">https://github.com/shaneutt/riak-docker</a><!-- raw HTML omitted --></p>
+<p>The <!-- raw HTML omitted -->dockerfile<!-- raw HTML omitted --> is relatively simple:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>The script used to start the Riak service takes care of some basic configuration and then tails the logs:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Using these images, creation of a node becomes a breeze:</p>
+<!-- raw HTML omitted -->
+<p>Then you can simply add enough nodes to make a five node cluster (and wait for them to come up):</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>And then join all the nodes together, plan, and commit!</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Now you have a Riak test environment to test your apps against, woohoo!</p>
+<p>Happy Coding!</p>
+<p> </p>
+        </div>
+      </div>
+    </div>
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; 2020 Shane Utt. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+  </body>
+</html>
