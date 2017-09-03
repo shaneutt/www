@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Riak on My Programming Blog</title>
+    <link>http://shaneutt.com/tags/riak/index.xml</link>
+    <description>Recent content in Riak on My Programming Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://shaneutt.com/tags/riak/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Docker - Riak in Docker</title>
+      <link>http://shaneutt.com/blog/riak-in-docker-2017/</link>
+      <pubDate>Tue, 21 Feb 2017 14:35:52 -0400</pubDate>
+      
+      <guid>http://shaneutt.com/blog/riak-in-docker-2017/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;https://basho.com/products&#34;&gt;Riak&lt;/a&gt; was designed to be deployed and run on dedicated infrastructure, as opposed to containers or virtualization platforms.&lt;/p&gt;
+
+&lt;p&gt;Nonetheless, being able to quickly deploy a Riak cluster for testing and development purposes can be very useful.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve created a repository today that enables the user to build &lt;a href=&#34;https://docker.com&#34;&gt;Docker&lt;/a&gt; images for most versions of Riak KV, TS, and CS ever produced:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/shaneutt/riak-docker&#34;&gt;https://github.com/shaneutt/riak-docker&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&#34;https://docs.docker.com/engine/reference/builder/&#34;&gt;dockerfile&lt;/a&gt; is relatively simple:
+&lt;pre class=&#34;lang:sh decode:true &#34; title=&#34;A Riak KV Dockerfile&#34;&gt;FROM centos:7&lt;/p&gt;
+
+&lt;p&gt;ARG major_version&lt;/p&gt;
+
+&lt;p&gt;ARG minor_version&lt;/p&gt;
+
+&lt;p&gt;RUN yum install -y -q iproute&lt;/p&gt;
+
+&lt;p&gt;RUN yum install -y -q &lt;a href=&#34;http://s3.amazonaws.com/downloads.basho.com/riak/${major_version}/${major_version}.${minor_version}/rhel/7/riak-${major_version}.${minor_version}-1.el7.centos.x86_64.rpm&#34;&gt;http://s3.amazonaws.com/downloads.basho.com/riak/${major_version}/${major_version}.${minor_version}/rhel/7/riak-${major_version}.${minor_version}-1.el7.centos.x86_64.rpm&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;ADD riak-kv-docker.sh /usr/bin/riak-docker&lt;/p&gt;
+
+&lt;p&gt;CMD riak-docker&lt;/pre&gt;
+The script used to start the Riak service takes care of some basic configuration and then tails the logs:
+&lt;pre class=&#34;lang:sh decode:true&#34; title=&#34;Riak Docker Script&#34;&gt;#!/bin/bash&lt;/p&gt;
+
+&lt;h1 id=&#34;remove-stale-entries&#34;&gt;remove stale entries&lt;/h1&gt;
+
+&lt;p&gt;sed -i &amp;lsquo;/nodename/d&amp;rsquo; /etc/riak/riak.conf
+sed -i &amp;lsquo;/listener.http.internal/d&amp;rsquo; /etc/riak/riak.conf
+sed -i &amp;lsquo;/listener.protobuf.internal/d&amp;rsquo; /etc/riak/riak.conf&lt;/p&gt;
+
+&lt;h1 id=&#34;configure-the-node&#34;&gt;configure the node&lt;/h1&gt;
+
+&lt;p&gt;IPV4=$(ip -4 addr show eth0 | grep -oP &amp;lsquo;(?&amp;lt;=inet\s)\d+(.\d+){3}&amp;lsquo;)
+NODENAME=&amp;ldquo;riak@${IPV4}&amp;rdquo;
+cat &amp;lt;&amp;lt; EOF &amp;gt;&amp;gt; /etc/riak/riak.conf&lt;/p&gt;
+
+&lt;h1 id=&#34;added-by-riak-docker&#34;&gt;Added By riak-docker&lt;/h1&gt;
+
+&lt;p&gt;nodename = $NODENAME
+listener.http.internal = $IPV4:8098
+listener.protobuf.internal = $IPV4:8087
+EOF&lt;/p&gt;
+
+&lt;h1 id=&#34;start-riak&#34;&gt;start Riak&lt;/h1&gt;
+
+&lt;p&gt;riak start&lt;/p&gt;
+
+&lt;h1 id=&#34;trap-signals&#34;&gt;trap signals&lt;/h1&gt;
+
+&lt;p&gt;trap &amp;ldquo;riak stop&amp;rdquo; SIGTERM SIGINT&lt;/p&gt;
+
+&lt;h1 id=&#34;follow-the-logs&#34;&gt;follow the logs&lt;/h1&gt;
+
+&lt;p&gt;tail -f /var/log/riak/* &amp;amp;
+JOB=$!&lt;/p&gt;
+
+&lt;h1 id=&#34;wait-for-signals&#34;&gt;wait for signals&lt;/h1&gt;
+
+&lt;p&gt;wait $!&lt;/pre&gt;
+Using these images, creation of a node becomes a breeze:
+&lt;pre class=&#34;lang:sh decode:true&#34; title=&#34;Creating a node with docker&#34;&gt;docker run -d &amp;ndash;name riak-kv-2-2-0-1 shaneutt/riak-kv:2.2.0&lt;/pre&gt;
+Then you can simply add enough nodes to make a five node cluster (and wait for them to come up):
+&lt;pre class=&#34;lang:sh decode:true&#34; title=&#34;Create several nodes to create a Riak cluster&#34;&gt;for i in $(seq 2 5); do docker run -d &amp;ndash;name riak-kv-2-2-0-$i shaneutt/riak_kv:2.2.0; done
+for i in $(seq 2 5); do docker exec riak-kv-2-2-0-$i riak-admin wait_for_service riak_kv; done&lt;/pre&gt;
+And then join all the nodes together, plan, and commit!
+&lt;pre class=&#34;lang:sh decode:true &#34; title=&#34;Join, plan, and commit&#34;&gt;export NODEIP=$(docker inspect riak-kv-2-2-0-1 |awk -F &amp;lsquo;&amp;ldquo;&amp;rsquo; &amp;lsquo;/&amp;ldquo;IPAddress&amp;rdquo;/{print$4}&amp;rsquo;|head -1)
+for i in $(seq 2 5); do docker exec riak-kv-2-2-0-$i riak-admin cluster join riak@${NODEIP}; done
+docker exec riak-kv-2-2-0-1 riak-admin cluster plan
+docker exec riak-kv-2-2-0-1 riak-admin cluster commit&lt;/pre&gt;
+Now you have a Riak test environment to test your apps against, woohoo!&lt;/p&gt;
+
+&lt;p&gt;Happy Coding!&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

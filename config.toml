@@ -1,0 +1,37 @@
+baseurl = "http://shaneutt.com/"
+languageCode = "en-us"
+title = "My Programming Blog"
+publishDir = "docs"
+disqusShortname = ""
+googleAnalytics = ""
+theme = "sustain"
+
+[permalinks]
+  post = "/:year/:month/:day/:slug"
+
+[params]
+  avatar = "profile.png"
+  author = "Shane Utt"
+  description = "My Programming Blog"
+
+  # Custom assets can be linked with their paths relative to static/
+  custom_css = []
+  custom_js  = []
+
+[params.social]
+  Github        = "shaneutt"
+  Email         = "shaneutt@linux.com"
+  Twitter       = "shaneutt"
+  LinkedIn      = "shaneutt"
+
+## Main Menu
+[[menu.main]]
+  name = "blog"
+  weight = 100
+  identifier = "blog"
+  url = "/blog/"
+[[menu.main]]
+  name = "projects"
+  identifier = "projects"
+  weight = 200
+  url = "/projects/"

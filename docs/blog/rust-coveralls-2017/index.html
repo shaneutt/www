@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="map[]" />
+    <meta name="description" content="My Programming Blog">
+    <link rel="shortcut icon" type="image/x-icon" href="http://shaneutt.com/img/favicon.ico">
+    <title>Rust - Coveralls.io for Rust</title>
+    <meta name="generator" content="Hugo 0.18.1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="http://shaneutt.com/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="http://shaneutt.com/"><i class="fa fa-home"></i></a>
+    </div>
+    <div id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="/blog/">BLOG</a></li>
+        
+        <li><a href="/projects/">PROJECTS</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="http://shaneutt.com/blog/rust-coveralls-2017/">Rust - Coveralls.io for Rust</a></strong>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          April 11, 2017
+            &nbsp;&nbsp;
+            
+            <span class="label label-success">rust</span>
+            
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              <p>While looking for a way to provide code coverage with <a href="https://coveralls.io">https://coveralls.io</a> for Rust, I stumbled upon a solution while reading through <a href="https://github.com/hyperium/hyper">Iron</a>.</p>
+
+<p>The solution involves a tool called <a href="https://github.com/SimonKagstrom/kcov/">kcov</a> which is a Linux/OSX code coverage tester for compiled languages.</p>
+
+<p>This tool can be implemented inside a <strong>.travis.yml</strong> file to push coverage data from a <a href="https://travis-cs.org">Travis CI </a> build.</p>
+
+<p>Here is an example <strong>.travis.yml </strong>file:
+<pre class="lang:yaml decode:true" title=".travis.yml">sudo: required</p>
+
+<p>language: rust</p>
+
+<p>rust:
+  - stable
+  - beta
+  - nightly</p>
+
+<p>matrix:
+  allow_failures:
+    - rust: nightly</p>
+
+<p>services:
+  - docker</p>
+
+<p>script:
+- make test-docker-env</p>
+
+<p>cache:
+    apt: true
+    directories:
+        - target/debug/deps
+        - target/debug/build</p>
+
+<p>addons:
+  apt:
+    packages:
+      - libcurl4-openssl-dev
+      - libelf-dev
+      - libdw-dev</p>
+
+<p>after_success: |
+    [ $TRAVIS_RUST_VERSION = stable ] &amp;&amp;
+    wget <a href="https://github.com/shaneutt/kcov/archive/master.tar.gz">https://github.com/shaneutt/kcov/archive/master.tar.gz</a> &amp;&amp;
+    tar xzf master.tar.gz &amp;&amp; mkdir kcov-master/build &amp;&amp; cd kcov-master/build &amp;&amp; cmake .. &amp;&amp; make &amp;&amp; make install DESTDIR=../tmp &amp;&amp; cd ../.. &amp;&amp;
+    ls target/debug &amp;&amp;
+    ./kcov-master/tmp/usr/local/bin/kcov &ndash;coveralls-id=$TRAVIS_JOB_ID &ndash;exclude-pattern=/.cargo target/kcov target/debug/riak-*
+</pre>
+Basically all you have to do is run:
+<pre class="lang:sh decode:true ">./kcov-master/tmp/usr/local/bin/kcov &ndash;coveralls-id=$TRAVIS_JOB_ID &ndash;exclude-pattern=/.cargo target/kcov target/debug/riak-<em></pre>
+Changing &ldquo;riak-</em>&rdquo; for your own project, and everything before that is just to compiled kcov inside the Travis CI environment.</p>
+
+<p>This configuration was used for my <a href="https://github.com/shaneutt/riak-rust-client">Riak Rust Client</a>.</p>
+
+<p>Since the above example uses <strong>master.tar.gz</strong>, I recommend you fork the original repo and use your fork for stability.</p>
+
+<p>Happy Coding!</p>
+
+              <hr>
+              <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        January 12, 2017
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/blog/rust-convert-into-and-from-2017/">Rust - std::convert::Into and std::convert::From</a></strong>
+                      </h6>
+                    </div>
+                  </div>
+                
+              </div>
+            </div>
+          </div>
+          <hr>
+        </div>
+      </div>
+      
+    </div>
+
+    
+    <footer>
+    <div class="social">
+      <ul class="social-links">
+        
+          <li><a href="http://github.com/shaneutt"><i class="fa fa-github"></i></a></li>
+        
+
+        
+          <li><a href="mailto:shaneutt@linux.com"><i class="fa fa-envelope"></i></a></li>
+        
+
+        
+          <li><a href="http://twitter.com/shaneutt"><i class="fa fa-twitter"></i></a></li>
+        
+
+        
+          <li><a href="http://linkedin.com/in/shaneutt"><i class="fa fa-linkedin"></i></a></li>
+        
+      </ul>
+    </div>
+    <div id="footer">
+        <div class="container">
+            <p class="text-muted">&copy; 2017 Shane Utt, All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+<div class="footer"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="http://shaneutt.com/js/docs.min.js"></script>
+<script src="http://shaneutt.com/js/main.js"></script>
+
+<script src="http://shaneutt.com/js/ie10-viewport-bug-workaround.js"></script>
+
+
+    
+  </body>
+</html>

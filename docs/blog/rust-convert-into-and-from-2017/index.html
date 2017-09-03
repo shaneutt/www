@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="map[]" />
+    <meta name="description" content="My Programming Blog">
+    <link rel="shortcut icon" type="image/x-icon" href="http://shaneutt.com/img/favicon.ico">
+    <title>Rust - std::convert::Into and std::convert::From</title>
+    <meta name="generator" content="Hugo 0.18.1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="http://shaneutt.com/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="http://shaneutt.com/"><i class="fa fa-home"></i></a>
+    </div>
+    <div id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="/blog/">BLOG</a></li>
+        
+        <li><a href="/projects/">PROJECTS</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="http://shaneutt.com/blog/rust-convert-into-and-from-2017/">Rust - std::convert::Into and std::convert::From</a></strong>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          January 12, 2017
+            &nbsp;&nbsp;
+            
+            <span class="label label-success">rust</span>
+            
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              <p>I&rsquo;ve been spending time recently learning the <a href="https://www.rust-lang.org/">Rust Programming Language</a> by writing a <a href="https://github.com/shaneutt">Riak Client</a> using <a href="https://docs.basho.com/riak/kv/latest/developing/api/protocol-buffers/">Riak&rsquo;s Protocol Buffers API</a>.</p>
+
+<p>Through <a href="https://doc.rust-lang.org/book/ownership.html">Ownership</a> &amp; <a href="https://doc.rust-lang.org/book/references-and-borrowing.html">Borrowing</a> Rust enables safety that generally comes at the cost of flexibility. Through features like <a href="https://doc.rust-lang.org/book/traits.html">Traits</a> Rust is able to give some flexibility back to the programmer.</p>
+
+<p>Some traits I&rsquo;ve started to use recently include <a href="https://doc.rust-lang.org/std/convert/trait.Into.html">std::convert::Into</a> and <a href="https://doc.rust-lang.org/std/convert/trait.From.html">std::convert::From</a>.</p>
+
+<p>When the Into trait is applied to a type, it allows it to consume itself to convert to another type.</p>
+
+<p>The <a href="https://doc.rust-lang.org/std/string/struct.String.html">String</a> type provides conversion into Vec&lt;u8&gt;:
+<pre class="lang:rust decode:true ">fn is_hello&lt;T: Into&lt;Vec&lt;u8&gt;&gt;&gt;(s: T) {
+   let bytes = b&rdquo;hello&rdquo;.to_vec();
+   assert_eq!(bytes, s.into());
+}</p>
+
+<p>let s = &ldquo;hello&rdquo;.to_string();
+is_hello(s);</pre>
+One of the things I&rsquo;ve been striving for while writing the Rust Riak Client has been clean interfaces where a Vec&lt;u8&gt; is ultimately needed under the hood, but I want to make it easy for the end-users to provide string types where applicable.</p>
+
+<p>By using Into in a <a href="https://doc.rust-lang.org/beta/book/generics.html">Generic</a> one can make a very flexible interface to provide a Vec&lt;u8&gt;:
+<pre class="lang:rust decode:true">fn myfunc&lt;T: Into&lt;Vec&lt;u8&gt;&gt;&gt;(data: T) {
+   // &hellip;
+}</pre>
+This function can now take String, &amp;String, &amp;str making the conversion of a string type to bytes (for the purposes of sending via TCP to Riak) a matter of function definition, which is super sleek.</p>
+
+<p>I really enjoy writing code in Rust. I expect I&rsquo;ll have a lot more write-ups to come as I discover things and learn better ways to do things I had already been doing.</p>
+
+<p>If you&rsquo;ve never checked out rust, try the <a href="https://play.rust-lang.org/">Rust Playground</a>!</p>
+
+<p>Happy coding!</p>
+
+              <hr>
+              <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        April 11, 2017
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/blog/rust-coveralls-2017/">Rust - Coveralls.io for Rust</a></strong>
+                      </h6>
+                    </div>
+                  </div>
+                
+              </div>
+            </div>
+          </div>
+          <hr>
+        </div>
+      </div>
+      
+    </div>
+
+    
+    <footer>
+    <div class="social">
+      <ul class="social-links">
+        
+          <li><a href="http://github.com/shaneutt"><i class="fa fa-github"></i></a></li>
+        
+
+        
+          <li><a href="mailto:shaneutt@linux.com"><i class="fa fa-envelope"></i></a></li>
+        
+
+        
+          <li><a href="http://twitter.com/shaneutt"><i class="fa fa-twitter"></i></a></li>
+        
+
+        
+          <li><a href="http://linkedin.com/in/shaneutt"><i class="fa fa-linkedin"></i></a></li>
+        
+      </ul>
+    </div>
+    <div id="footer">
+        <div class="container">
+            <p class="text-muted">&copy; 2017 Shane Utt, All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+<div class="footer"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="http://shaneutt.com/js/docs.min.js"></script>
+<script src="http://shaneutt.com/js/main.js"></script>
+
+<script src="http://shaneutt.com/js/ie10-viewport-bug-workaround.js"></script>
+
+
+    
+  </body>
+</html>

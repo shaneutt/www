@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rust on My Programming Blog</title>
+    <link>http://shaneutt.com/tags/rust/index.xml</link>
+    <description>Recent content in Rust on My Programming Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://shaneutt.com/tags/rust/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Rust - Coveralls.io for Rust</title>
+      <link>http://shaneutt.com/blog/rust-coveralls-2017/</link>
+      <pubDate>Tue, 11 Apr 2017 14:30:44 -0400</pubDate>
+      
+      <guid>http://shaneutt.com/blog/rust-coveralls-2017/</guid>
+      <description>&lt;p&gt;While looking for a way to provide code coverage with &lt;a href=&#34;https://coveralls.io&#34;&gt;https://coveralls.io&lt;/a&gt; for Rust, I stumbled upon a solution while reading through &lt;a href=&#34;https://github.com/hyperium/hyper&#34;&gt;Iron&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The solution involves a tool called &lt;a href=&#34;https://github.com/SimonKagstrom/kcov/&#34;&gt;kcov&lt;/a&gt; which is a Linux/OSX code coverage tester for compiled languages.&lt;/p&gt;
+
+&lt;p&gt;This tool can be implemented inside a &lt;strong&gt;.travis.yml&lt;/strong&gt; file to push coverage data from a &lt;a href=&#34;https://travis-cs.org&#34;&gt;Travis CI &lt;/a&gt; build.&lt;/p&gt;
+
+&lt;p&gt;Here is an example &lt;strong&gt;.travis.yml &lt;/strong&gt;file:
+&lt;pre class=&#34;lang:yaml decode:true&#34; title=&#34;.travis.yml&#34;&gt;sudo: required&lt;/p&gt;
+
+&lt;p&gt;language: rust&lt;/p&gt;
+
+&lt;p&gt;rust:
+  - stable
+  - beta
+  - nightly&lt;/p&gt;
+
+&lt;p&gt;matrix:
+  allow_failures:
+    - rust: nightly&lt;/p&gt;
+
+&lt;p&gt;services:
+  - docker&lt;/p&gt;
+
+&lt;p&gt;script:
+- make test-docker-env&lt;/p&gt;
+
+&lt;p&gt;cache:
+    apt: true
+    directories:
+        - target/debug/deps
+        - target/debug/build&lt;/p&gt;
+
+&lt;p&gt;addons:
+  apt:
+    packages:
+      - libcurl4-openssl-dev
+      - libelf-dev
+      - libdw-dev&lt;/p&gt;
+
+&lt;p&gt;after_success: |
+    [ $TRAVIS_RUST_VERSION = stable ] &amp;amp;&amp;amp;
+    wget &lt;a href=&#34;https://github.com/shaneutt/kcov/archive/master.tar.gz&#34;&gt;https://github.com/shaneutt/kcov/archive/master.tar.gz&lt;/a&gt; &amp;amp;&amp;amp;
+    tar xzf master.tar.gz &amp;amp;&amp;amp; mkdir kcov-master/build &amp;amp;&amp;amp; cd kcov-master/build &amp;amp;&amp;amp; cmake .. &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install DESTDIR=../tmp &amp;amp;&amp;amp; cd ../.. &amp;amp;&amp;amp;
+    ls target/debug &amp;amp;&amp;amp;
+    ./kcov-master/tmp/usr/local/bin/kcov &amp;ndash;coveralls-id=$TRAVIS_JOB_ID &amp;ndash;exclude-pattern=/.cargo target/kcov target/debug/riak-*
+&lt;/pre&gt;
+Basically all you have to do is run:
+&lt;pre class=&#34;lang:sh decode:true &#34;&gt;./kcov-master/tmp/usr/local/bin/kcov &amp;ndash;coveralls-id=$TRAVIS_JOB_ID &amp;ndash;exclude-pattern=/.cargo target/kcov target/debug/riak-&lt;em&gt;&lt;/pre&gt;
+Changing &amp;ldquo;riak-&lt;/em&gt;&amp;rdquo; for your own project, and everything before that is just to compiled kcov inside the Travis CI environment.&lt;/p&gt;
+
+&lt;p&gt;This configuration was used for my &lt;a href=&#34;https://github.com/shaneutt/riak-rust-client&#34;&gt;Riak Rust Client&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Since the above example uses &lt;strong&gt;master.tar.gz&lt;/strong&gt;, I recommend you fork the original repo and use your fork for stability.&lt;/p&gt;
+
+&lt;p&gt;Happy Coding!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Rust - std::convert::Into and std::convert::From</title>
+      <link>http://shaneutt.com/blog/rust-convert-into-and-from-2017/</link>
+      <pubDate>Thu, 12 Jan 2017 14:34:10 -0400</pubDate>
+      
+      <guid>http://shaneutt.com/blog/rust-convert-into-and-from-2017/</guid>
+      <description>&lt;p&gt;I&amp;rsquo;ve been spending time recently learning the &lt;a href=&#34;https://www.rust-lang.org/&#34;&gt;Rust Programming Language&lt;/a&gt; by writing a &lt;a href=&#34;https://github.com/shaneutt&#34;&gt;Riak Client&lt;/a&gt; using &lt;a href=&#34;https://docs.basho.com/riak/kv/latest/developing/api/protocol-buffers/&#34;&gt;Riak&amp;rsquo;s Protocol Buffers API&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Through &lt;a href=&#34;https://doc.rust-lang.org/book/ownership.html&#34;&gt;Ownership&lt;/a&gt; &amp;amp; &lt;a href=&#34;https://doc.rust-lang.org/book/references-and-borrowing.html&#34;&gt;Borrowing&lt;/a&gt; Rust enables safety that generally comes at the cost of flexibility. Through features like &lt;a href=&#34;https://doc.rust-lang.org/book/traits.html&#34;&gt;Traits&lt;/a&gt; Rust is able to give some flexibility back to the programmer.&lt;/p&gt;
+
+&lt;p&gt;Some traits I&amp;rsquo;ve started to use recently include &lt;a href=&#34;https://doc.rust-lang.org/std/convert/trait.Into.html&#34;&gt;std::convert::Into&lt;/a&gt; and &lt;a href=&#34;https://doc.rust-lang.org/std/convert/trait.From.html&#34;&gt;std::convert::From&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;When the Into trait is applied to a type, it allows it to consume itself to convert to another type.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&#34;https://doc.rust-lang.org/std/string/struct.String.html&#34;&gt;String&lt;/a&gt; type provides conversion into Vec&amp;lt;u8&amp;gt;:
+&lt;pre class=&#34;lang:rust decode:true &#34;&gt;fn is_hello&amp;lt;T: Into&amp;lt;Vec&amp;lt;u8&amp;gt;&amp;gt;&amp;gt;(s: T) {
+   let bytes = b&amp;rdquo;hello&amp;rdquo;.to_vec();
+   assert_eq!(bytes, s.into());
+}&lt;/p&gt;
+
+&lt;p&gt;let s = &amp;ldquo;hello&amp;rdquo;.to_string();
+is_hello(s);&lt;/pre&gt;
+One of the things I&amp;rsquo;ve been striving for while writing the Rust Riak Client has been clean interfaces where a Vec&amp;lt;u8&amp;gt; is ultimately needed under the hood, but I want to make it easy for the end-users to provide string types where applicable.&lt;/p&gt;
+
+&lt;p&gt;By using Into in a &lt;a href=&#34;https://doc.rust-lang.org/beta/book/generics.html&#34;&gt;Generic&lt;/a&gt; one can make a very flexible interface to provide a Vec&amp;lt;u8&amp;gt;:
+&lt;pre class=&#34;lang:rust decode:true&#34;&gt;fn myfunc&amp;lt;T: Into&amp;lt;Vec&amp;lt;u8&amp;gt;&amp;gt;&amp;gt;(data: T) {
+   // &amp;hellip;
+}&lt;/pre&gt;
+This function can now take String, &amp;amp;String, &amp;amp;str making the conversion of a string type to bytes (for the purposes of sending via TCP to Riak) a matter of function definition, which is super sleek.&lt;/p&gt;
+
+&lt;p&gt;I really enjoy writing code in Rust. I expect I&amp;rsquo;ll have a lot more write-ups to come as I discover things and learn better ways to do things I had already been doing.&lt;/p&gt;
+
+&lt;p&gt;If you&amp;rsquo;ve never checked out rust, try the &lt;a href=&#34;https://play.rust-lang.org/&#34;&gt;Rust Playground&lt;/a&gt;!&lt;/p&gt;
+
+&lt;p&gt;Happy coding!&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

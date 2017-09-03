@@ -1,0 +1,11 @@
+name: Projects
+source:
+  - url: https://github.com/shaneutt/riak-rust-client
+    icon: fa fa-github
+    name: Riak Rust Client
+    description: A Riak client written in Mozilla's Rust programming language
+
+  - url: https://github.com/shaneutt/ebot
+    icon: fa fa-github
+    name: Ebot
+    description: A modular bot for the Slack chat platform

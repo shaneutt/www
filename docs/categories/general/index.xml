@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>General on My Programming Blog</title>
+    <link>http://shaneutt.com/categories/general/index.xml</link>
+    <description>Recent content in General on My Programming Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://shaneutt.com/categories/general/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>General - New blog built on Github Pages with Hugo</title>
+      <link>http://shaneutt.com/blog/new-blog-2017/</link>
+      <pubDate>Sun, 04 Jun 2017 12:50:13 -0400</pubDate>
+      
+      <guid>http://shaneutt.com/blog/new-blog-2017/</guid>
+      <description>
+
+&lt;h1 id=&#34;welcome-to-my-new-blog&#34;&gt;Welcome to my new blog!&lt;/h1&gt;
+
+&lt;p&gt;This blog uses &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt; to generate fast static content, and &lt;a href=&#34;https://pages.github.com&#34;&gt;Github Pages&lt;/a&gt; for hosting.&lt;/p&gt;
+
+&lt;p&gt;See the source for this site &lt;a href=&#34;https://github.com/shaneutt/shaneutt.com&#34;&gt;on Github&lt;/a&gt;!&lt;/p&gt;
+
+&lt;p&gt;If you&amp;rsquo;re looking to create your own blog, I highly recommend checking out the &lt;a href=&#34;https://gohugo.io/overview/introduction/&#34;&gt;&amp;ldquo;getting started&amp;rdquo; documenation for Hugo&lt;/a&gt;, and the docs for &lt;a href=&#34;https://gohugo.io/tutorials/github-pages-blog/&#34;&gt;using Hugo with Github pages&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Soon I&amp;rsquo;ll start adding some more posts after I&amp;rsquo;ve imported my old ones from the previous blog.&lt;/p&gt;
+
+&lt;p&gt;Happy coding!&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
