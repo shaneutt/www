@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rdma on Shane Utt - Software Engineer</title>
+    <link>https://shaneutt.com/tags/rdma/</link>
+    <description>Recent content in Rdma on Shane Utt - Software Engineer</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 22 Sep 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://shaneutt.com/tags/rdma/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI Networking Topologies: How Inference Traffic Differs from Everything Else</title>
+      <link>https://shaneutt.com/blog/ai-networking-topologies/</link>
+      <pubDate>Mon, 22 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/ai-networking-topologies/</guid>
+      <description>&lt;h1 id=&#34;ai-networking-topologies-how-inference-traffic-differs-from-everything-else&#34;&gt;AI Networking Topologies: How Inference Traffic Differs from Everything Else&lt;/h1&gt;&#xA;&lt;p&gt;I have spent over a decade working on Kubernetes networking:&#xA;SIG Network leadership, Gateway API, and more recently&#xA;networking infrastructure for OpenShift. I thought I&#xA;understood traffic patterns.&#xA;Then I started designing networks for AI inference, and things&#xA;got a bit weird.&lt;/p&gt;&#xA;&lt;h2 id=&#34;ai-traffic-is-not-web-traffic&#34;&gt;AI Traffic Is Not Web Traffic&lt;/h2&gt;&#xA;&lt;p&gt;Traditional web services process stateless requests in&#xA;milliseconds. A load balancer picks a backend, the backend&#xA;responds, the connection closes. Every proxy, service mesh,&#xA;and ingress controller was designed around that pattern.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Musl on Shane Utt - Software Engineer</title>
+    <link>https://shaneutt.com/tags/musl/</link>
+    <description>Recent content in Musl on Shane Utt - Software Engineer</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 07 Oct 2018 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://shaneutt.com/tags/musl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rust - Fast &#43; Small Docker Image Builds</title>
+      <link>https://shaneutt.com/blog/rust-fast-small-docker-image-builds/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/rust-fast-small-docker-image-builds/</guid>
+      <description>&lt;h1 id=&#34;fast--small-docker-image-builds-for-rust-apps&#34;&gt;Fast + Small Docker Image Builds for Rust Apps&lt;/h1&gt;&#xA;&lt;p&gt;In this post I&amp;rsquo;m going to demonstrate how to create small, quickly built &lt;a href=&#34;https://hub.docker.com/explore/&#34;&gt;Docker Images&lt;/a&gt; for &lt;a href=&#34;https://www.rust-lang.org/&#34;&gt;Rust&lt;/a&gt; applications.&lt;/p&gt;&#xA;&lt;p&gt;We&amp;rsquo;ll start by creating a simple test application, and then building and iterating on a &lt;a href=&#34;https://docs.docker.com/engine/reference/builder/&#34;&gt;Dockerfile&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;requirements&#34;&gt;Requirements&lt;/h2&gt;&#xA;&lt;p&gt;Ensure you have the following installed:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://rustup.rs&#34;&gt;rustup&lt;/a&gt; v1.14.0+&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://docker.com&#34;&gt;docker&lt;/a&gt; v17.06.2+&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;setup-demo-app-setup&#34;&gt;Setup: demo app setup&lt;/h2&gt;&#xA;&lt;p&gt;Make sure you have and are using the latest stable Rust with &lt;code&gt;rustup&lt;/code&gt;:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;rustup default stable&#xA;rustup update&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Create a new project called &amp;ldquo;myapp&amp;rdquo;:&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

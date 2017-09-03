@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Openshift on Shane Utt - Software Engineer</title>
+    <link>https://shaneutt.com/tags/openshift/</link>
+    <description>Recent content in Openshift on Shane Utt - Software Engineer</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 15 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://shaneutt.com/tags/openshift/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI-Driven Cybersecurity: How the Threat Landscape Is Shifting Around Us</title>
+      <link>https://shaneutt.com/blog/ai-driven-cybersecurity/</link>
+      <pubDate>Wed, 15 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/ai-driven-cybersecurity/</guid>
+      <description>&lt;h1 id=&#34;ai-driven-cybersecurity-how-the-threat-landscape-is-shifting-around-us&#34;&gt;AI-Driven Cybersecurity: How the Threat Landscape Is Shifting Around Us&lt;/h1&gt;&#xA;&lt;p&gt;The security assumptions we have relied on for decades are&#xA;breaking down. Not gradually, not theoretically: right now.&#xA;As someone who has spent years architecting networking and&#xA;security infrastructure for Kubernetes, here is what I see&#xA;changing and what we should do about it.&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-asymmetry-has-flipped&#34;&gt;The Asymmetry Has Flipped&lt;/h2&gt;&#xA;&lt;p&gt;Security has always been asymmetric: defenders must get&#xA;everything right, attackers need one opening. AI is&#xA;amplifying that asymmetry in ways nobody anticipated two&#xA;years ago.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Coraza Kubernetes Operator: Building a Kubernetes WAF</title>
+      <link>https://shaneutt.com/blog/coraza-kubernetes-operator/</link>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/coraza-kubernetes-operator/</guid>
+      <description>&lt;h1 id=&#34;coraza-kubernetes-operator-building-a-kubernetes-waf&#34;&gt;Coraza Kubernetes Operator: Building a Kubernetes WAF&lt;/h1&gt;&#xA;&lt;p&gt;Earlier this month I pushed the first commit to&#xA;&lt;a href=&#34;https://github.com/networking-incubator/coraza-kubernetes-operator&#34;&gt;coraza-kubernetes-operator&lt;/a&gt;, a Kubernetes operator for&#xA;managing &lt;a href=&#34;https://www.coraza.io/&#34;&gt;OWASP Coraza&lt;/a&gt; Web Application Firewalls&#xA;declaratively. This post covers where it came from, why I&#xA;built &lt;a href=&#34;https://github.com/shaneutt/portkullis&#34;&gt;Portkullis&lt;/a&gt; in Rust first, how the&#xA;operator works, and the testing and release infrastructure.&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-gap&#34;&gt;The Gap&lt;/h2&gt;&#xA;&lt;p&gt;WAFs have been around for decades, but deploying one on&#xA;Kubernetes still involves too much glue. You bolt&#xA;ModSecurity onto an ingress controller and hope the config&#xA;stays in sync, or hand-manage sidecar proxies. Neither is&#xA;declarative. Neither integrates with &lt;a href=&#34;https://gateway-api.sigs.k8s.io/&#34;&gt;Gateway API&lt;/a&gt;.&#xA;Neither gives platform teams a clean API boundary between&#xA;&amp;ldquo;what to protect&amp;rdquo; and &amp;ldquo;how to protect it.&amp;rdquo;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Delivering Gateway API on OpenShift: CRD Lifecycle at Platform Scale</title>
+      <link>https://shaneutt.com/blog/gateway-api-on-openshift/</link>
+      <pubDate>Fri, 15 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/gateway-api-on-openshift/</guid>
+      <description>&lt;h1 id=&#34;delivering-gateway-api-on-openshift-crd-lifecycle-at-platform-scale&#34;&gt;Delivering Gateway API on OpenShift: CRD Lifecycle at Platform Scale&lt;/h1&gt;&#xA;&lt;p&gt;As a Gateway API maintainer and SIG Network Technical Lead,&#xA;I helped build the API. As a Red Hat engineer, I then had to&#xA;ship it as a first-class platform capability on OpenShift.&#xA;These are different problems. The upstream API defines&#xA;resource shapes; the platform must decide who installs them,&#xA;who owns them, how they upgrade safely across thousands of&#xA;clusters, and what happens when they conflict.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

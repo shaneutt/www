@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dc/Os on Shane Utt - Software Engineer</title>
+    <link>https://shaneutt.com/tags/dc/os/</link>
+    <description>Recent content in Dc/Os on Shane Utt - Software Engineer</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 01 Jun 2018 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://shaneutt.com/tags/dc/os/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deploying Rust Webapps on Kubernetes on DC/OS using Skaffold</title>
+      <link>https://shaneutt.com/blog/rust-k8s-skaffold-dcos/</link>
+      <pubDate>Fri, 01 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/rust-k8s-skaffold-dcos/</guid>
+      <description>&lt;h1 id=&#34;deploying-rust-webapps-on-kubernetes-on-dcos-using-skaffold&#34;&gt;Deploying Rust Webapps on Kubernetes on DC/OS using Skaffold&lt;/h1&gt;&#xA;&lt;p&gt;Since my last post I&amp;rsquo;ve joined as an engineer at &lt;a href=&#34;https://mesosphere.com/&#34;&gt;Mesosphere&lt;/a&gt; and have been developing data pipeline software for cluster diagnostics.&lt;/p&gt;&#xA;&lt;p&gt;During this same time I&amp;rsquo;ve been deploying the software I&amp;rsquo;ve been working on using &lt;a href=&#34;https://docs.mesosphere.com/services/kubernetes/&#34;&gt;Kubernetes on DC/OS&lt;/a&gt;, and I&amp;rsquo;ve been keeping up my interest in the &lt;a href=&#34;https://www.rust-lang.org&#34;&gt;Rust&lt;/a&gt;, so I put together a demo of deploying webapps in Rust to Kubernetes on DC/OS using &lt;a href=&#34;https://github.com/GoogleContainerTools/skaffold&#34;&gt;Skaffold&lt;/a&gt;:&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

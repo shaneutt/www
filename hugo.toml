@@ -1,0 +1,14 @@
+baseURL = "https://shaneutt.com/"
+locale = "en-us"
+title = "Shane Utt - Software Engineer"
+publishDir = "docs"
+
+[taxonomies]
+  tag = "tags"
+
+[markup.highlight]
+  style = "monokai"
+  noClasses = false
+
+[markup.goldmark.renderer]
+  unsafe = true

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>My Talks on Shane Utt - Software Engineer</title>
+    <link>https://shaneutt.com/talks/</link>
+    <description>Recent content in My Talks on Shane Utt - Software Engineer</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 23 Dec 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://shaneutt.com/talks/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Agentic AI Security on Kubernetes: Understanding Payload Routing and Defense-in-Depth</title>
+      <link>https://shaneutt.com/talks/agentic-ai-security-kubernetes-ai-show/</link>
+      <pubDate>Tue, 23 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/talks/agentic-ai-security-kubernetes-ai-show/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Gateway API: Table Stakes - KubeCon NA 2025</title>
+      <link>https://shaneutt.com/talks/gateway-api-table-stakes-kubecon-na-2025/</link>
+      <pubDate>Wed, 12 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/talks/gateway-api-table-stakes-kubecon-na-2025/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>theCUBE Interview: Red Hat at KubeCon NA 2025</title>
+      <link>https://shaneutt.com/talks/thecube-kubecon-na-2025/</link>
+      <pubDate>Tue, 11 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/talks/thecube-kubecon-na-2025/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Solving the Kubernetes Networking API Rubik&#39;s Cube - KubeCon NA 2024</title>
+      <link>https://shaneutt.com/talks/solving-kubernetes-networking-rubiks-cube-kubecon-na-2024/</link>
+      <pubDate>Wed, 13 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/talks/solving-kubernetes-networking-rubiks-cube-kubecon-na-2024/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Contributing to Kubernetes: Why Is This So Damn Hard?! - Contributor Summit NA 2024</title>
+      <link>https://shaneutt.com/talks/contributing-to-kubernetes-contributor-summit-2024/</link>
+      <pubDate>Mon, 11 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/talks/contributing-to-kubernetes-contributor-summit-2024/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Gateway API: What&#39;s Next After GA - Kong Tech Talk</title>
+      <link>https://shaneutt.com/talks/gateway-api-whats-next-after-ga-kong-2023/</link>
+      <pubDate>Thu, 07 Dec 2023 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/talks/gateway-api-whats-next-after-ga-kong-2023/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>SIG Network: Intro and Updates - KubeCon EU 2023</title>
+      <link>https://shaneutt.com/talks/sig-network-intro-updates-kubecon-eu-2023/</link>
+      <pubDate>Wed, 19 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/talks/sig-network-intro-updates-kubecon-eu-2023/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Beyond Kubernetes Ingress (with Gateway API) - Conf42 Cloud Native 2023</title>
+      <link>https://shaneutt.com/talks/beyond-kubernetes-ingress-conf42-2023/</link>
+      <pubDate>Thu, 30 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/talks/beyond-kubernetes-ingress-conf42-2023/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Exiting Ingress with Gateway API</title>
+      <link>https://shaneutt.com/talks/exiting-ingress-gateway-api/</link>
+      <pubDate>Thu, 27 Oct 2022 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/talks/exiting-ingress-gateway-api/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>CNCF Webinar - Rapidly Shipping Rust With Kubernetes and Skaffold</title>
+      <link>https://shaneutt.com/talks/rapidly-shipping-rust-k8s-skaffold/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/talks/rapidly-shipping-rust-k8s-skaffold/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

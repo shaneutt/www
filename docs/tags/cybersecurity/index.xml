@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cybersecurity on Shane Utt - Software Engineer</title>
+    <link>https://shaneutt.com/tags/cybersecurity/</link>
+    <description>Recent content in Cybersecurity on Shane Utt - Software Engineer</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 15 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://shaneutt.com/tags/cybersecurity/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI-Driven Cybersecurity: How the Threat Landscape Is Shifting Around Us</title>
+      <link>https://shaneutt.com/blog/ai-driven-cybersecurity/</link>
+      <pubDate>Wed, 15 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/ai-driven-cybersecurity/</guid>
+      <description>&lt;h1 id=&#34;ai-driven-cybersecurity-how-the-threat-landscape-is-shifting-around-us&#34;&gt;AI-Driven Cybersecurity: How the Threat Landscape Is Shifting Around Us&lt;/h1&gt;&#xA;&lt;p&gt;The security assumptions we have relied on for decades are&#xA;breaking down. Not gradually, not theoretically: right now.&#xA;As someone who has spent years architecting networking and&#xA;security infrastructure for Kubernetes, here is what I see&#xA;changing and what we should do about it.&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-asymmetry-has-flipped&#34;&gt;The Asymmetry Has Flipped&lt;/h2&gt;&#xA;&lt;p&gt;Security has always been asymmetric: defenders must get&#xA;everything right, attackers need one opening. AI is&#xA;amplifying that asymmetry in ways nobody anticipated two&#xA;years ago.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

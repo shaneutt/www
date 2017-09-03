@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>AI-Driven Cybersecurity: How the Threat Landscape Is Shifting Around Us</title>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Shane Utt" />
+<meta name="description" content="My Programming Blog">
+<link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/favicon.ico">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+  </head>
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://shaneutt.com/"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/blog/">BLOG</a></li>
+        <li><a href="/talks/">My Talks</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        
+  <div class="blog-post">
+    <h3>
+      <strong><a href="https://shaneutt.com/blog/ai-driven-cybersecurity/">AI-Driven Cybersecurity: How the Threat Landscape Is Shifting Around Us</a></strong>
+    </h3>
+  </div>
+  <div class="blog-title">
+    <h4>
+      April 15, 2026
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">ai</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">cybersecurity</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">agentic-ai</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">openshift</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">kubernetes</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">security</span>
+      
+    </h4>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="blogpost">
+        <h1 id="ai-driven-cybersecurity-how-the-threat-landscape-is-shifting-around-us">AI-Driven Cybersecurity: How the Threat Landscape Is Shifting Around Us</h1>
+<p>The security assumptions we have relied on for decades are
+breaking down. Not gradually, not theoretically: right now.
+As someone who has spent years architecting networking and
+security infrastructure for Kubernetes, here is what I see
+changing and what we should do about it.</p>
+<h2 id="the-asymmetry-has-flipped">The Asymmetry Has Flipped</h2>
+<p>Security has always been asymmetric: defenders must get
+everything right, attackers need one opening. AI is
+amplifying that asymmetry in ways nobody anticipated two
+years ago.</p>
+<p>IBM&rsquo;s 2026 X-Force Threat Intelligence Index tells the
+story plainly: AI-driven attacks are escalating while basic
+security gaps remain wide open. The time from initial access
+to hand-off between threat actors has collapsed from eight
+hours to 22 seconds (Google Cloud M-Trends 2026). Forty-one
+percent of zero-day vulnerabilities are now discovered by
+attackers using AI-assisted reverse engineering before
+defenders have identified them. These are not projections.</p>
+<h2 id="the-threat-categories-that-matter">The Threat Categories That Matter</h2>
+<p><strong>AI-generated social engineering.</strong> Traditional phishing
+declined to 6% of intrusions as automated controls improved.
+Attackers pivoted. Voice-based social engineering using
+AI-cloned voices is surging: the FBI&rsquo;s IC3 tracked a 300%
+increase in synthetic media complaints from 2023 to 2025.
+One widely reported case involved a video call where every
+participant except the target was an AI deepfake, resulting
+in $25.6 million in fraudulent transfers. &ldquo;Look for typos in
+phishing emails&rdquo; is irrelevant when the attacker sounds
+exactly like your CFO.</p>
+<p><strong>Automated vulnerability discovery and exploitation.</strong> AI
+tools scan software and network surfaces faster than any
+human team. The gap between discovery and weaponized
+exploitation is shrinking toward zero. When an attacker&rsquo;s
+model can identify a missing authentication control and
+generate a working exploit in the same pipeline, your patch
+window disappears.</p>
+<p><strong>Polymorphic and adaptive malware.</strong> AI-powered malware
+that mutates its own code in real time makes signature-based
+detection useless. CrowdStrike reported that 76% of
+organizations cannot match the speed of AI-powered attacks
+with legacy defenses.</p>
+<p><strong>Adversarial machine learning.</strong> Attackers are not just
+using AI; they are attacking AI systems themselves. Prompt
+injection remains the top vulnerability in the OWASP Top 10
+for LLM Applications, appearing in over 73% of audited
+enterprise AI deployments. Data poisoning, model evasion,
+and supply-chain attacks targeting LLMs via adversarial
+prompts are all active threat vectors.</p>
+<h2 id="the-agentic-ai-problem">The Agentic AI Problem</h2>
+<p>This is where I have been focusing much of my work. Agentic
+AI systems (agents that take real-world actions: writing
+code, modifying infrastructure, executing transactions)
+introduce a fundamentally different risk profile.</p>
+<p>When an AI agent has write access to production systems,
+&ldquo;my agent deleted the database&rdquo; is not a joke; it is an
+incident category. This is why I contributed defensive
+coding best practices to the <a href="https://github.com/mcp-best-practice/mcp-best-practice/pull/6">MCP Best Practices
+project</a>, focused on programming defensively for
+write operations and using feedback mechanisms to constrain
+agent behavior.</p>
+<p>The core principles:</p>
+<ul>
+<li><strong>Least privilege by default.</strong> Every agent gets only
+the permissions required for its specific task. Scoped
+API keys, minimal OAuth scopes, time-limited credentials.
+No agent gets unrestricted outbound network access.</li>
+<li><strong>Explicit confirmation for destructive actions.</strong> Any
+operation that modifies or destroys data must validate
+intent before execution.</li>
+<li><strong>Treat agents as untrusted principals.</strong> An AI agent is
+not a trusted user. It can be manipulated via prompt
+injection, poisoned context, or adversarial inputs. Apply
+the same zero-trust posture you would to any external
+service.</li>
+<li><strong>Runtime guardrails, not just design-time guardrails.</strong>
+Static analysis and code review are necessary but
+insufficient. You need runtime enforcement that catches
+unexpected agent behavior in production.</li>
+</ul>
+<h2 id="what-organizations-should-be-doing-now">What Organizations Should Be Doing Now</h2>
+<p><strong>Adopt AI-powered defense, not just AI-powered features.</strong>
+Using AI in your product while defending with legacy tooling
+is a losing strategy. Behavioral analytics, adversarial
+training, and anomaly detection must be in your security
+stack now, not on a roadmap.</p>
+<p><strong>Treat AI infrastructure as critical infrastructure.</strong> AI
+agents belong in dedicated network segments with strict
+egress filtering. Maintain an AI Bill of Materials. You
+cannot secure what you cannot see.</p>
+<p><strong>Invest in the fundamentals.</strong> IBM&rsquo;s X-Force data shows
+basic gaps (missing MFA, unpatched applications, weak
+identity controls) are still the primary entry points. AI
+amplifies the consequences. Zero trust is not a buzzword; it
+is a survival requirement.</p>
+<p><strong>Build security into the agent lifecycle.</strong> Security cannot
+be bolted on after deployment. Security review for agent
+capabilities, red-teaming for prompt injection, continuous
+monitoring for behavioral drift.</p>
+<p><strong>Participate in upstream standards.</strong> The EU AI Act took
+full effect in August 2025. OWASP published a separate
+Top 10 for Agentic Applications by late 2025. If you are
+not at the table shaping these standards, you will be shaped
+by them.</p>
+<h2 id="looking-forward">Looking Forward</h2>
+<p>AI is a force multiplier for both offense and defense.
+Security in the AI era is an architectural property you
+design for from the start.</p>
+
+      </div>
+    </div>
+  </div>
+
+      </div>
+    </div>
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; 2026 Shane Utt. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+  </body>
+</html>

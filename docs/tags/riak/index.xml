@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Riak on Shane Utt - Software Engineer</title>
+    <link>https://shaneutt.com/tags/riak/</link>
+    <description>Recent content in Riak on Shane Utt - Software Engineer</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 21 Feb 2017 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://shaneutt.com/tags/riak/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker - Riak in Docker</title>
+      <link>https://shaneutt.com/blog/riak-in-docker-2017/</link>
+      <pubDate>Tue, 21 Feb 2017 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/riak-in-docker-2017/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://riak.com/&#34;&gt;Riak&lt;/a&gt; was designed to be deployed and run on dedicated infrastructure, as opposed to containers or virtualization platforms.&lt;/p&gt;&#xA;&lt;p&gt;Nonetheless, being able to quickly deploy a Riak cluster for testing and development purposes can be very useful.&lt;/p&gt;&#xA;&lt;p&gt;I&amp;rsquo;ve created a repository today that enables the user to build &lt;a href=&#34;https://docker.com/&#34;&gt;Docker&lt;/a&gt; images for most versions of Riak KV, TS, and CS ever produced:&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/shaneutt/riak-docker&#34;&gt;https://github.com/shaneutt/riak-docker&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;The dockerfile is relatively simple:&lt;/p&gt;&#xA;&lt;!-- NOTE: Original Dockerfile content was lost during Hugo goldmark migration --&gt;&#xA;&lt;p&gt;The script used to start the Riak service takes care of some basic configuration and then tails the logs:&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

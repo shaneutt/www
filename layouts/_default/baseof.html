@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>{{ .Title }}</title>
+    {{ partial "head.html" . }}
+    {{ block "head-extra" . }}{{ end }}
+  </head>
+  <body>
+    <div id="wrap">
+      {{ partial "navbar.html" . }}
+      <div class="container">
+        {{ block "main" . }}{{ end }}
+      </div>
+    </div>
+    {{ partial "footer.html" . }}
+  </body>
+</html>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ssl on Shane Utt - Software Engineer</title>
+    <link>https://shaneutt.com/tags/ssl/</link>
+    <description>Recent content in Ssl on Shane Utt - Software Engineer</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 19 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://shaneutt.com/tags/ssl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Golang - Creating a Certificate Authority &#43; Signing Certificates in Go</title>
+      <link>https://shaneutt.com/blog/golang-ca-and-signed-cert-go/</link>
+      <pubDate>Sat, 19 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/golang-ca-and-signed-cert-go/</guid>
+      <description>&lt;h1 id=&#34;creating-a-certificate-authority--signing-certificates-in-go&#34;&gt;Creating a Certificate Authority + Signing Certificates in Go&lt;/h1&gt;&#xA;&lt;p&gt;In this post I&amp;rsquo;m going to describe how to create a &lt;a href=&#34;https://en.wikipedia.org/wiki/Certificate_authority&#34;&gt;CA Certificate&lt;/a&gt; and demonstrate signing certificates with that CA entirely in &lt;a href=&#34;https://golang.org/&#34;&gt;Golang&lt;/a&gt;. For demonstration purposes, we&amp;rsquo;ll use an &lt;a href=&#34;https://godoc.org/net/http/httptest#Server&#34;&gt;httptest&lt;/a&gt; Server to deploy our cert, and an &lt;a href=&#34;https://godoc.org/net/http#Client&#34;&gt;net/http&lt;/a&gt; Client to communicate with the server.&lt;/p&gt;&#xA;&lt;h1 id=&#34;requirements&#34;&gt;Requirements&lt;/h1&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://golang.org/dl/&#34;&gt;Golang v1.11.4+&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h1 id=&#34;packages-used&#34;&gt;Packages Used&lt;/h1&gt;&#xA;&lt;p&gt;In this demo we&amp;rsquo;re going to make use of the following Go packages available in the Golang &lt;a href=&#34;https://golang.org/pkg/#stdlib&#34;&gt;standard library&lt;/a&gt;:&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

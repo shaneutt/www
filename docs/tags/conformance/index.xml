@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Conformance on Shane Utt - Software Engineer</title>
+    <link>https://shaneutt.com/tags/conformance/</link>
+    <description>Recent content in Conformance on Shane Utt - Software Engineer</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 31 Oct 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://shaneutt.com/tags/conformance/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Gateway API Reaches GA: What It Took</title>
+      <link>https://shaneutt.com/blog/gateway-api-ga/</link>
+      <pubDate>Tue, 31 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/gateway-api-ga/</guid>
+      <description>&lt;h1 id=&#34;gateway-api-reaches-ga-what-it-took&#34;&gt;Gateway API Reaches GA: What It Took&lt;/h1&gt;&#xA;&lt;p&gt;Today we released &lt;a href=&#34;https://kubernetes.io/blog/2023/10/31/gateway-api-ga/&#34;&gt;Gateway API v1.0&lt;/a&gt;. Gateway,&#xA;GatewayClass, and HTTPRoute are now generally available.&#xA;For anyone following Kubernetes networking, that sentence&#xA;carries the weight of four years.&lt;/p&gt;&#xA;&lt;p&gt;I co-authored the &lt;a href=&#34;https://kubernetes.io/blog/2023/10/31/gateway-api-ga/&#34;&gt;official announcement&lt;/a&gt;. It&#xA;covers the technical details:&#xA;what graduated, what moved to experimental, how CEL&#xA;validation replaces the webhook. This post is about the&#xA;journey.&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-hotel-lobby-in-san-diego&#34;&gt;The Hotel Lobby in San Diego&lt;/h2&gt;&#xA;&lt;p&gt;It started at &lt;a href=&#34;https://konghq.com/blog/engineering/gateway-api-from-early-years-to-ga&#34;&gt;KubeCon San Diego in 2019&lt;/a&gt;. A&#xA;group of us gathered to discuss the future of Ingress. The&#xA;conversation outgrew the meeting room and spilled into a&#xA;hotel lobby across the street.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The Road to Gateway API Conformance Profiles</title>
+      <link>https://shaneutt.com/blog/gateway-api-conformance-profiles/</link>
+      <pubDate>Wed, 15 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/gateway-api-conformance-profiles/</guid>
+      <description>&lt;h1 id=&#34;the-road-to-gateway-api-conformance-profiles&#34;&gt;The Road to Gateway API Conformance Profiles&lt;/h1&gt;&#xA;&lt;p&gt;Gateway API has a problem most API projects would love:&#xA;too many implementations. Over twenty projects implement&#xA;some subset of the spec. Envoy Gateway, Istio, Cilium,&#xA;Contour, Kong, NGINX, Traefik, GKE, and more all claim&#xA;Gateway API support. Great for the API design. Bad for&#xA;trust. When a user sees &amp;ldquo;Gateway API compatible,&amp;rdquo; what does&#xA;that mean? Which resources? Which features? At what&#xA;correctness level?&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

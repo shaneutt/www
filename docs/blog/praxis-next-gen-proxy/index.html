@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Praxis: Why We&#39;re Building a Next-Generation Proxy for AI Workloads</title>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Shane Utt" />
+<meta name="description" content="My Programming Blog">
+<link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/favicon.ico">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+  </head>
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://shaneutt.com/"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/blog/">BLOG</a></li>
+        <li><a href="/talks/">My Talks</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        
+  <div class="blog-post">
+    <h3>
+      <strong><a href="https://shaneutt.com/blog/praxis-next-gen-proxy/">Praxis: Why We&#39;re Building a Next-Generation Proxy for AI Workloads</a></strong>
+    </h3>
+  </div>
+  <div class="blog-title">
+    <h4>
+      March 15, 2026
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">praxis</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">proxy</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">ai</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">inference</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">rust</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">pingora</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">kubernetes</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">gateway-api</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">networking</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">architecture</span>
+      
+    </h4>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="blogpost">
+        <h1 id="praxis-why-were-building-a-next-generation-proxy-for-ai-workloads">Praxis: Why We&rsquo;re Building a Next-Generation Proxy for AI Workloads</h1>
+<p>I have spent years working with proxies. As a SIG Network
+Technical Lead and Gateway API maintainer, I have pushed
+Envoy, HAProxy, and nginx into places their designers never
+anticipated. Benchmarked them head to head, profiled hot
+paths, investigated bottlenecks, etc.</p>
+<p>One conclusion became inescapable: the proxies we rely on
+were not designed for AI traffic patterns. They can be
+adapted, but adaptation has limits. Praxis is what happens
+when you stop adapting and start designing for AI workloads
+from first principles.</p>
+<h2 id="the-problem-is-structural">The Problem Is Structural</h2>
+<p>Traditional proxies were built for web traffic. Short-lived
+connections, small payloads, stateless request/response.
+Buffer management, load balancing algorithms, filter chains:
+all assume a request arrives and completes in milliseconds.</p>
+<p>AI inference violates every one of those assumptions. A
+single LLM query streams tokens for minutes over a
+persistent connection. Response payloads dwarf requests. The
+decode phase is sequential and memory-bound. Sessions are
+stateful (KV cache in GPU memory). A single request can
+saturate a GPU.</p>
+<p>I have seen it firsthand. Envoy exhibits a ~1,500x latency
+increase when payload sizes grow from 3KB to 3MB. Not a
+tuning problem; structural, rooted in how the write path
+handles large buffers. The Envoy/HAProxy comparison and
+io_uring evaluation showed the same pattern: these proxies
+optimize for stateless because that was the world they were
+built for.</p>
+<h2 id="what-ai-traffic-needs">What AI Traffic Needs</h2>
+<p>Working on the Gateway API Inference Extension, the AI
+Gateway WG, and llm-d&rsquo;s networking stack taught me what
+proxies need to become.</p>
+<p><strong>Payload processing.</strong> Traditional proxies treat payloads
+as opaque bytes. AI workloads require the data plane to
+parse request bodies for model names, inspect prompts for
+guardrails, transform payloads for RAG, cache responses
+by semantic content. I authored the payload processing
+proposal for the AI Gateway WG because this capability does
+not exist in any shipping proxy. Body-based routing is the
+basic version; production needs far more.</p>
+<p><strong>Streaming-native architecture.</strong> LLM inference produces
+SSE streams running for minutes. Bidirectional streaming for
+multi-turn conversations, voice agents, real-time
+transcription demands persistent connections with
+simultaneous bidirectional data flow. A proxy built for
+streaming handles backpressure, partial reads, and
+connection lifecycle differently than one where streaming
+was bolted onto request/response.</p>
+<p><strong>Model-aware routing.</strong> Round-robin assumes
+interchangeable backends. For inference, each backend
+carries unique state: KV cache, LoRA adapters, queue depth.
+KV-cache-aware routing has demonstrated 87% cache hit rates
+and 88% TTFT improvements. No hardware compensates for
+sending requests to the wrong backend.</p>
+<h2 id="why-praxis">Why Praxis</h2>
+<p>Praxis is a high-performance, security-first proxy
+purpose-built for AI and cloud-native workloads. Written in
+Rust, built on Cloudflare&rsquo;s Pingora framework, designed from
+day one for these traffic patterns.</p>
+<p>Pingora was built to replace nginx after hitting the same
+walls: C memory safety, process-model limitations preventing
+connection pool sharing, extensibility constraints.
+Multi-threaded async Rust, 70% less CPU and 67% less memory
+than nginx under equivalent load, over 40 million RPS in
+production.</p>
+<p>But Pingora is a framework, not an AI proxy. Praxis adds
+the domain layer: filter and extension architecture for
+payload inspection/transformation, first-class streaming,
+model-aware routing primitives, security hardening for AI
+workloads. TLS built-in, a Kubernetes operator, and
+configuration for inference serving topologies.</p>
+<h2 id="the-agentic-dimension">The Agentic Dimension</h2>
+<p>As Architect of <a href="https://github.com/kuadrant/mcp-gateway">MCP Gateway</a> I have been designing the
+networking layer for agentic AI. Agents fan out concurrent
+requests to models, tools, and data sources, each with
+different latency, security policies, and failure modes.
+MCP and A2A protocols are standardizing agent communication,
+but the proxy layer must be prepared to handle it.</p>
+<p>This is not something you bolt onto an existing proxy. The
+security model, connection lifecycle, and observability
+requirements are different. Praxis is designed with these
+patterns from the start.</p>
+<h2 id="where-praxis-fits">Where Praxis Fits</h2>
+<p>Praxis does not aim to replace Envoy, ztunnel, or any proxy
+wholesale.</p>
+<p>Praxis takes a lesson from other proxies: design for a specific
+domain. Where ztunnel is purpose-built for L4 mesh security,
+Praxis is purpose-built for AI data plane processing: payload
+inspection, streaming management, model-aware routing.</p>
+<h2 id="looking-forward">Looking Forward</h2>
+<p>The proxy landscape is undergoing a generational shift. Rust
+replacing C/C++ in production networking. Purpose-built
+proxies replacing monolithic ones. AI workloads demanding
+fundamentally new architectures.</p>
+<p>Praxis is open source under MIT. It reflects everything I
+have learned building proxy infrastructure: Gateway API,
+Ambient Mesh, llm-d, the AI Gateway WG. AI traffic patterns
+are intensifying as models grow, agents become autonomous,
+and inference dominates data center workloads.</p>
+<p>We need proxies designed to <em>thrive</em> in the AI Era, not
+adapted to <em>survive</em> in it.</p>
+<p>Praxis is at <a href="https://github.com/praxis-proxy/praxis">github.com/praxis-proxy/praxis</a>.</p>
+
+      </div>
+    </div>
+  </div>
+
+      </div>
+    </div>
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; 2026 Shane Utt. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+  </body>
+</html>

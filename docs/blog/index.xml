@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blogs on Shane Utt - Software Engineer</title>
+    <link>https://shaneutt.com/blog/</link>
+    <description>Recent content in Blogs on Shane Utt - Software Engineer</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 15 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://shaneutt.com/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI-Driven Cybersecurity: How the Threat Landscape Is Shifting Around Us</title>
+      <link>https://shaneutt.com/blog/ai-driven-cybersecurity/</link>
+      <pubDate>Wed, 15 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/ai-driven-cybersecurity/</guid>
+      <description>&lt;h1 id=&#34;ai-driven-cybersecurity-how-the-threat-landscape-is-shifting-around-us&#34;&gt;AI-Driven Cybersecurity: How the Threat Landscape Is Shifting Around Us&lt;/h1&gt;&#xA;&lt;p&gt;The security assumptions we have relied on for decades are&#xA;breaking down. Not gradually, not theoretically: right now.&#xA;As someone who has spent years architecting networking and&#xA;security infrastructure for Kubernetes, here is what I see&#xA;changing and what we should do about it.&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-asymmetry-has-flipped&#34;&gt;The Asymmetry Has Flipped&lt;/h2&gt;&#xA;&lt;p&gt;Security has always been asymmetric: defenders must get&#xA;everything right, attackers need one opening. AI is&#xA;amplifying that asymmetry in ways nobody anticipated two&#xA;years ago.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Praxis: Why We&#39;re Building a Next-Generation Proxy for AI Workloads</title>
+      <link>https://shaneutt.com/blog/praxis-next-gen-proxy/</link>
+      <pubDate>Sun, 15 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/praxis-next-gen-proxy/</guid>
+      <description>&lt;h1 id=&#34;praxis-why-were-building-a-next-generation-proxy-for-ai-workloads&#34;&gt;Praxis: Why We&amp;rsquo;re Building a Next-Generation Proxy for AI Workloads&lt;/h1&gt;&#xA;&lt;p&gt;I have spent years working with proxies. As a SIG Network&#xA;Technical Lead and Gateway API maintainer, I have pushed&#xA;Envoy, HAProxy, and nginx into places their designers never&#xA;anticipated. Benchmarked them head to head, profiled hot&#xA;paths, investigated bottlenecks, etc.&lt;/p&gt;&#xA;&lt;p&gt;One conclusion became inescapable: the proxies we rely on&#xA;were not designed for AI traffic patterns. They can be&#xA;adapted, but adaptation has limits. Praxis is what happens&#xA;when you stop adapting and start designing for AI workloads&#xA;from first principles.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Announcing the AI Gateway Working Group</title>
+      <link>https://shaneutt.com/blog/announcing-ai-gateway-wg/</link>
+      <pubDate>Mon, 09 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/announcing-ai-gateway-wg/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Coraza Kubernetes Operator: Building a Kubernetes WAF</title>
+      <link>https://shaneutt.com/blog/coraza-kubernetes-operator/</link>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/coraza-kubernetes-operator/</guid>
+      <description>&lt;h1 id=&#34;coraza-kubernetes-operator-building-a-kubernetes-waf&#34;&gt;Coraza Kubernetes Operator: Building a Kubernetes WAF&lt;/h1&gt;&#xA;&lt;p&gt;Earlier this month I pushed the first commit to&#xA;&lt;a href=&#34;https://github.com/networking-incubator/coraza-kubernetes-operator&#34;&gt;coraza-kubernetes-operator&lt;/a&gt;, a Kubernetes operator for&#xA;managing &lt;a href=&#34;https://www.coraza.io/&#34;&gt;OWASP Coraza&lt;/a&gt; Web Application Firewalls&#xA;declaratively. This post covers where it came from, why I&#xA;built &lt;a href=&#34;https://github.com/shaneutt/portkullis&#34;&gt;Portkullis&lt;/a&gt; in Rust first, how the&#xA;operator works, and the testing and release infrastructure.&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-gap&#34;&gt;The Gap&lt;/h2&gt;&#xA;&lt;p&gt;WAFs have been around for decades, but deploying one on&#xA;Kubernetes still involves too much glue. You bolt&#xA;ModSecurity onto an ingress controller and hope the config&#xA;stays in sync, or hand-manage sidecar proxies. Neither is&#xA;declarative. Neither integrates with &lt;a href=&#34;https://gateway-api.sigs.k8s.io/&#34;&gt;Gateway API&lt;/a&gt;.&#xA;Neither gives platform teams a clean API boundary between&#xA;&amp;ldquo;what to protect&amp;rdquo; and &amp;ldquo;how to protect it.&amp;rdquo;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>AI Networking Topologies: How Inference Traffic Differs from Everything Else</title>
+      <link>https://shaneutt.com/blog/ai-networking-topologies/</link>
+      <pubDate>Mon, 22 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/ai-networking-topologies/</guid>
+      <description>&lt;h1 id=&#34;ai-networking-topologies-how-inference-traffic-differs-from-everything-else&#34;&gt;AI Networking Topologies: How Inference Traffic Differs from Everything Else&lt;/h1&gt;&#xA;&lt;p&gt;I have spent over a decade working on Kubernetes networking:&#xA;SIG Network leadership, Gateway API, and more recently&#xA;networking infrastructure for OpenShift. I thought I&#xA;understood traffic patterns.&#xA;Then I started designing networks for AI inference, and things&#xA;got a bit weird.&lt;/p&gt;&#xA;&lt;h2 id=&#34;ai-traffic-is-not-web-traffic&#34;&gt;AI Traffic Is Not Web Traffic&lt;/h2&gt;&#xA;&lt;p&gt;Traditional web services process stateless requests in&#xA;milliseconds. A load balancer picks a backend, the backend&#xA;responds, the connection closes. Every proxy, service mesh,&#xA;and ingress controller was designed around that pattern.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Why I Founded the Kubernetes AI Gateway Working Group</title>
+      <link>https://shaneutt.com/blog/founding-ai-gateway-wg/</link>
+      <pubDate>Mon, 24 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/founding-ai-gateway-wg/</guid>
+      <description>&lt;h1 id=&#34;why-i-founded-the-kubernetes-ai-gateway-working-group&#34;&gt;Why I Founded the Kubernetes AI Gateway Working Group&lt;/h1&gt;&#xA;&lt;p&gt;AI is transforming networking. Not in some vague,&#xA;conference-keynote way. Right now, inference traffic is&#xA;breaking the assumptions every proxy, load balancer, and&#xA;ingress controller was built on. The Kubernetes ecosystem&#xA;needed a place to define how networking adapts. So I built&#xA;one.&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-problem-nobody-was-solving&#34;&gt;The Problem Nobody Was Solving&lt;/h2&gt;&#xA;&lt;p&gt;I have spent years on &lt;a href=&#34;https://gateway-api.sigs.k8s.io/&#34;&gt;Gateway API&lt;/a&gt; and&#xA;&lt;a href=&#34;https://github.com/kubernetes/community/tree/master/sig-network&#34;&gt;SIG Network&lt;/a&gt;, watching the API mature from an&#xA;experimental sketch into the definitive standard for&#xA;Kubernetes traffic management, adopted by over 30&#xA;implementations. Gateway API&amp;rsquo;s mental model is simple:&#xA;requests arrive with headers, a proxy routes, a backend&#xA;handles.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Delivering Gateway API on OpenShift: CRD Lifecycle at Platform Scale</title>
+      <link>https://shaneutt.com/blog/gateway-api-on-openshift/</link>
+      <pubDate>Fri, 15 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/gateway-api-on-openshift/</guid>
+      <description>&lt;h1 id=&#34;delivering-gateway-api-on-openshift-crd-lifecycle-at-platform-scale&#34;&gt;Delivering Gateway API on OpenShift: CRD Lifecycle at Platform Scale&lt;/h1&gt;&#xA;&lt;p&gt;As a Gateway API maintainer and SIG Network Technical Lead,&#xA;I helped build the API. As a Red Hat engineer, I then had to&#xA;ship it as a first-class platform capability on OpenShift.&#xA;These are different problems. The upstream API defines&#xA;resource shapes; the platform must decide who installs them,&#xA;who owns them, how they upgrade safely across thousands of&#xA;clusters, and what happens when they conflict.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Gateway API v1.1: Service mesh, GRPCRoute, and a whole lot more</title>
+      <link>https://shaneutt.com/blog/gateway-api-v1-1-release/</link>
+      <pubDate>Thu, 09 May 2024 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/gateway-api-v1-1-release/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Gateway API: From Early Years to GA</title>
+      <link>https://shaneutt.com/blog/gateway-api-from-early-years-to-ga/</link>
+      <pubDate>Tue, 07 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/gateway-api-from-early-years-to-ga/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Gateway API Reaches GA: What It Took</title>
+      <link>https://shaneutt.com/blog/gateway-api-ga/</link>
+      <pubDate>Tue, 31 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/gateway-api-ga/</guid>
+      <description>&lt;h1 id=&#34;gateway-api-reaches-ga-what-it-took&#34;&gt;Gateway API Reaches GA: What It Took&lt;/h1&gt;&#xA;&lt;p&gt;Today we released &lt;a href=&#34;https://kubernetes.io/blog/2023/10/31/gateway-api-ga/&#34;&gt;Gateway API v1.0&lt;/a&gt;. Gateway,&#xA;GatewayClass, and HTTPRoute are now generally available.&#xA;For anyone following Kubernetes networking, that sentence&#xA;carries the weight of four years.&lt;/p&gt;&#xA;&lt;p&gt;I co-authored the &lt;a href=&#34;https://kubernetes.io/blog/2023/10/31/gateway-api-ga/&#34;&gt;official announcement&lt;/a&gt;. It&#xA;covers the technical details:&#xA;what graduated, what moved to experimental, how CEL&#xA;validation replaces the webhook. This post is about the&#xA;journey.&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-hotel-lobby-in-san-diego&#34;&gt;The Hotel Lobby in San Diego&lt;/h2&gt;&#xA;&lt;p&gt;It started at &lt;a href=&#34;https://konghq.com/blog/engineering/gateway-api-from-early-years-to-ga&#34;&gt;KubeCon San Diego in 2019&lt;/a&gt;. A&#xA;group of us gathered to discuss the future of Ingress. The&#xA;conversation outgrew the meeting room and spilled into a&#xA;hotel lobby across the street.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Gateway API v1.0: GA Release</title>
+      <link>https://shaneutt.com/blog/gateway-api-v1-ga-release/</link>
+      <pubDate>Tue, 31 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/gateway-api-v1-ga-release/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Blixt: The First Rust&#43;eBPF Gateway API Implementation</title>
+      <link>https://shaneutt.com/blog/blixt-rust-ebpf-gateway-api/</link>
+      <pubDate>Fri, 15 Sep 2023 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/blixt-rust-ebpf-gateway-api/</guid>
+      <description>&lt;h1 id=&#34;blixt-the-first-rustebpf-gateway-api-implementation&#34;&gt;Blixt: The First Rust+eBPF Gateway API Implementation&lt;/h1&gt;&#xA;&lt;p&gt;As a Gateway API maintainer I have worked to mature the spec&#xA;across every layer of the networking stack. Layer 7 got most&#xA;of the community&amp;rsquo;s attention: HTTPRoute went GA,&#xA;implementations multiplied, conformance tests solidified.&#xA;But Layer 4 (TCPRoute and UDPRoute) remained stuck in alpha.&#xA;Not because the designs were wrong, but because nobody had&#xA;built a vendor-neutral implementation to develop and run&#xA;conformance tests against. So I built one:&#xA;&lt;a href=&#34;https://github.com/kubernetes-sigs/blixt&#34;&gt;Blixt&lt;/a&gt; (Swedish for &amp;ldquo;lightning&amp;rdquo;), the first&#xA;official Kubernetes project written in Rust.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Spotlight on SIG Network</title>
+      <link>https://shaneutt.com/blog/spotlight-sig-network-2023/</link>
+      <pubDate>Tue, 09 May 2023 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/spotlight-sig-network-2023/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>The Road to Gateway API Conformance Profiles</title>
+      <link>https://shaneutt.com/blog/gateway-api-conformance-profiles/</link>
+      <pubDate>Wed, 15 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/gateway-api-conformance-profiles/</guid>
+      <description>&lt;h1 id=&#34;the-road-to-gateway-api-conformance-profiles&#34;&gt;The Road to Gateway API Conformance Profiles&lt;/h1&gt;&#xA;&lt;p&gt;Gateway API has a problem most API projects would love:&#xA;too many implementations. Over twenty projects implement&#xA;some subset of the spec. Envoy Gateway, Istio, Cilium,&#xA;Contour, Kong, NGINX, Traefik, GKE, and more all claim&#xA;Gateway API support. Great for the API design. Bad for&#xA;trust. When a user sees &amp;ldquo;Gateway API compatible,&amp;rdquo; what does&#xA;that mean? Which resources? Which features? At what&#xA;correctness level?&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Building gRPC APIs with Rust</title>
+      <link>https://shaneutt.com/blog/building-grpc-apis-with-rust/</link>
+      <pubDate>Wed, 01 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/building-grpc-apis-with-rust/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Writing an eBPF/XDP load-balancer in Rust</title>
+      <link>https://shaneutt.com/blog/writing-ebpf-xdp-load-balancer-rust/</link>
+      <pubDate>Sun, 09 Oct 2022 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/writing-ebpf-xdp-load-balancer-rust/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kubernetes Gateway API Graduates to Beta</title>
+      <link>https://shaneutt.com/blog/gateway-api-graduates-to-beta/</link>
+      <pubDate>Wed, 13 Jul 2022 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/gateway-api-graduates-to-beta/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kong Ingress Controller 2.2 GA With Gateway API Support</title>
+      <link>https://shaneutt.com/blog/kong-ingress-controller-2-2-ga/</link>
+      <pubDate>Thu, 24 Feb 2022 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/kong-ingress-controller-2-2-ga/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Create &amp; Sign x509 Certificates in Golang</title>
+      <link>https://shaneutt.com/blog/create-sign-x509-certificates-golang/</link>
+      <pubDate>Wed, 12 Aug 2020 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/create-sign-x509-certificates-golang/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rust - X86 to ARM builds for Raspberry Pi 4</title>
+      <link>https://shaneutt.com/blog/rust-x86-arm-raspberry-pi-4/</link>
+      <pubDate>Sun, 19 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/rust-x86-arm-raspberry-pi-4/</guid>
+      <description>&lt;h1 id=&#34;rust-x86-to-arm-for-raspberry-pi-4&#34;&gt;Rust x86 to ARM for Raspberry Pi 4&lt;/h1&gt;&#xA;&lt;p&gt;Recently the &lt;a href=&#34;https://www.raspberrypi.org/products/raspberry-pi-4-model-b/&#34;&gt;Raspberry Pi 4&lt;/a&gt; was released and I purchased several of them to replace my previous &lt;a href=&#34;https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/&#34;&gt;Raspberry Pi 3&amp;rsquo;s&lt;/a&gt; and &lt;a href=&#34;https://store.pine64.org/?product=rockpro64-4gb-single-board-computer&#34;&gt;RockPro64&amp;rsquo;s&lt;/a&gt; which had made up my previous home cluster (but are now re-purposed for other tasks).&lt;/p&gt;&#xA;&lt;p&gt;My initial deployment of six Pi4&amp;rsquo;s was all on &lt;a href=&#34;https://manjaro.org/download/#raspberry-pi-4&#34;&gt;Manjaro Linux&amp;rsquo;s Arm Edition&lt;/a&gt; which was functional for the purposes of deploying a &lt;a href=&#34;https://github.com/rancher/k3s/&#34;&gt;K3s kubernetes cluster&lt;/a&gt;, but I soon decided that I wanted to run an operating system with more of a security focus.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Konvoy: A new managed Kubernetes platform</title>
+      <link>https://shaneutt.com/blog/konvoy-managed-kubernetes/</link>
+      <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/konvoy-managed-kubernetes/</guid>
+      <description>&lt;h1 id=&#34;konvoy-managed-kubernetes-platform&#34;&gt;Konvoy Managed Kubernetes Platform&lt;/h1&gt;&#xA;&lt;p&gt;After a long year of work my company both renamed and rebranded, and my team and I finally shipped the managed &lt;a href=&#34;https://kubernetes.io&#34;&gt;Kubernetes&lt;/a&gt; platform &amp;ldquo;&lt;a href=&#34;https://d2iq.com/solutions/ksphere/konvoy&#34;&gt;Konvoy&lt;/a&gt;&amp;rdquo; we had been developing this year.&lt;/p&gt;&#xA;&lt;p&gt;Konvoy is a &amp;ldquo;turn-key&amp;rdquo; Kubernetes distribution which provides an easy to set up and maintain &lt;a href=&#34;https://www.cncf.io/certification/software-conformance/&#34;&gt;certified Kubernetes distro&lt;/a&gt;. It comes with a range of default addons which are deployed by default and include managed configurations, and at it&amp;rsquo;s best it&amp;rsquo;s &lt;code&gt;konvoy up&lt;/code&gt; and then you have a fully operational Kubernetes cluster at your disposal.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Golang - Creating a Certificate Authority &#43; Signing Certificates in Go</title>
+      <link>https://shaneutt.com/blog/golang-ca-and-signed-cert-go/</link>
+      <pubDate>Sat, 19 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/golang-ca-and-signed-cert-go/</guid>
+      <description>&lt;h1 id=&#34;creating-a-certificate-authority--signing-certificates-in-go&#34;&gt;Creating a Certificate Authority + Signing Certificates in Go&lt;/h1&gt;&#xA;&lt;p&gt;In this post I&amp;rsquo;m going to describe how to create a &lt;a href=&#34;https://en.wikipedia.org/wiki/Certificate_authority&#34;&gt;CA Certificate&lt;/a&gt; and demonstrate signing certificates with that CA entirely in &lt;a href=&#34;https://golang.org/&#34;&gt;Golang&lt;/a&gt;. For demonstration purposes, we&amp;rsquo;ll use an &lt;a href=&#34;https://godoc.org/net/http/httptest#Server&#34;&gt;httptest&lt;/a&gt; Server to deploy our cert, and an &lt;a href=&#34;https://godoc.org/net/http#Client&#34;&gt;net/http&lt;/a&gt; Client to communicate with the server.&lt;/p&gt;&#xA;&lt;h1 id=&#34;requirements&#34;&gt;Requirements&lt;/h1&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://golang.org/dl/&#34;&gt;Golang v1.11.4+&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h1 id=&#34;packages-used&#34;&gt;Packages Used&lt;/h1&gt;&#xA;&lt;p&gt;In this demo we&amp;rsquo;re going to make use of the following Go packages available in the Golang &lt;a href=&#34;https://golang.org/pkg/#stdlib&#34;&gt;standard library&lt;/a&gt;:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Rust - Fast &#43; Small Docker Image Builds</title>
+      <link>https://shaneutt.com/blog/rust-fast-small-docker-image-builds/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/rust-fast-small-docker-image-builds/</guid>
+      <description>&lt;h1 id=&#34;fast--small-docker-image-builds-for-rust-apps&#34;&gt;Fast + Small Docker Image Builds for Rust Apps&lt;/h1&gt;&#xA;&lt;p&gt;In this post I&amp;rsquo;m going to demonstrate how to create small, quickly built &lt;a href=&#34;https://hub.docker.com/explore/&#34;&gt;Docker Images&lt;/a&gt; for &lt;a href=&#34;https://www.rust-lang.org/&#34;&gt;Rust&lt;/a&gt; applications.&lt;/p&gt;&#xA;&lt;p&gt;We&amp;rsquo;ll start by creating a simple test application, and then building and iterating on a &lt;a href=&#34;https://docs.docker.com/engine/reference/builder/&#34;&gt;Dockerfile&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;requirements&#34;&gt;Requirements&lt;/h2&gt;&#xA;&lt;p&gt;Ensure you have the following installed:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://rustup.rs&#34;&gt;rustup&lt;/a&gt; v1.14.0+&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://docker.com&#34;&gt;docker&lt;/a&gt; v17.06.2+&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;setup-demo-app-setup&#34;&gt;Setup: demo app setup&lt;/h2&gt;&#xA;&lt;p&gt;Make sure you have and are using the latest stable Rust with &lt;code&gt;rustup&lt;/code&gt;:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;rustup default stable&#xA;rustup update&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Create a new project called &amp;ldquo;myapp&amp;rdquo;:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Deploying Rust Webapps on Kubernetes on DC/OS using Skaffold</title>
+      <link>https://shaneutt.com/blog/rust-k8s-skaffold-dcos/</link>
+      <pubDate>Fri, 01 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/rust-k8s-skaffold-dcos/</guid>
+      <description>&lt;h1 id=&#34;deploying-rust-webapps-on-kubernetes-on-dcos-using-skaffold&#34;&gt;Deploying Rust Webapps on Kubernetes on DC/OS using Skaffold&lt;/h1&gt;&#xA;&lt;p&gt;Since my last post I&amp;rsquo;ve joined as an engineer at &lt;a href=&#34;https://mesosphere.com/&#34;&gt;Mesosphere&lt;/a&gt; and have been developing data pipeline software for cluster diagnostics.&lt;/p&gt;&#xA;&lt;p&gt;During this same time I&amp;rsquo;ve been deploying the software I&amp;rsquo;ve been working on using &lt;a href=&#34;https://docs.mesosphere.com/services/kubernetes/&#34;&gt;Kubernetes on DC/OS&lt;/a&gt;, and I&amp;rsquo;ve been keeping up my interest in the &lt;a href=&#34;https://www.rust-lang.org&#34;&gt;Rust&lt;/a&gt;, so I put together a demo of deploying webapps in Rust to Kubernetes on DC/OS using &lt;a href=&#34;https://github.com/GoogleContainerTools/skaffold&#34;&gt;Skaffold&lt;/a&gt;:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Rust - Coveralls.io for Rust</title>
+      <link>https://shaneutt.com/blog/rust-coveralls-2017/</link>
+      <pubDate>Tue, 11 Apr 2017 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/rust-coveralls-2017/</guid>
+      <description>&lt;p&gt;While looking for a way to provide code coverage with &lt;a href=&#34;https://coveralls.io&#34;&gt;coveralls.io&lt;/a&gt; for Rust, I stumbled upon a solution while reading through &lt;a href=&#34;https://github.com/iron/iron&#34;&gt;Iron&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;The solution involves a tool called &lt;a href=&#34;https://github.com/SimonKagworktree/kcov&#34;&gt;kcov&lt;/a&gt; which is a Linux/OSX code coverage tester for compiled languages.&lt;/p&gt;&#xA;&lt;p&gt;This tool can be implemented inside a &lt;code&gt;.travis.yml&lt;/code&gt; file to push coverage data from a &lt;a href=&#34;https://travis-ci.org/&#34;&gt;Travis CI&lt;/a&gt; build.&lt;/p&gt;&#xA;&lt;p&gt;Here is an example &lt;code&gt;.travis.yml&lt;/code&gt; file:&lt;/p&gt;&#xA;&lt;!-- NOTE: Original .travis.yml content was lost during Hugo goldmark migration --&gt;&#xA;&lt;p&gt;Basically all you have to do is run:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Docker - Riak in Docker</title>
+      <link>https://shaneutt.com/blog/riak-in-docker-2017/</link>
+      <pubDate>Tue, 21 Feb 2017 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/riak-in-docker-2017/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://riak.com/&#34;&gt;Riak&lt;/a&gt; was designed to be deployed and run on dedicated infrastructure, as opposed to containers or virtualization platforms.&lt;/p&gt;&#xA;&lt;p&gt;Nonetheless, being able to quickly deploy a Riak cluster for testing and development purposes can be very useful.&lt;/p&gt;&#xA;&lt;p&gt;I&amp;rsquo;ve created a repository today that enables the user to build &lt;a href=&#34;https://docker.com/&#34;&gt;Docker&lt;/a&gt; images for most versions of Riak KV, TS, and CS ever produced:&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/shaneutt/riak-docker&#34;&gt;https://github.com/shaneutt/riak-docker&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;The dockerfile is relatively simple:&lt;/p&gt;&#xA;&lt;!-- NOTE: Original Dockerfile content was lost during Hugo goldmark migration --&gt;&#xA;&lt;p&gt;The script used to start the Riak service takes care of some basic configuration and then tails the logs:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Rust - std::convert::Into and std::convert::From</title>
+      <link>https://shaneutt.com/blog/rust-convert-into-and-from-2017/</link>
+      <pubDate>Thu, 12 Jan 2017 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/rust-convert-into-and-from-2017/</guid>
+      <description>&lt;p&gt;I&amp;rsquo;ve been spending time recently learning the &lt;a href=&#34;https://www.rust-lang.org/&#34;&gt;Rust Programming Language&lt;/a&gt; by writing a &lt;a href=&#34;https://github.com/shaneutt/riak-rust-client&#34;&gt;Riak Client&lt;/a&gt; using &lt;a href=&#34;https://docs.riak.com/riak/kv/latest/developing/api/protocol-buffers/index.html&#34;&gt;Riak&amp;rsquo;s Protocol Buffers API&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Through &lt;a href=&#34;https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html&#34;&gt;Ownership&lt;/a&gt; &amp;amp; &lt;a href=&#34;https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html&#34;&gt;Borrowing&lt;/a&gt; Rust enables safety that generally comes at the cost of flexibility. Through features like &lt;a href=&#34;https://doc.rust-lang.org/book/ch10-02-traits.html&#34;&gt;Traits&lt;/a&gt; Rust is able to give some flexibility back to the programmer.&lt;/p&gt;&#xA;&lt;p&gt;Some traits I&amp;rsquo;ve started to use recently include &lt;a href=&#34;https://doc.rust-lang.org/std/convert/trait.Into.html&#34;&gt;std::convert::Into&lt;/a&gt; and &lt;a href=&#34;https://doc.rust-lang.org/std/convert/trait.From.html&#34;&gt;std::convert::From&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;When the Into trait is applied to a type, it allows it to consume itself to convert to another type.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

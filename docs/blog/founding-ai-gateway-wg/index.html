@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Why I Founded the Kubernetes AI Gateway Working Group</title>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Shane Utt" />
+<meta name="description" content="My Programming Blog">
+<link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/favicon.ico">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+  </head>
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://shaneutt.com/"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/blog/">BLOG</a></li>
+        <li><a href="/talks/">My Talks</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        
+  <div class="blog-post">
+    <h3>
+      <strong><a href="https://shaneutt.com/blog/founding-ai-gateway-wg/">Why I Founded the Kubernetes AI Gateway Working Group</a></strong>
+    </h3>
+  </div>
+  <div class="blog-title">
+    <h4>
+      March 24, 2025
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">kubernetes</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">ai</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">gateway-api</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">sig-network</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">networking</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">inference</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">open-source</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">governance</span>
+      
+    </h4>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="blogpost">
+        <h1 id="why-i-founded-the-kubernetes-ai-gateway-working-group">Why I Founded the Kubernetes AI Gateway Working Group</h1>
+<p>AI is transforming networking. Not in some vague,
+conference-keynote way. Right now, inference traffic is
+breaking the assumptions every proxy, load balancer, and
+ingress controller was built on. The Kubernetes ecosystem
+needed a place to define how networking adapts. So I built
+one.</p>
+<h2 id="the-problem-nobody-was-solving">The Problem Nobody Was Solving</h2>
+<p>I have spent years on <a href="https://gateway-api.sigs.k8s.io/">Gateway API</a> and
+<a href="https://github.com/kubernetes/community/tree/master/sig-network">SIG Network</a>, watching the API mature from an
+experimental sketch into the definitive standard for
+Kubernetes traffic management, adopted by over 30
+implementations. Gateway API&rsquo;s mental model is simple:
+requests arrive with headers, a proxy routes, a backend
+handles.</p>
+<p>LLM inference breaks that model completely.</p>
+<p>Models are large, expensive, and slow. Requests are
+long-lived. Responses stream token by token. Instances are
+not interchangeable; a server with a LoRA adapter loaded in
+GPU memory is fundamentally different from one without.</p>
+<p>The routing decisions that matter for AI cannot be made from
+headers alone. The gateway must inspect the payload: which
+model, what priority, whether the prompt is safe. The entire
+networking stack was built to avoid exactly that.</p>
+<p>By mid-2024, the <a href="https://gateway-api-inference-extension.sigs.k8s.io/">Gateway API Inference Extension</a> had
+started addressing model-aware routing. Valuable, but narrow
+in scope: it targeted companies already running AI at scale.
+The broader community needed standards for token-based rate
+limiting, prompt injection guardrails, content filtering,
+and egress patterns for third-party providers like OpenAI,
+Vertex AI, and Bedrock. None of these had a home.</p>
+<h2 id="what-an-ai-gateway-actually-is">What an AI Gateway Actually Is</h2>
+<p>An AI gateway is a network gateway implementing the Gateway
+API spec with capabilities purpose-built for AI workloads.
+Three core areas:</p>
+<p><strong>Inference routing and model-aware load balancing.</strong> The
+gateway understands which model a request targets, which
+servers have that model loaded, and factors in GPU memory,
+queue depth, and request criticality. The <a href="https://gateway-api-inference-extension.sigs.k8s.io/">InferenceModel
+and InferencePool CRDs</a> introduced this pattern; the
+WG builds on it.</p>
+<p><strong>Payload processing.</strong> Inspect and transform full HTTP
+bodies: prompt guardrails, content filtering, semantic
+routing, caching, RAG integration. The WG&rsquo;s <a href="https://github.com/kubernetes-sigs/wg-ai-gateway/tree/main/proposals/7-payload-processing.md">payload
+processing proposal</a> defines standards for
+declarative processor configuration, ordered pipelines, and
+configurable failure modes.</p>
+<p><strong>Egress gateways.</strong> Many organizations route to external AI
+services and need secure, policy-controlled egress with
+managed auth, token injection, regional compliance, and
+provider failover. The <a href="https://github.com/kubernetes-sigs/wg-ai-gateway/tree/main/proposals/10-egress-gateways.md">egress gateway
+proposal</a> addresses this.</p>
+<h2 id="building-it-the-kubernetes-way">Building It the Kubernetes Way</h2>
+<p>Working groups require a charter, SIG sponsorship, steering
+committee approval, and community consensus. The process
+started on the <a href="https://groups.google.com/a/kubernetes.io/g/dev/c/u6I_mCRC4lE">kubernetes-dev mailing list</a>.
+I presented at SIG Architecture for alignment, then
+submitted <a href="https://github.com/kubernetes/community/pull/8521">PR #8521</a>: the formal request for
+wg-ai-gateway.</p>
+<p>Two months of collaborative refinement. Reviewers pushed on
+scope, governance, relationship to existing efforts. Four
+steering committee members approved.</p>
+<p>Operational pieces followed: <a href="https://github.com/kubernetes/community/pull/8598">Slack channel</a>,
+<a href="https://github.com/kubernetes-sigs/wg-ai-gateway/pull/1">proposal template and README</a>,
+<a href="https://github.com/kubernetes-sigs/wg-ai-gateway/pull/3">user stories</a>. The co-organizers span five
+companies. This is not a single-vendor effort.</p>
+<h2 id="why-a-working-group-not-code">Why a Working Group, Not Code</h2>
+<p>wg-ai-gateway does not own production code. It makes
+proposals. Discussions and specifications that, once
+consensus is reached, get submitted to the relevant SIGs
+for implementation.</p>
+<p>The problems span multiple SIGs. Payload processing touches
+Gateway API. Egress involves SIG Multicluster. Model-aware
+routing ties to the Inference Extension under SIG Network.
+A WG is the right unit for cross-cutting concerns.</p>
+<p>The charter includes an explicit exit strategy. The WG
+concludes after establishing definitions, identifying
+needed API support, submitting proposals, and documenting
+best practices. The goal is to solve the problem and
+dissolve.</p>
+<h2 id="where-this-is-going">Where This Is Going</h2>
+<p>The agentic AI wave makes this more urgent. When autonomous
+agents call tools and chain actions across services, the
+gateway becomes a critical control plane: enforcing
+guardrails, inspecting payloads, applying defense-in-depth
+before requests reach model servers.</p>
+<p>The working group meets weekly, Thursdays at 2PM EST.
+Proposals are in active development. If you work on
+Kubernetes networking, AI infrastructure, or the
+intersection, I want you in the room.</p>
+<p>We are defining how AI networking works on Kubernetes. Now.</p>
+
+      </div>
+    </div>
+  </div>
+
+      </div>
+    </div>
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; 2026 Shane Utt. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+  </body>
+</html>

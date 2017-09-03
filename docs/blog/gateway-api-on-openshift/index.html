@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Delivering Gateway API on OpenShift: CRD Lifecycle at Platform Scale</title>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Shane Utt" />
+<meta name="description" content="My Programming Blog">
+<link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/favicon.ico">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+  </head>
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://shaneutt.com/"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/blog/">BLOG</a></li>
+        <li><a href="/talks/">My Talks</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        
+  <div class="blog-post">
+    <h3>
+      <strong><a href="https://shaneutt.com/blog/gateway-api-on-openshift/">Delivering Gateway API on OpenShift: CRD Lifecycle at Platform Scale</a></strong>
+    </h3>
+  </div>
+  <div class="blog-title">
+    <h4>
+      November 15, 2024
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">kubernetes</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">gateway-api</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">openshift</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">crd-lifecycle</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">platform-engineering</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">security</span>
+      
+    </h4>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="blogpost">
+        <h1 id="delivering-gateway-api-on-openshift-crd-lifecycle-at-platform-scale">Delivering Gateway API on OpenShift: CRD Lifecycle at Platform Scale</h1>
+<p>As a Gateway API maintainer and SIG Network Technical Lead,
+I helped build the API. As a Red Hat engineer, I then had to
+ship it as a first-class platform capability on OpenShift.
+These are different problems. The upstream API defines
+resource shapes; the platform must decide who installs them,
+who owns them, how they upgrade safely across thousands of
+clusters, and what happens when they conflict.</p>
+<h2 id="why-crd-management-is-a-platform-problem">Why CRD Management Is a Platform Problem</h2>
+<p>Gateway API is built on CRDs. That is a strength: it
+decouples from the Kubernetes release cycle. But someone has
+to manage those CRDs, and at platform scale, &ldquo;someone&rdquo;
+cannot be &ldquo;the user ran <code>kubectl apply</code>.&rdquo;</p>
+<p>On a managed platform, CRDs are highly-privileged,
+cluster-scoped resources defining the API shape. If a CRD
+version drifts from its controller, resources silently lose
+fields, validation breaks, or the control plane degrades.
+Helm does not handle CRD upgrades. OLM handles them better,
+but Gateway API&rsquo;s multi-implementation relationship is more
+complex than a single operator&rsquo;s CRDs.</p>
+<p>The <a href="https://github.com/kubernetes-sigs/gateway-api/discussions/2655">upstream discussion</a> captured this:
+multiple implementations coexisting, each expecting different
+CRD versions. The question was never &ldquo;should platforms ship
+these?&rdquo; It was: who owns them, how do they upgrade, and what
+happens when ownership changes?</p>
+<p>I authored the <a href="https://github.com/openshift/enhancements/pull/1756">CRD Lifecycle Management enhancement</a>.
+The Ingress Operator owns standard-channel Gateway API CRDs
+using Server-Side Apply for field-level ownership tracking.
+It installs, reconciles on every sync, and prevents drift.
+Experimental CRDs are blocked entirely to keep the support
+surface manageable.</p>
+<h2 id="the-upgrade-safety-problem">The Upgrade Safety Problem</h2>
+<p>The hard part is not installation; it is upgrades. What
+happens when a cluster already has Gateway API CRDs that
+were not installed by the platform?</p>
+<p>OpenShift 4.18 did not manage Gateway API CRDs. Users
+installed them manually, via OLM, or through a mesh
+operator. When upgrading to 4.19, the Ingress Operator
+wants to own them. Blindly overwriting could downgrade
+versions, remove fields workloads depend on, or conflict
+with another operator.</p>
+<p>Two mechanisms solve this.</p>
+<p>First, a <a href="https://github.com/openshift/cluster-ingress-operator/pull/1193">pre-upgrade compatibility check</a> on
+4.18.z clusters. Before the upgrade proceeds, existing CRDs
+are validated: only standard-channel CRDs, no experimental
+APIs, versions compatible with what 4.19 ships (v1.2.1). If
+checks fail, <code>Upgradeable</code> is set to <code>False</code> with a clear
+message.</p>
+<p>Second, an <a href="https://github.com/openshift/cluster-ingress-operator/pull/1196">admin gate</a> requiring explicit
+acknowledgment. Even if CRDs are compatible, the admin must
+consent to platform ownership via a ConfigMap-based gate.
+No &ldquo;I upgraded and something unexpected changed.&rdquo;</p>
+<h2 id="security-policy-topology-and-rbac">Security Policy: Topology and RBAC</h2>
+<p>Gateway API introduces primitives that do not map directly
+onto OpenShift&rsquo;s RBAC model. I authored the <a href="https://github.com/openshift/enhancements/pull/1741">security
+policy enhancement</a> and <a href="https://github.com/openshift/enhancements/pull/1771">revision</a>:</p>
+<p><strong>Shared Gateway Topology.</strong> Single load balancer serving
+routes across namespaces. Mirrors OpenShift&rsquo;s router model.
+Default. Cluster operator creates the Gateway; developers
+attach HTTPRoutes.</p>
+<p><strong>Dedicated Gateway Topology.</strong> Individual load balancers per
+namespace for stricter isolation.</p>
+<p><a href="https://github.com/openshift/cluster-ingress-operator/pull/1206">Aggregated ClusterRoles</a> map Gateway API
+permissions onto OpenShift&rsquo;s admin, edit, and view roles.
+Developers with edit can create HTTPRoutes. Only cluster
+admins create GatewayClasses or Gateways. ReferenceGrant
+restricted to cluster-admin initially.</p>
+<p>The revision removed support for Istio&rsquo;s &ldquo;Gateway Merging&rdquo;
+and &ldquo;Manual Deployment&rdquo; modes, which are off by default in
+OSSM 3.x. Fewer deployment modes, fewer security boundaries
+to reason about.</p>
+<h2 id="conclusions">Conclusions</h2>
+<p>Shipping an upstream API as a platform capability is a
+specific discipline. Upstream optimizes for flexibility.
+Platforms optimize for safety and predictability. The
+tension is where the interesting engineering lives.</p>
+<p>The pre-upgrade gate pattern will recur. Any time a platform
+assumes resource ownership, you need both technical
+compatibility checks and explicit human acknowledgment.</p>
+<p>None of these pieces (CRD lifecycle, security policy,
+upgrade gates, RBAC, OSSM pinning, e2e tests) are
+individually glamorous. Together they represent what
+shipping an API at platform scale actually takes: not
+just available, but safe, predictable, and supportable
+across thousands of production clusters.</p>
+
+      </div>
+    </div>
+  </div>
+
+      </div>
+    </div>
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; 2026 Shane Utt. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+  </body>
+</html>

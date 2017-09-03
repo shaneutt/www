@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sig-Network on Shane Utt - Software Engineer</title>
+    <link>https://shaneutt.com/tags/sig-network/</link>
+    <description>Recent content in Sig-Network on Shane Utt - Software Engineer</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 24 Mar 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://shaneutt.com/tags/sig-network/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Why I Founded the Kubernetes AI Gateway Working Group</title>
+      <link>https://shaneutt.com/blog/founding-ai-gateway-wg/</link>
+      <pubDate>Mon, 24 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/founding-ai-gateway-wg/</guid>
+      <description>&lt;h1 id=&#34;why-i-founded-the-kubernetes-ai-gateway-working-group&#34;&gt;Why I Founded the Kubernetes AI Gateway Working Group&lt;/h1&gt;&#xA;&lt;p&gt;AI is transforming networking. Not in some vague,&#xA;conference-keynote way. Right now, inference traffic is&#xA;breaking the assumptions every proxy, load balancer, and&#xA;ingress controller was built on. The Kubernetes ecosystem&#xA;needed a place to define how networking adapts. So I built&#xA;one.&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-problem-nobody-was-solving&#34;&gt;The Problem Nobody Was Solving&lt;/h2&gt;&#xA;&lt;p&gt;I have spent years on &lt;a href=&#34;https://gateway-api.sigs.k8s.io/&#34;&gt;Gateway API&lt;/a&gt; and&#xA;&lt;a href=&#34;https://github.com/kubernetes/community/tree/master/sig-network&#34;&gt;SIG Network&lt;/a&gt;, watching the API mature from an&#xA;experimental sketch into the definitive standard for&#xA;Kubernetes traffic management, adopted by over 30&#xA;implementations. Gateway API&amp;rsquo;s mental model is simple:&#xA;requests arrive with headers, a proxy routes, a backend&#xA;handles.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Gateway API Reaches GA: What It Took</title>
+      <link>https://shaneutt.com/blog/gateway-api-ga/</link>
+      <pubDate>Tue, 31 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/gateway-api-ga/</guid>
+      <description>&lt;h1 id=&#34;gateway-api-reaches-ga-what-it-took&#34;&gt;Gateway API Reaches GA: What It Took&lt;/h1&gt;&#xA;&lt;p&gt;Today we released &lt;a href=&#34;https://kubernetes.io/blog/2023/10/31/gateway-api-ga/&#34;&gt;Gateway API v1.0&lt;/a&gt;. Gateway,&#xA;GatewayClass, and HTTPRoute are now generally available.&#xA;For anyone following Kubernetes networking, that sentence&#xA;carries the weight of four years.&lt;/p&gt;&#xA;&lt;p&gt;I co-authored the &lt;a href=&#34;https://kubernetes.io/blog/2023/10/31/gateway-api-ga/&#34;&gt;official announcement&lt;/a&gt;. It&#xA;covers the technical details:&#xA;what graduated, what moved to experimental, how CEL&#xA;validation replaces the webhook. This post is about the&#xA;journey.&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-hotel-lobby-in-san-diego&#34;&gt;The Hotel Lobby in San Diego&lt;/h2&gt;&#xA;&lt;p&gt;It started at &lt;a href=&#34;https://konghq.com/blog/engineering/gateway-api-from-early-years-to-ga&#34;&gt;KubeCon San Diego in 2019&lt;/a&gt;. A&#xA;group of us gathered to discuss the future of Ingress. The&#xA;conversation outgrew the meeting room and spilled into a&#xA;hotel lobby across the street.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

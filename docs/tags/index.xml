@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Shane Utt - Software Engineer</title>
+    <link>https://shaneutt.com/tags/</link>
+    <description>Recent content in Tags on Shane Utt - Software Engineer</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 15 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://shaneutt.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Agentic-Ai</title>
+      <link>https://shaneutt.com/tags/agentic-ai/</link>
+      <pubDate>Wed, 15 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/agentic-ai/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ai</title>
+      <link>https://shaneutt.com/tags/ai/</link>
+      <pubDate>Wed, 15 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/ai/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Cybersecurity</title>
+      <link>https://shaneutt.com/tags/cybersecurity/</link>
+      <pubDate>Wed, 15 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/cybersecurity/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kubernetes</title>
+      <link>https://shaneutt.com/tags/kubernetes/</link>
+      <pubDate>Wed, 15 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Openshift</title>
+      <link>https://shaneutt.com/tags/openshift/</link>
+      <pubDate>Wed, 15 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/openshift/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Security</title>
+      <link>https://shaneutt.com/tags/security/</link>
+      <pubDate>Wed, 15 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/security/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Architecture</title>
+      <link>https://shaneutt.com/tags/architecture/</link>
+      <pubDate>Sun, 15 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/architecture/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Gateway-Api</title>
+      <link>https://shaneutt.com/tags/gateway-api/</link>
+      <pubDate>Sun, 15 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/gateway-api/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Inference</title>
+      <link>https://shaneutt.com/tags/inference/</link>
+      <pubDate>Sun, 15 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/inference/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Networking</title>
+      <link>https://shaneutt.com/tags/networking/</link>
+      <pubDate>Sun, 15 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/networking/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Pingora</title>
+      <link>https://shaneutt.com/tags/pingora/</link>
+      <pubDate>Sun, 15 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/pingora/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Praxis</title>
+      <link>https://shaneutt.com/tags/praxis/</link>
+      <pubDate>Sun, 15 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/praxis/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Proxy</title>
+      <link>https://shaneutt.com/tags/proxy/</link>
+      <pubDate>Sun, 15 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/proxy/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rust</title>
+      <link>https://shaneutt.com/tags/rust/</link>
+      <pubDate>Sun, 15 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/rust/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Coraza</title>
+      <link>https://shaneutt.com/tags/coraza/</link>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/coraza/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Owasp</title>
+      <link>https://shaneutt.com/tags/owasp/</link>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/owasp/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Waf</title>
+      <link>https://shaneutt.com/tags/waf/</link>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/waf/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rdma</title>
+      <link>https://shaneutt.com/tags/rdma/</link>
+      <pubDate>Mon, 22 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/rdma/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Governance</title>
+      <link>https://shaneutt.com/tags/governance/</link>
+      <pubDate>Mon, 24 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/governance/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Open-Source</title>
+      <link>https://shaneutt.com/tags/open-source/</link>
+      <pubDate>Mon, 24 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/open-source/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Sig-Network</title>
+      <link>https://shaneutt.com/tags/sig-network/</link>
+      <pubDate>Mon, 24 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/sig-network/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Crd-Lifecycle</title>
+      <link>https://shaneutt.com/tags/crd-lifecycle/</link>
+      <pubDate>Fri, 15 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/crd-lifecycle/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Platform-Engineering</title>
+      <link>https://shaneutt.com/tags/platform-engineering/</link>
+      <pubDate>Fri, 15 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/platform-engineering/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Conformance</title>
+      <link>https://shaneutt.com/tags/conformance/</link>
+      <pubDate>Tue, 31 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/conformance/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ebpf</title>
+      <link>https://shaneutt.com/tags/ebpf/</link>
+      <pubDate>Fri, 15 Sep 2023 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/ebpf/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Golang</title>
+      <link>https://shaneutt.com/tags/golang/</link>
+      <pubDate>Sat, 19 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/golang/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ssl</title>
+      <link>https://shaneutt.com/tags/ssl/</link>
+      <pubDate>Sat, 19 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/ssl/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tls</title>
+      <link>https://shaneutt.com/tags/tls/</link>
+      <pubDate>Sat, 19 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/tls/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Alpine</title>
+      <link>https://shaneutt.com/tags/alpine/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/alpine/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Docker</title>
+      <link>https://shaneutt.com/tags/docker/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/docker/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Musl</title>
+      <link>https://shaneutt.com/tags/musl/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/musl/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Dc/Os</title>
+      <link>https://shaneutt.com/tags/dc/os/</link>
+      <pubDate>Fri, 01 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/dc/os/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Skaffold</title>
+      <link>https://shaneutt.com/tags/skaffold/</link>
+      <pubDate>Fri, 01 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/skaffold/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Riak</title>
+      <link>https://shaneutt.com/tags/riak/</link>
+      <pubDate>Tue, 21 Feb 2017 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/tags/riak/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Coraza on Shane Utt - Software Engineer</title>
+    <link>https://shaneutt.com/tags/coraza/</link>
+    <description>Recent content in Coraza on Shane Utt - Software Engineer</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 28 Feb 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://shaneutt.com/tags/coraza/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Coraza Kubernetes Operator: Building a Kubernetes WAF</title>
+      <link>https://shaneutt.com/blog/coraza-kubernetes-operator/</link>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/coraza-kubernetes-operator/</guid>
+      <description>&lt;h1 id=&#34;coraza-kubernetes-operator-building-a-kubernetes-waf&#34;&gt;Coraza Kubernetes Operator: Building a Kubernetes WAF&lt;/h1&gt;&#xA;&lt;p&gt;Earlier this month I pushed the first commit to&#xA;&lt;a href=&#34;https://github.com/networking-incubator/coraza-kubernetes-operator&#34;&gt;coraza-kubernetes-operator&lt;/a&gt;, a Kubernetes operator for&#xA;managing &lt;a href=&#34;https://www.coraza.io/&#34;&gt;OWASP Coraza&lt;/a&gt; Web Application Firewalls&#xA;declaratively. This post covers where it came from, why I&#xA;built &lt;a href=&#34;https://github.com/shaneutt/portkullis&#34;&gt;Portkullis&lt;/a&gt; in Rust first, how the&#xA;operator works, and the testing and release infrastructure.&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-gap&#34;&gt;The Gap&lt;/h2&gt;&#xA;&lt;p&gt;WAFs have been around for decades, but deploying one on&#xA;Kubernetes still involves too much glue. You bolt&#xA;ModSecurity onto an ingress controller and hope the config&#xA;stays in sync, or hand-manage sidecar proxies. Neither is&#xA;declarative. Neither integrates with &lt;a href=&#34;https://gateway-api.sigs.k8s.io/&#34;&gt;Gateway API&lt;/a&gt;.&#xA;Neither gives platform teams a clean API boundary between&#xA;&amp;ldquo;what to protect&amp;rdquo; and &amp;ldquo;how to protect it.&amp;rdquo;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Coraza Kubernetes Operator: Building a Kubernetes WAF</title>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Shane Utt" />
+<meta name="description" content="My Programming Blog">
+<link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/favicon.ico">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+  </head>
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://shaneutt.com/"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/blog/">BLOG</a></li>
+        <li><a href="/talks/">My Talks</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        
+  <div class="blog-post">
+    <h3>
+      <strong><a href="https://shaneutt.com/blog/coraza-kubernetes-operator/">Coraza Kubernetes Operator: Building a Kubernetes WAF</a></strong>
+    </h3>
+  </div>
+  <div class="blog-title">
+    <h4>
+      February 28, 2026
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">kubernetes</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">rust</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">security</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">waf</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">coraza</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">owasp</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">gateway-api</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">openshift</span>
+      
+    </h4>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="blogpost">
+        <h1 id="coraza-kubernetes-operator-building-a-kubernetes-waf">Coraza Kubernetes Operator: Building a Kubernetes WAF</h1>
+<p>Earlier this month I pushed the first commit to
+<a href="https://github.com/networking-incubator/coraza-kubernetes-operator">coraza-kubernetes-operator</a>, a Kubernetes operator for
+managing <a href="https://www.coraza.io/">OWASP Coraza</a> Web Application Firewalls
+declaratively. This post covers where it came from, why I
+built <a href="https://github.com/shaneutt/portkullis">Portkullis</a> in Rust first, how the
+operator works, and the testing and release infrastructure.</p>
+<h2 id="the-gap">The Gap</h2>
+<p>WAFs have been around for decades, but deploying one on
+Kubernetes still involves too much glue. You bolt
+ModSecurity onto an ingress controller and hope the config
+stays in sync, or hand-manage sidecar proxies. Neither is
+declarative. Neither integrates with <a href="https://gateway-api.sigs.k8s.io/">Gateway API</a>.
+Neither gives platform teams a clean API boundary between
+&ldquo;what to protect&rdquo; and &ldquo;how to protect it.&rdquo;</p>
+<p>People keep asking for it. I found two pieces
+that almost fit: <a href="https://www.coraza.io/">Coraza</a>, a Go-based,
+ModSecurity-compatible WAF engine running the <a href="https://coreruleset.org/">OWASP CRS</a>
+with full SecLang support; and <a href="https://github.com/corazawaf/coraza-proxy-wasm">coraza-proxy-wasm</a>,
+a WebAssembly filter embedding Coraza in Envoy&rsquo;s filter
+chain. The engine existed. The enforcement mechanism existed.
+The control plane was missing.</p>
+<h2 id="portkullis-proving-it-in-rust">Portkullis: Proving It in Rust</h2>
+<p>Before committing to a full operator, I needed to answer a
+harder question: could a WAF do more than signature matching?
+I built <a href="https://github.com/shaneutt/portkullis">Portkullis</a> in Rust with two detection
+engines: traditional signatures with ModSecurity rule
+compatibility, and anomaly detection using ML for traffic
+analysis. Rust was the natural choice: WAF inspection is
+hot-path code where latency budgets are microseconds. Zero-cost
+abstractions, no GC pauses, and memory safety without trading
+performance for correctness.</p>
+<p>Portkullis proved three things. First, Rust&rsquo;s type system
+catches entire classes of parsing bugs at compile time (the
+kind that become CVEs in C-based WAFs). Second, a dual-engine
+architecture is viable without blowing the latency budget.
+Third, the WASM compilation target means Rust detection logic
+can run inside Envoy via proxy-wasm with no extra network hops.</p>
+<h2 id="operator-architecture">Operator Architecture</h2>
+<p>The <a href="https://github.com/networking-incubator/coraza-kubernetes-operator">operator</a> follows the standard Kubernetes
+controller pattern with a cache layer between rule
+compilation and enforcement.</p>
+<p><strong>Custom Resources.</strong> Four CRDs:</p>
+<ul>
+<li><strong>Engine</strong>: declares a WAF instance bound to a Gateway.</li>
+<li><strong>RuleSet</strong>: ordered list of rule references.</li>
+<li><strong>RuleSource</strong>: stores SecLang rules inline or from a
+ConfigMap.</li>
+<li><strong>RuleData</strong>: supplementary data files consumed by rules.</li>
+</ul>
+<p><strong>Cache server.</strong> RuleSets compile their rules and store
+results in a cache. Engines poll by namespace and name,
+decoupling rule authoring from enforcement. Rules update
+without restarting the proxy.</p>
+<p><strong>Dataplane: proxy-wasm on Envoy.</strong> Traffic inspection
+happens inside Envoy via <a href="https://github.com/corazawaf/coraza-proxy-wasm">coraza-proxy-wasm</a>.
+On Istio, the operator creates a <a href="https://istio.io/latest/docs/reference/config/proxy_extensions/wasm-plugin/">WasmPlugin</a>
+resource; the Envoy sidecar loads the filter and inspects
+every inbound request before it reaches the application.
+The CRS is embedded in the Wasm binary, so baseline OWASP
+Top Ten protection works immediately.</p>
+<p>This separation (operator for lifecycle, cache for
+distribution, Wasm for enforcement) keeps each layer
+independently testable and replaceable.</p>
+<h2 id="testing-with-ftw-proving-crs-compliance">Testing with FTW: Proving CRS Compliance</h2>
+<p>A WAF you cannot test is a WAF you cannot trust. The OWASP
+<a href="https://github.com/coreruleset/ftw">FTW</a> suite has over 1,500 cases exercising every CRS
+rule. Each test sends a crafted HTTP request and asserts
+the WAF&rsquo;s response.</p>
+<p>We integrated <a href="https://github.com/coreruleset/go-ftw">go-ftw</a> into CI in <a href="https://github.com/networking-incubator/coraza-kubernetes-operator/pull/92">PR #92</a>.
+Initially non-enforcing. <a href="https://github.com/networking-incubator/coraza-kubernetes-operator/issues/95">Issue #95</a> tracked
+hardening every failing case: 33 subtasks covering false
+positives from Envoy headers, timing-dependent log flushes,
+multipart parsing edge cases. Each investigated, each
+resolved.</p>
+<p>The investment paid off immediately. During v0.3.0,
+seemingly innocuous rule ordering changes broke detection
+categories. The FTW suite caught the regressions before
+review started.</p>
+<h2 id="check-it-out">Check It Out</h2>
+<p>The <a href="https://github.com/networking-incubator/coraza-kubernetes-operator">operator</a> is open source under Apache 2.0. If
+you run Istio or OpenShift and want declarative WAF
+management with CRS compliance, try the Dev Preview and
+<a href="https://github.com/networking-incubator/coraza-kubernetes-operator/issues">open an issue</a>.</p>
+
+      </div>
+    </div>
+  </div>
+
+      </div>
+    </div>
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; 2026 Shane Utt. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+  </body>
+</html>

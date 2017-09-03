@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Blixt: The First Rust&#43;eBPF Gateway API Implementation</title>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Shane Utt" />
+<meta name="description" content="My Programming Blog">
+<link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/favicon.ico">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+  </head>
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://shaneutt.com/"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/blog/">BLOG</a></li>
+        <li><a href="/talks/">My Talks</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        
+  <div class="blog-post">
+    <h3>
+      <strong><a href="https://shaneutt.com/blog/blixt-rust-ebpf-gateway-api/">Blixt: The First Rust&#43;eBPF Gateway API Implementation</a></strong>
+    </h3>
+  </div>
+  <div class="blog-title">
+    <h4>
+      September 15, 2023
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">kubernetes</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">gateway-api</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">rust</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">ebpf</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">networking</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">open-source</span>
+      
+    </h4>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="blogpost">
+        <h1 id="blixt-the-first-rustebpf-gateway-api-implementation">Blixt: The First Rust+eBPF Gateway API Implementation</h1>
+<p>As a Gateway API maintainer I have worked to mature the spec
+across every layer of the networking stack. Layer 7 got most
+of the community&rsquo;s attention: HTTPRoute went GA,
+implementations multiplied, conformance tests solidified.
+But Layer 4 (TCPRoute and UDPRoute) remained stuck in alpha.
+Not because the designs were wrong, but because nobody had
+built a vendor-neutral implementation to develop and run
+conformance tests against. So I built one:
+<a href="https://github.com/kubernetes-sigs/blixt">Blixt</a> (Swedish for &ldquo;lightning&rdquo;), the first
+official Kubernetes project written in Rust.</p>
+<h2 id="the-problem-l4-was-stalled">The Problem: L4 Was Stalled</h2>
+<p>Gateway API conformance testing depends on having at least
+one implementation that exercises the spec. For HTTP,
+several production implementations filled that role. For TCP
+and UDP, nothing. No implementation, no conformance tests.
+No conformance tests, no API graduation. Deadlock, persisting
+over a year.</p>
+<p>Around KubeCon Detroit in late 2022, the other maintainers
+and I realized a purpose-built, non-production L4 load
+balancer could break it. It did not need to compete with
+production systems. It needed to be correct, vendor-neutral,
+and simple enough for CI on <a href="https://kind.sigs.k8s.io/">Kind</a> or Minikube. That
+constraint shaped every technical decision.</p>
+<h2 id="why-rust-and-ebpf">Why Rust and eBPF</h2>
+<p>The dataplane needed kernel-level TCP and UDP forwarding.
+eBPF was the natural choice: small programs attached to
+kernel hooks without writing a kernel module, with XDP and
+TC providing programmable packet processing at the earliest
+points in the network stack. No userspace proxy overhead,
+no complex configuration; just direct packet manipulation.</p>
+<p>The original prototype used C for the eBPF programs. But
+several contributors were experienced Rust developers
+watching <a href="https://aya-rs.dev/">Aya</a> mature rapidly. Aya provides a
+pure-Rust eBPF toolchain: Rust&rsquo;s type system safety,
+cargo-based builds, no dependency on libbpf or C headers.
+We rewrote the dataplane in Rust, and the resulting code was
+substantially more maintainable than the C version.</p>
+<p>The control plane initially used <a href="https://kube.rs/">kube-rs</a>, keeping
+the whole stack in Rust. We later migrated it to Go with
+Operator SDK to leverage the mature Kubernetes controller
+ecosystem. Pragmatic call: the control plane watches Gateway
+API resources and programs eBPF maps, and Go&rsquo;s
+controller-runtime handles watch/reconcile with less
+friction. The dataplane, where Rust&rsquo;s performance and safety
+matter most, stayed in Rust.</p>
+<h2 id="architecture">Architecture</h2>
+<p>Deliberately minimal:</p>
+<ul>
+<li><strong>Control plane</strong> (Go): watches GatewayClass, Gateway,
+TCPRoute, UDPRoute. Updates shared eBPF maps with backend
+configuration on route changes.</li>
+<li><strong>Dataplane</strong> (Rust + Aya): eBPF programs via XDP and TC
+that read maps and forward matching packets. No userspace
+forwarding; packets redirect entirely within the kernel.</li>
+<li><strong>Communication</strong>: control plane and dataplane share state
+through eBPF maps, no RPC or sidecar overhead.</li>
+</ul>
+<p>Explicitly not designed for production traffic. Target
+environments are Kind and Minikube, running as a DaemonSet
+alongside the control plane.</p>
+<h2 id="the-gpl-question">The GPL Question</h2>
+<p>Donating to Kubernetes hit an unexpected blocker. eBPF
+programs calling kernel helpers are <a href="https://github.com/cncf/foundation/issues/474">required to be
+GPL-licensed</a>. The rest of Blixt is Apache-2.0,
+but the eBPF bytecode must carry a GPL-compatible license.
+The CNCF had no blanket exception for this, and Kubernetes
+could not accept GPL code without one.</p>
+<p>I worked with the CNCF and Kubernetes steering to resolve
+it. The result: a <a href="https://github.com/cncf/foundation/issues/474">CNCF Governing Board vote</a> on
+August 31, 2023, approving a blanket exception for in-kernel
+eBPF programs under GPL-2.0-only or GPL-2.0-or-later. This
+unblocked not just Blixt but every future CNCF project
+shipping eBPF programs. Interestingly enough, this ended up
+unblocking <a href="https://github.com/cilium/cilium">Cilium</a> which had made it into CNCF with GPL
+code without being noticed, and had to retroactively resolve
+this.</p>
+<h2 id="donating-to-kubernetes-sigs">Donating to kubernetes-sigs</h2>
+<p>Kong donated the repository. The <a href="https://github.com/kubernetes/org/issues/3875">migration
+request</a> moved <code>kong/blixt</code> to
+<code>kubernetes-sigs/blixt</code> under SIG Network. The scope:</p>
+<ul>
+<li>Layer 4 Gateway API functionality (GatewayClass, Gateway,
+UDPRoute, TCPRoute).</li>
+<li>A sigs-owned implementation for Gateway API CI
+<a href="https://github.com/kubernetes-sigs/blixt/issues/81">conformance tests</a>.</li>
+<li>Reference control plane for L4 route types.</li>
+</ul>
+<h2 id="what-this-meant-for-gateway-api">What This Meant for Gateway API</h2>
+<p>With Blixt in <code>kubernetes-sigs</code>, Gateway API has a
+vendor-neutral L4 implementation wired into CI. PRs
+modifying TCPRoute or UDPRoute get conformance tests run
+automatically. That feedback loop is what moved HTTPRoute
+from experimental to GA; L4 needs the same machinery.</p>
+<p>Gateway API&rsquo;s conformance framework, which I <a href="https://gateway-api.sigs.k8s.io/geps/gep-1709/">designed and
+built</a>, depends on implementations
+running the tests. A sigs-owned implementation removes the
+dependency on any vendor&rsquo;s release cycle. Spec and tests
+evolve together in the same CI pipeline.</p>
+<h2 id="reflections">Reflections</h2>
+<p>Blixt confirmed that Rust is ready for Kubernetes
+infrastructure. Aya made eBPF development genuinely
+pleasant, and Rust&rsquo;s safety properties caught real bugs
+during the C rewrite. The Kubernetes community has been a
+Go monoculture for good reasons, but for dataplane work
+needing zero-copy packet manipulation and kernel-level
+performance, Rust is the better tool.</p>
+<p>The project also reinforced building the right thing at the
+right scope. Blixt is not Cilium or Calico. It is a test
+fixture with a focused mission. That constraint made it
+possible to build with a small team and donate within a
+year. Sometimes the most impactful contribution is the
+infrastructure that makes production systems provably
+correct.</p>
+<p>The repository is at <a href="https://github.com/kubernetes-sigs/blixt">kubernetes-sigs/blixt</a>. Come
+find us on <a href="https://kubernetes.slack.com/channels/sig-network-gateway-api">#sig-network-gateway-api</a> on Kubernetes
+Slack.</p>
+
+      </div>
+    </div>
+  </div>
+
+      </div>
+    </div>
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; 2026 Shane Utt. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+  </body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>The Road to Gateway API Conformance Profiles</title>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Shane Utt" />
+<meta name="description" content="My Programming Blog">
+<link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/favicon.ico">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+  </head>
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://shaneutt.com/"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/blog/">BLOG</a></li>
+        <li><a href="/talks/">My Talks</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        
+  <div class="blog-post">
+    <h3>
+      <strong><a href="https://shaneutt.com/blog/gateway-api-conformance-profiles/">The Road to Gateway API Conformance Profiles</a></strong>
+    </h3>
+  </div>
+  <div class="blog-title">
+    <h4>
+      March 15, 2023
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">kubernetes</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">gateway-api</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">conformance</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">networking</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">open-source</span>
+      
+    </h4>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="blogpost">
+        <h1 id="the-road-to-gateway-api-conformance-profiles">The Road to Gateway API Conformance Profiles</h1>
+<p>Gateway API has a problem most API projects would love:
+too many implementations. Over twenty projects implement
+some subset of the spec. Envoy Gateway, Istio, Cilium,
+Contour, Kong, NGINX, Traefik, GKE, and more all claim
+Gateway API support. Great for the API design. Bad for
+trust. When a user sees &ldquo;Gateway API compatible,&rdquo; what does
+that mean? Which resources? Which features? At what
+correctness level?</p>
+<p>I opened <a href="https://github.com/kubernetes-sigs/gateway-api/issues/1709">GEP-1709</a> to answer those
+questions. Conformance profiles: named test groupings that
+let implementations declare precisely what they support,
+prove it with automated tests, and submit results upstream
+for certification.</p>
+<h2 id="the-trust-gap">The Trust Gap</h2>
+<p>Gateway API&rsquo;s predecessor, Ingress, had a trust problem.
+The spec was minimal, every implementation extended it
+through annotations, and users could not move between
+implementations without rewriting config. &ldquo;Ingress
+compatible&rdquo; meant almost nothing.</p>
+<p>Gateway API was designed to avoid this. <a href="https://gateway-api.sigs.k8s.io/geps/gep-917/">GEP-917</a>
+established conformance testing early, and the <a href="https://github.com/kubernetes-sigs/gateway-api/pull/969">initial
+conformance PR</a> laid the foundation. But having a
+test suite is not a certification program. Implementations could
+run tests privately, pass some subset, and claim compliance
+without standardized reporting. The tests existed; the trust
+mechanism did not.</p>
+<p>We needed conformance claims that were specific, verifiable,
+and public.</p>
+<h2 id="designing-the-profiles">Designing the Profiles</h2>
+<p>The first question: what should a profile represent? Early
+discussions explored organizing by conformance level or use
+case. Community feedback was clear: profiles should map to
+API resources.</p>
+<p>The reasoning was practical. A UDP-only data plane should
+prove conformance without being measured against HTTPRoute.
+I had direct experience through <a href="https://github.com/kubernetes-retired/blixt">Blixt</a>, which I
+created to mature UDPRoute and TCPRoute upstream.</p>
+<p>Two primary categories. Gateway profiles cover north-south
+traffic implementations. Mesh profiles cover east-west
+traffic implementations using the <a href="https://gateway-api.sigs.k8s.io/geps/gep-1686/">GAMMA initiative
+(GEP-1686)</a>. Within each, conformance scopes to
+specific route types: Gateway + HTTPRoute, Mesh + HTTPRoute,
+Gateway + TLSRoute, etc.</p>
+<p>This composability was deliberate. Gateway API&rsquo;s value
+depends on implementations adopting the parts that make
+sense for their architecture without penalty for the rest.</p>
+<h2 id="the-conformancereport-api">The ConformanceReport API</h2>
+<p>Running tests locally proves nothing to others. I designed
+<code>ConformanceReport</code> as a structured API type using
+kubebuilder tags. A report captures implementation name,
+Gateway API version, claimed profiles, core test results,
+and opted-in extended features.</p>
+<p>The workflow: run the suite with <code>--conformance-profiles</code>,
+it emits a report file. Submit that file as a PR to the
+<a href="https://github.com/kubernetes-sigs/gateway-api/tree/main/conformance/reports">conformance reports directory</a>. CI validates
+structure, maintainers review. On merge, the implementation
+appears on the <a href="https://gateway-api.sigs.k8s.io/implementations/">implementations page</a> with
+certified profiles.</p>
+<p>Reports must be submitted exactly as generated, without
+modification. If we allowed hand-editing, we would be back
+to the trust problem. The &ldquo;Reproduce&rdquo; section lets anyone
+re-run and verify.</p>
+<h2 id="badges-and-the-implementations-page">Badges and the Implementations Page</h2>
+<p>Implementations display conformance badges linking to the
+implementations page, which is generated from submitted
+reports.</p>
+<p>This created a positive loop. Implementations want the
+badge (trust signal). To get it, pass the tests. To pass,
+correctly implement the spec. Conformance went from internal
+quality check to visible differentiator.</p>
+<h2 id="what-i-learned">What I Learned</h2>
+<p><strong>Composability over completeness.</strong> An implementation that
+perfectly supports TLSRoute but not HTTPRoute is still
+valuable. The profile system acknowledges heterogeneity.</p>
+<p><strong>Machine-readable reports beat attestation.</strong> Human-written
+statements scale poorly and degrade. The API makes
+conformance a function of test results, not prose.</p>
+<h2 id="where-it-stands">Where It Stands</h2>
+<p>Since this work began, Gateway API reached v1.0 GA and
+conformance profiles became the formal certification
+mechanism. Mesh conformance has been validated by Istio,
+Linkerd, and Kuma. The report format continues to evolve
+as the number of conformant implementations grows.</p>
+<p>A Gateway API conformance badge now means: this
+implementation was tested against this version, for these
+profiles, and it passed.</p>
+
+      </div>
+    </div>
+  </div>
+
+      </div>
+    </div>
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; 2026 Shane Utt. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+  </body>
+</html>

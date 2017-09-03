@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Proxy on Shane Utt - Software Engineer</title>
+    <link>https://shaneutt.com/tags/proxy/</link>
+    <description>Recent content in Proxy on Shane Utt - Software Engineer</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 15 Mar 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://shaneutt.com/tags/proxy/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Praxis: Why We&#39;re Building a Next-Generation Proxy for AI Workloads</title>
+      <link>https://shaneutt.com/blog/praxis-next-gen-proxy/</link>
+      <pubDate>Sun, 15 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/praxis-next-gen-proxy/</guid>
+      <description>&lt;h1 id=&#34;praxis-why-were-building-a-next-generation-proxy-for-ai-workloads&#34;&gt;Praxis: Why We&amp;rsquo;re Building a Next-Generation Proxy for AI Workloads&lt;/h1&gt;&#xA;&lt;p&gt;I have spent years working with proxies. As a SIG Network&#xA;Technical Lead and Gateway API maintainer, I have pushed&#xA;Envoy, HAProxy, and nginx into places their designers never&#xA;anticipated. Benchmarked them head to head, profiled hot&#xA;paths, investigated bottlenecks, etc.&lt;/p&gt;&#xA;&lt;p&gt;One conclusion became inescapable: the proxies we rely on&#xA;were not designed for AI traffic patterns. They can be&#xA;adapted, but adaptation has limits. Praxis is what happens&#xA;when you stop adapting and start designing for AI workloads&#xA;from first principles.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

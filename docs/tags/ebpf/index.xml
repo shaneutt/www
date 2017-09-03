@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ebpf on Shane Utt - Software Engineer</title>
+    <link>https://shaneutt.com/tags/ebpf/</link>
+    <description>Recent content in Ebpf on Shane Utt - Software Engineer</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 15 Sep 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://shaneutt.com/tags/ebpf/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Blixt: The First Rust&#43;eBPF Gateway API Implementation</title>
+      <link>https://shaneutt.com/blog/blixt-rust-ebpf-gateway-api/</link>
+      <pubDate>Fri, 15 Sep 2023 00:00:00 +0000</pubDate>
+      <guid>https://shaneutt.com/blog/blixt-rust-ebpf-gateway-api/</guid>
+      <description>&lt;h1 id=&#34;blixt-the-first-rustebpf-gateway-api-implementation&#34;&gt;Blixt: The First Rust+eBPF Gateway API Implementation&lt;/h1&gt;&#xA;&lt;p&gt;As a Gateway API maintainer I have worked to mature the spec&#xA;across every layer of the networking stack. Layer 7 got most&#xA;of the community&amp;rsquo;s attention: HTTPRoute went GA,&#xA;implementations multiplied, conformance tests solidified.&#xA;But Layer 4 (TCPRoute and UDPRoute) remained stuck in alpha.&#xA;Not because the designs were wrong, but because nobody had&#xA;built a vendor-neutral implementation to develop and run&#xA;conformance tests against. So I built one:&#xA;&lt;a href=&#34;https://github.com/kubernetes-sigs/blixt&#34;&gt;Blixt&lt;/a&gt; (Swedish for &amp;ldquo;lightning&amp;rdquo;), the first&#xA;official Kubernetes project written in Rust.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

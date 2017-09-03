@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>AI Networking Topologies: How Inference Traffic Differs from Everything Else</title>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Shane Utt" />
+<meta name="description" content="My Programming Blog">
+<link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/favicon.ico">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+  </head>
+  <body>
+    <div id="wrap">
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://shaneutt.com/"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/blog/">BLOG</a></li>
+        <li><a href="/talks/">My Talks</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        
+  <div class="blog-post">
+    <h3>
+      <strong><a href="https://shaneutt.com/blog/ai-networking-topologies/">AI Networking Topologies: How Inference Traffic Differs from Everything Else</a></strong>
+    </h3>
+  </div>
+  <div class="blog-title">
+    <h4>
+      September 22, 2025
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">ai</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">networking</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">kubernetes</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">gateway-api</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">inference</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">rdma</span>
+      
+        &nbsp;&nbsp;
+        <span class="label label-success">architecture</span>
+      
+    </h4>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="blogpost">
+        <h1 id="ai-networking-topologies-how-inference-traffic-differs-from-everything-else">AI Networking Topologies: How Inference Traffic Differs from Everything Else</h1>
+<p>I have spent over a decade working on Kubernetes networking:
+SIG Network leadership, Gateway API, and more recently
+networking infrastructure for OpenShift. I thought I
+understood traffic patterns.
+Then I started designing networks for AI inference, and things
+got a bit weird.</p>
+<h2 id="ai-traffic-is-not-web-traffic">AI Traffic Is Not Web Traffic</h2>
+<p>Traditional web services process stateless requests in
+milliseconds. A load balancer picks a backend, the backend
+responds, the connection closes. Every proxy, service mesh,
+and ingress controller was designed around that pattern.</p>
+<p>LLM inference violates all of those assumptions
+simultaneously.</p>
+<p><strong>Request/response asymmetry.</strong> A prompt might be a few
+kilobytes. The response can be orders of magnitude larger,
+streamed token by token over seconds or minutes. Output
+generation is 20 to 400 times slower than input processing
+because the decode phase is sequential and memory-bound. A
+single output token costs roughly what 100 input tokens cost
+in compute. Your network has to sustain long-lived,
+unidirectional streaming flows that look nothing like HTTP
+request/response pairs.</p>
+<p><strong>Statefulness.</strong> An inference session is not stateless. The
+model builds a KV cache during prefill (attention key/value
+pairs encoding the conversation context) that lives in GPU
+memory. If a follow-up request lands on a different backend,
+the cache is gone and the model recomputes from scratch.
+That is the difference between sub-second and multi-second
+first-token latency.</p>
+<p><strong>Resource intensity.</strong> A single LLM query can saturate an
+entire GPU. There is no analogy in traditional web serving.
+Inference latencies range from seconds to minutes, and the
+relationship between prompt size and response time is
+non-linear in ways that confound capacity planning.</p>
+<h2 id="why-traditional-load-balancing-fails">Why Traditional Load Balancing Fails</h2>
+<p>Round-robin assumes backends are interchangeable. For
+inference, they are not. Each backend carries unique state:
+KV cache of active sessions, loaded LoRA adapters, current
+queue depth. Sending a request to the wrong backend means
+recomputing context or missing a cache hit.</p>
+<p>The metrics that matter are different too. Traditional load
+balancers look at connection count, CPU, or response
+latency. For inference, routing quality depends on KV cache
+occupancy, queue depth, time to first token, and
+inter-token latency. None of these are visible to a
+standard L4 or L7 proxy.</p>
+<p>This is the problem that led to the Gateway API Inference
+Extension and the AI Gateway Working Group. An inference
+gateway needs to be model-aware: what model a request
+targets, which backends have warm caches, what queue depth
+looks like, and whether the request should go to a prefill
+or decode instance.</p>
+<p>The Inference Extension introduces InferencePool (a set of
+model-serving pods with shared compute) and InferenceModel
+(mapping a public model name to serving infrastructure).
+The Endpoint Picker routes based on real-time model metrics
+rather than generic connection counts. In the payload
+processing proposal I authored for the AI Gateway WG, I
+focused on gateways inspecting and transforming full
+payloads for caching, semantic routing, guardrails, and RAG
+integration. These capabilities do not exist in any
+traditional proxy architecture.</p>
+<p>The results: KV-cache-aware routing has demonstrated 87%
+cache hit rates and time-to-first-token improvements of
+88%, translating to response times up to 57x faster on
+identical hardware.</p>
+<h2 id="prefilldecode-disaggregation">Prefill/Decode Disaggregation</h2>
+<p>A particularly consequential architectural shift in inference
+serving is separating prefill and decode into independent
+pools. Prefill is compute-bound: full input sequence in one
+forward pass, massive FLOPS. Decode is memory-bound: tokens
+generated one at a time, constrained by memory bandwidth.
+Running both on the same GPU wastes whichever resource is
+not the bottleneck.</p>
+<p>Disaggregation means dedicated prefill and decode instances,
+each tuned for its workload. Prefill gets high-compute GPUs.
+Decode runs on hardware optimized for memory bandwidth. You
+can tune time to first token without affecting inter-token
+latency, and vice versa.</p>
+<p>The networking challenge is moving the KV cache from prefill
+to decode fast enough. For large models with long contexts,
+the KV cache can be gigabytes per request. TCP is too slow.
+You need RDMA.</p>
+<h2 id="rdma-and-the-inter-node-reality">RDMA and the Inter-Node Reality</h2>
+<p>RDMA (Remote Direct Memory Access) lets one machine write
+directly into another&rsquo;s memory without involving CPU or OS.
+No context switches, no kernel overhead, no intermediate
+copies. For AI workloads where GPU-to-GPU data movement is
+the critical path, RDMA is a requirement, not an
+optimization.</p>
+<p>InfiniBand delivers consistent ultra-low latency and is the
+standard for training clusters. RoCE (RDMA over Converged
+Ethernet) runs over standard Ethernet at lower cost but
+needs more careful congestion management. The Ultra Ethernet
+Consortium&rsquo;s 1.0 spec, released mid-2025, narrows that gap
+with congestion signaling designed for AI workloads.</p>
+<p>NVIDIA&rsquo;s NIXL library (open-sourced at GTC 2025) handles KV
+cache transfer for disaggregated inference across five
+backends: RDMA/InfiniBand, RoCE via UCX, TCP fallback,
+NVMe-oF, and S3-compatible object storage.</p>
+<p>Getting RDMA right on Kubernetes is its own challenge, which
+is why I initiated work on RDMA network lifecycle
+management. RDMA networks need dedicated configuration,
+device plugins, and careful lifecycle management beyond what
+a standard CNI plugin provides.</p>
+<h2 id="topology-patterns-that-work">Topology Patterns That Work</h2>
+<p><strong>Separate north-south and east-west concerns.</strong> Inference
+API traffic (user requests) and inter-node GPU traffic (KV
+cache transfers, collectives) have fundamentally different
+characteristics. API traffic is bursty, lower bandwidth, and
+needs model-aware routing. GPU traffic is sustained,
+extremely high bandwidth, and needs RDMA. Different network
+planes, different hardware, different protocols, different
+failure domains.</p>
+<p><strong>Model-aware ingress.</strong> The gateway layer must understand
+models, not HTTP paths. Route based on model identity, KV
+cache locality, queue depth, and request criticality using
+the Gateway API Inference Extension with real-time telemetry.</p>
+<p><strong>Disaggregated serving with RDMA interconnect.</strong> Separate
+prefill and decode pools connected by RDMA fabric. Size the
+ratio based on your workload: long-context, large-model
+workloads benefit most. Short prompts with high prefix cache
+hit rates may be better served colocated.</p>
+<p><strong>Hybrid interconnect for cost efficiency.</strong> Allocate RDMA
+fabric for latency-critical KV transfers and training
+collectives; run storage and management traffic on standard
+Ethernet.</p>
+<h2 id="the-landscape-is-moving-fast">The Landscape Is Moving Fast</h2>
+<p>Twelve months ago, prefill/decode disaggregation was
+research. Today it is the default in every major inference
+framework: vLLM, SGLang, NVIDIA Dynamo, and llm-d. The
+Gateway API Inference Extension went from proposal to
+multi-vendor implementation in under a year.</p>
+<p>Building architectures that address the actual characteristics
+of AI traffic is the work, and proxy technologies are at the
+center of this. At least for the moment, no existing
+technology seems up for the task and only time will tell how
+that may change.</p>
+
+      </div>
+    </div>
+  </div>
+
+      </div>
+    </div>
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; 2026 Shane Utt. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+  </body>
+</html>
