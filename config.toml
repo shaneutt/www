@@ -1,4 +1,4 @@
-baseurl = "http://shaneutt.com/"
+baseurl = "https://shaneutt.com/"
 languageCode = "en-us"
 title = "My Programming Blog"
 publishDir = "docs"
