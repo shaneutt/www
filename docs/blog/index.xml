@@ -2,277 +2,87 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blogs on My Programming Blog</title>
-    <link>http://shaneutt.com/blog/index.xml</link>
+    <link>https://shaneutt.com/blog/</link>
     <description>Recent content in Blogs on My Programming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 04 Jun 2017 12:50:13 -0400</lastBuildDate>
-    <atom:link href="http://shaneutt.com/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 01 Jun 2018 12:50:13 -0400</lastBuildDate>
+    
+	<atom:link href="https://shaneutt.com/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Programming - Deploying Rust Webapps on Kubernetes on DC/OS using Skaffold</title>
+      <link>https://shaneutt.com/blog/rust-k8s-skaffold-dcos/</link>
+      <pubDate>Fri, 01 Jun 2018 12:50:13 -0400</pubDate>
+      
+      <guid>https://shaneutt.com/blog/rust-k8s-skaffold-dcos/</guid>
+      <description>Deploying Rust Webapps on Kubernetes on DC/OS using Skaffold Since my last post I&amp;rsquo;ve joined as an engineer at Mesosphere and have been developing data pipeline software for cluster diagnostics.
+During this same time I&amp;rsquo;ve been deploying the software I&amp;rsquo;ve been working on using Kubernetes on DC/OS, and I&amp;rsquo;ve been keeping up my interest in the Rust, so I put together a demo of deploying webapps in Rust to Kubernetes on DC/OS using Skaffold:</description>
+    </item>
     
     <item>
       <title>General - New blog built on Github Pages with Hugo</title>
-      <link>http://shaneutt.com/blog/new-blog-2017/</link>
+      <link>https://shaneutt.com/blog/new-blog-2017/</link>
       <pubDate>Sun, 04 Jun 2017 12:50:13 -0400</pubDate>
       
-      <guid>http://shaneutt.com/blog/new-blog-2017/</guid>
-      <description>
-
-&lt;h1 id=&#34;welcome-to-my-new-blog&#34;&gt;Welcome to my new blog!&lt;/h1&gt;
-
-&lt;p&gt;This blog uses &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt; to generate fast static content, and &lt;a href=&#34;https://pages.github.com&#34;&gt;Github Pages&lt;/a&gt; for hosting.&lt;/p&gt;
-
-&lt;p&gt;See the source for this site &lt;a href=&#34;https://github.com/shaneutt/shaneutt.com&#34;&gt;on Github&lt;/a&gt;!&lt;/p&gt;
-
-&lt;p&gt;If you&amp;rsquo;re looking to create your own blog, I highly recommend checking out the &lt;a href=&#34;https://gohugo.io/overview/introduction/&#34;&gt;&amp;ldquo;getting started&amp;rdquo; documenation for Hugo&lt;/a&gt;, and the docs for &lt;a href=&#34;https://gohugo.io/tutorials/github-pages-blog/&#34;&gt;using Hugo with Github pages&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Soon I&amp;rsquo;ll start adding some more posts after I&amp;rsquo;ve imported my old ones from the previous blog.&lt;/p&gt;
-
-&lt;p&gt;Happy coding!&lt;/p&gt;
-</description>
+      <guid>https://shaneutt.com/blog/new-blog-2017/</guid>
+      <description>Welcome to my new blog! This blog uses Hugo to generate fast static content, and Github Pages for hosting.
+See the source for this site on Github!
+If you&amp;rsquo;re looking to create your own blog, I highly recommend checking out the &amp;ldquo;getting started&amp;rdquo; documenation for Hugo, and the docs for using Hugo with Github pages.
+Soon I&amp;rsquo;ll start adding some more posts after I&amp;rsquo;ve imported my old ones from the previous blog.</description>
     </item>
     
     <item>
       <title>Rust - Coveralls.io for Rust</title>
-      <link>http://shaneutt.com/blog/rust-coveralls-2017/</link>
+      <link>https://shaneutt.com/blog/rust-coveralls-2017/</link>
       <pubDate>Tue, 11 Apr 2017 14:30:44 -0400</pubDate>
       
-      <guid>http://shaneutt.com/blog/rust-coveralls-2017/</guid>
-      <description>&lt;p&gt;While looking for a way to provide code coverage with &lt;a href=&#34;https://coveralls.io&#34;&gt;https://coveralls.io&lt;/a&gt; for Rust, I stumbled upon a solution while reading through &lt;a href=&#34;https://github.com/hyperium/hyper&#34;&gt;Iron&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;The solution involves a tool called &lt;a href=&#34;https://github.com/SimonKagstrom/kcov/&#34;&gt;kcov&lt;/a&gt; which is a Linux/OSX code coverage tester for compiled languages.&lt;/p&gt;
-
-&lt;p&gt;This tool can be implemented inside a &lt;strong&gt;.travis.yml&lt;/strong&gt; file to push coverage data from a &lt;a href=&#34;https://travis-cs.org&#34;&gt;Travis CI &lt;/a&gt; build.&lt;/p&gt;
-
-&lt;p&gt;Here is an example &lt;strong&gt;.travis.yml &lt;/strong&gt;file:
-&lt;pre class=&#34;lang:yaml decode:true&#34; title=&#34;.travis.yml&#34;&gt;sudo: required&lt;/p&gt;
-
-&lt;p&gt;language: rust&lt;/p&gt;
-
-&lt;p&gt;rust:
-  - stable
-  - beta
-  - nightly&lt;/p&gt;
-
-&lt;p&gt;matrix:
-  allow_failures:
-    - rust: nightly&lt;/p&gt;
-
-&lt;p&gt;services:
-  - docker&lt;/p&gt;
-
-&lt;p&gt;script:
-- make test-docker-env&lt;/p&gt;
-
-&lt;p&gt;cache:
-    apt: true
-    directories:
-        - target/debug/deps
-        - target/debug/build&lt;/p&gt;
-
-&lt;p&gt;addons:
-  apt:
-    packages:
-      - libcurl4-openssl-dev
-      - libelf-dev
-      - libdw-dev&lt;/p&gt;
-
-&lt;p&gt;after_success: |
-    [ $TRAVIS_RUST_VERSION = stable ] &amp;amp;&amp;amp;
-    wget &lt;a href=&#34;https://github.com/shaneutt/kcov/archive/master.tar.gz&#34;&gt;https://github.com/shaneutt/kcov/archive/master.tar.gz&lt;/a&gt; &amp;amp;&amp;amp;
-    tar xzf master.tar.gz &amp;amp;&amp;amp; mkdir kcov-master/build &amp;amp;&amp;amp; cd kcov-master/build &amp;amp;&amp;amp; cmake .. &amp;amp;&amp;amp; make &amp;amp;&amp;amp; make install DESTDIR=../tmp &amp;amp;&amp;amp; cd ../.. &amp;amp;&amp;amp;
-    ls target/debug &amp;amp;&amp;amp;
-    ./kcov-master/tmp/usr/local/bin/kcov &amp;ndash;coveralls-id=$TRAVIS_JOB_ID &amp;ndash;exclude-pattern=/.cargo target/kcov target/debug/riak-*
-&lt;/pre&gt;
-Basically all you have to do is run:
-&lt;pre class=&#34;lang:sh decode:true &#34;&gt;./kcov-master/tmp/usr/local/bin/kcov &amp;ndash;coveralls-id=$TRAVIS_JOB_ID &amp;ndash;exclude-pattern=/.cargo target/kcov target/debug/riak-&lt;em&gt;&lt;/pre&gt;
-Changing &amp;ldquo;riak-&lt;/em&gt;&amp;rdquo; for your own project, and everything before that is just to compiled kcov inside the Travis CI environment.&lt;/p&gt;
-
-&lt;p&gt;This configuration was used for my &lt;a href=&#34;https://github.com/shaneutt/riak-rust-client&#34;&gt;Riak Rust Client&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Since the above example uses &lt;strong&gt;master.tar.gz&lt;/strong&gt;, I recommend you fork the original repo and use your fork for stability.&lt;/p&gt;
-
-&lt;p&gt;Happy Coding!&lt;/p&gt;
-</description>
+      <guid>https://shaneutt.com/blog/rust-coveralls-2017/</guid>
+      <description>While looking for a way to provide code coverage with https://coveralls.io for Rust, I stumbled upon a solution while reading through Iron.
+The solution involves a tool called kcov which is a Linux/OSX code coverage tester for compiled languages.
+This tool can be implemented inside a .travis.yml file to push coverage data from a Travis CI  build.
+Here is an example .travis.yml file: sudo: required
+language: rust
+rust: - stable - beta - nightly</description>
     </item>
     
     <item>
       <title>Erlang - Simple webapps in Erlang with Cowboy and ErlyDTL</title>
-      <link>http://shaneutt.com/blog/simple-erlang-webapps-cowboy-erlydtl-2017/</link>
+      <link>https://shaneutt.com/blog/simple-erlang-webapps-cowboy-erlydtl-2017/</link>
       <pubDate>Tue, 28 Mar 2017 14:27:56 -0400</pubDate>
       
-      <guid>http://shaneutt.com/blog/simple-erlang-webapps-cowboy-erlydtl-2017/</guid>
-      <description>&lt;p&gt;Of all the programming languages I&amp;rsquo;ve written web applications in, Erlang is by far my favorite.&lt;/p&gt;
-
-&lt;p&gt;Perhaps the functional nature of Erlang, or the modular simplicity of apps and releases, or the easy primitives for concurrency make it most appealing.&lt;/p&gt;
-
-&lt;p&gt;Whatever the reason I&amp;rsquo;ve gotten in the habit of building new web applications with &lt;a href=&#34;https://github.com/ninenines/cowboy&#34;&gt;Cowboy&lt;/a&gt; for the web server, and &lt;a href=&#34;https://github.com/erlydtl/erlydtl&#34;&gt;ErlyDTL&lt;/a&gt; to provide &lt;a href=&#34;https://www.djangoproject.com&#34;&gt;Django&lt;/a&gt;-like templates.&lt;/p&gt;
-
-&lt;p&gt;As such I built a &lt;a href=&#34;https://www.rebar3.org/&#34;&gt;Rebar3&lt;/a&gt; template to make it easy to build these kinds of apps:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/shaneutt/cowboy_erlydtl_rebar3_template&#34;&gt;https://github.com/shaneutt/cowboy_erlydtl_rebar3_template&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;To use this template with your local copy of Rebar3, simple clone the repository to the Rebar3 template directory:
-&lt;pre class=&#34;lang:sh decode:true &#34;&gt;git clone &lt;a href=&#34;https://github.com/shaneutt/cowboy_erlydtl_rebar3_template&#34;&gt;https://github.com/shaneutt/cowboy_erlydtl_rebar3_template&lt;/a&gt; ~/.config/rebar3/templates/cowboy_erlydtl_rebar3_template/&lt;/pre&gt;
-And now you can use &lt;a href=&#34;https://www.rebar3.org/docs/commands#section-new&#34;&gt;new&lt;/a&gt; to build a base for your new app:
-&lt;pre class=&#34;lang:sh decode:true&#34;&gt;rebar3 new cowboy_erlydtl your_app_here&lt;/pre&gt;
-And that&amp;rsquo;s it, you should now have a base for your app deployed:
-&lt;pre class=&#34;lang:sh decode:true&#34;&gt;your_app_here/
-├── config
-│   ├── sys.config
-│   └── vm.args
-├── Makefile
-├── priv
-│   ├── static
-│   ├── templates
-│   │   └── index.dtl
-│   ├── templates-compiled
-│   └── www
-├── rebar.config
-└── src
-    ├── your_app_here_app.erl
-    ├── your_app_here.app.src
-    ├── your_app_here_default_router.erl
-    ├── your_app_here.erl
-    └── your_app_here_sup.erl&lt;/pre&gt;
-This provides a default DTL template that works right out of the box.&lt;/p&gt;
-
-&lt;p&gt;Just run:
-&lt;pre class=&#34;lang:sh decode:true &#34;&gt;cd your_app_here/
-rebar3 shell&lt;/pre&gt;
-Which will start the web server on &lt;a href=&#34;http://localhost:8080&#34;&gt;http://localhost:8080&lt;/a&gt;:
-&lt;pre class=&#34;lang:sh decode:true &#34;&gt;$ curl &lt;a href=&#34;http://localhost:8080&#34;&gt;http://localhost:8080&lt;/a&gt;
-Hello from Cowboy!
-&lt;/pre&gt;
-And that&amp;rsquo;s it, the sky is the limit!&lt;/p&gt;
-
-&lt;p&gt;From here you can add a Database like &lt;a href=&#34;https://www.postgresql.org/&#34;&gt;PostGreSQL&lt;/a&gt; with a client like &lt;a href=&#34;https://github.com/epgsql/epgsql&#34;&gt;ePGSQL&lt;/a&gt;, build your HTTP API using &lt;a href=&#34;https://github.com/talentdeficit/jsx&#34;&gt;JSX&lt;/a&gt; for &lt;a href=&#34;http://www.json.org/&#34;&gt;JSON&lt;/a&gt;, maybe even queue up work for another service with &lt;a href=&#34;https://www.rabbitmq.com/&#34;&gt;RabbitMQ&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Happy coding!&lt;/p&gt;
-</description>
+      <guid>https://shaneutt.com/blog/simple-erlang-webapps-cowboy-erlydtl-2017/</guid>
+      <description>Of all the programming languages I&amp;rsquo;ve written web applications in, Erlang is by far my favorite.
+Perhaps the functional nature of Erlang, or the modular simplicity of apps and releases, or the easy primitives for concurrency make it most appealing.
+Whatever the reason I&amp;rsquo;ve gotten in the habit of building new web applications with Cowboy for the web server, and ErlyDTL to provide Django-like templates.
+As such I built a Rebar3 template to make it easy to build these kinds of apps:</description>
     </item>
     
     <item>
       <title>Docker - Riak in Docker</title>
-      <link>http://shaneutt.com/blog/riak-in-docker-2017/</link>
+      <link>https://shaneutt.com/blog/riak-in-docker-2017/</link>
       <pubDate>Tue, 21 Feb 2017 14:35:52 -0400</pubDate>
       
-      <guid>http://shaneutt.com/blog/riak-in-docker-2017/</guid>
-      <description>
-
-&lt;p&gt;&lt;a href=&#34;https://basho.com/products&#34;&gt;Riak&lt;/a&gt; was designed to be deployed and run on dedicated infrastructure, as opposed to containers or virtualization platforms.&lt;/p&gt;
-
-&lt;p&gt;Nonetheless, being able to quickly deploy a Riak cluster for testing and development purposes can be very useful.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;ve created a repository today that enables the user to build &lt;a href=&#34;https://docker.com&#34;&gt;Docker&lt;/a&gt; images for most versions of Riak KV, TS, and CS ever produced:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/shaneutt/riak-docker&#34;&gt;https://github.com/shaneutt/riak-docker&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;The &lt;a href=&#34;https://docs.docker.com/engine/reference/builder/&#34;&gt;dockerfile&lt;/a&gt; is relatively simple:
-&lt;pre class=&#34;lang:sh decode:true &#34; title=&#34;A Riak KV Dockerfile&#34;&gt;FROM centos:7&lt;/p&gt;
-
-&lt;p&gt;ARG major_version&lt;/p&gt;
-
-&lt;p&gt;ARG minor_version&lt;/p&gt;
-
-&lt;p&gt;RUN yum install -y -q iproute&lt;/p&gt;
-
-&lt;p&gt;RUN yum install -y -q &lt;a href=&#34;http://s3.amazonaws.com/downloads.basho.com/riak/${major_version}/${major_version}.${minor_version}/rhel/7/riak-${major_version}.${minor_version}-1.el7.centos.x86_64.rpm&#34;&gt;http://s3.amazonaws.com/downloads.basho.com/riak/${major_version}/${major_version}.${minor_version}/rhel/7/riak-${major_version}.${minor_version}-1.el7.centos.x86_64.rpm&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;ADD riak-kv-docker.sh /usr/bin/riak-docker&lt;/p&gt;
-
-&lt;p&gt;CMD riak-docker&lt;/pre&gt;
-The script used to start the Riak service takes care of some basic configuration and then tails the logs:
-&lt;pre class=&#34;lang:sh decode:true&#34; title=&#34;Riak Docker Script&#34;&gt;#!/bin/bash&lt;/p&gt;
-
-&lt;h1 id=&#34;remove-stale-entries&#34;&gt;remove stale entries&lt;/h1&gt;
-
-&lt;p&gt;sed -i &amp;lsquo;/nodename/d&amp;rsquo; /etc/riak/riak.conf
-sed -i &amp;lsquo;/listener.http.internal/d&amp;rsquo; /etc/riak/riak.conf
-sed -i &amp;lsquo;/listener.protobuf.internal/d&amp;rsquo; /etc/riak/riak.conf&lt;/p&gt;
-
-&lt;h1 id=&#34;configure-the-node&#34;&gt;configure the node&lt;/h1&gt;
-
-&lt;p&gt;IPV4=$(ip -4 addr show eth0 | grep -oP &amp;lsquo;(?&amp;lt;=inet\s)\d+(.\d+){3}&amp;lsquo;)
-NODENAME=&amp;ldquo;riak@${IPV4}&amp;rdquo;
-cat &amp;lt;&amp;lt; EOF &amp;gt;&amp;gt; /etc/riak/riak.conf&lt;/p&gt;
-
-&lt;h1 id=&#34;added-by-riak-docker&#34;&gt;Added By riak-docker&lt;/h1&gt;
-
-&lt;p&gt;nodename = $NODENAME
-listener.http.internal = $IPV4:8098
-listener.protobuf.internal = $IPV4:8087
-EOF&lt;/p&gt;
-
-&lt;h1 id=&#34;start-riak&#34;&gt;start Riak&lt;/h1&gt;
-
-&lt;p&gt;riak start&lt;/p&gt;
-
-&lt;h1 id=&#34;trap-signals&#34;&gt;trap signals&lt;/h1&gt;
-
-&lt;p&gt;trap &amp;ldquo;riak stop&amp;rdquo; SIGTERM SIGINT&lt;/p&gt;
-
-&lt;h1 id=&#34;follow-the-logs&#34;&gt;follow the logs&lt;/h1&gt;
-
-&lt;p&gt;tail -f /var/log/riak/* &amp;amp;
-JOB=$!&lt;/p&gt;
-
-&lt;h1 id=&#34;wait-for-signals&#34;&gt;wait for signals&lt;/h1&gt;
-
-&lt;p&gt;wait $!&lt;/pre&gt;
-Using these images, creation of a node becomes a breeze:
-&lt;pre class=&#34;lang:sh decode:true&#34; title=&#34;Creating a node with docker&#34;&gt;docker run -d &amp;ndash;name riak-kv-2-2-0-1 shaneutt/riak-kv:2.2.0&lt;/pre&gt;
-Then you can simply add enough nodes to make a five node cluster (and wait for them to come up):
-&lt;pre class=&#34;lang:sh decode:true&#34; title=&#34;Create several nodes to create a Riak cluster&#34;&gt;for i in $(seq 2 5); do docker run -d &amp;ndash;name riak-kv-2-2-0-$i shaneutt/riak_kv:2.2.0; done
-for i in $(seq 2 5); do docker exec riak-kv-2-2-0-$i riak-admin wait_for_service riak_kv; done&lt;/pre&gt;
-And then join all the nodes together, plan, and commit!
-&lt;pre class=&#34;lang:sh decode:true &#34; title=&#34;Join, plan, and commit&#34;&gt;export NODEIP=$(docker inspect riak-kv-2-2-0-1 |awk -F &amp;lsquo;&amp;ldquo;&amp;rsquo; &amp;lsquo;/&amp;ldquo;IPAddress&amp;rdquo;/{print$4}&amp;rsquo;|head -1)
-for i in $(seq 2 5); do docker exec riak-kv-2-2-0-$i riak-admin cluster join riak@${NODEIP}; done
-docker exec riak-kv-2-2-0-1 riak-admin cluster plan
-docker exec riak-kv-2-2-0-1 riak-admin cluster commit&lt;/pre&gt;
-Now you have a Riak test environment to test your apps against, woohoo!&lt;/p&gt;
-
-&lt;p&gt;Happy Coding!&lt;/p&gt;
-
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-</description>
+      <guid>https://shaneutt.com/blog/riak-in-docker-2017/</guid>
+      <description>Riak was designed to be deployed and run on dedicated infrastructure, as opposed to containers or virtualization platforms.
+Nonetheless, being able to quickly deploy a Riak cluster for testing and development purposes can be very useful.
+I&amp;rsquo;ve created a repository today that enables the user to build Docker images for most versions of Riak KV, TS, and CS ever produced:
+https://github.com/shaneutt/riak-docker
+The dockerfile is relatively simple: FROM centos:7
+ARG major_version</description>
     </item>
     
     <item>
       <title>Rust - std::convert::Into and std::convert::From</title>
-      <link>http://shaneutt.com/blog/rust-convert-into-and-from-2017/</link>
+      <link>https://shaneutt.com/blog/rust-convert-into-and-from-2017/</link>
       <pubDate>Thu, 12 Jan 2017 14:34:10 -0400</pubDate>
       
-      <guid>http://shaneutt.com/blog/rust-convert-into-and-from-2017/</guid>
-      <description>&lt;p&gt;I&amp;rsquo;ve been spending time recently learning the &lt;a href=&#34;https://www.rust-lang.org/&#34;&gt;Rust Programming Language&lt;/a&gt; by writing a &lt;a href=&#34;https://github.com/shaneutt&#34;&gt;Riak Client&lt;/a&gt; using &lt;a href=&#34;https://docs.basho.com/riak/kv/latest/developing/api/protocol-buffers/&#34;&gt;Riak&amp;rsquo;s Protocol Buffers API&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Through &lt;a href=&#34;https://doc.rust-lang.org/book/ownership.html&#34;&gt;Ownership&lt;/a&gt; &amp;amp; &lt;a href=&#34;https://doc.rust-lang.org/book/references-and-borrowing.html&#34;&gt;Borrowing&lt;/a&gt; Rust enables safety that generally comes at the cost of flexibility. Through features like &lt;a href=&#34;https://doc.rust-lang.org/book/traits.html&#34;&gt;Traits&lt;/a&gt; Rust is able to give some flexibility back to the programmer.&lt;/p&gt;
-
-&lt;p&gt;Some traits I&amp;rsquo;ve started to use recently include &lt;a href=&#34;https://doc.rust-lang.org/std/convert/trait.Into.html&#34;&gt;std::convert::Into&lt;/a&gt; and &lt;a href=&#34;https://doc.rust-lang.org/std/convert/trait.From.html&#34;&gt;std::convert::From&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;When the Into trait is applied to a type, it allows it to consume itself to convert to another type.&lt;/p&gt;
-
-&lt;p&gt;The &lt;a href=&#34;https://doc.rust-lang.org/std/string/struct.String.html&#34;&gt;String&lt;/a&gt; type provides conversion into Vec&amp;lt;u8&amp;gt;:
-&lt;pre class=&#34;lang:rust decode:true &#34;&gt;fn is_hello&amp;lt;T: Into&amp;lt;Vec&amp;lt;u8&amp;gt;&amp;gt;&amp;gt;(s: T) {
-   let bytes = b&amp;rdquo;hello&amp;rdquo;.to_vec();
-   assert_eq!(bytes, s.into());
-}&lt;/p&gt;
-
-&lt;p&gt;let s = &amp;ldquo;hello&amp;rdquo;.to_string();
-is_hello(s);&lt;/pre&gt;
-One of the things I&amp;rsquo;ve been striving for while writing the Rust Riak Client has been clean interfaces where a Vec&amp;lt;u8&amp;gt; is ultimately needed under the hood, but I want to make it easy for the end-users to provide string types where applicable.&lt;/p&gt;
-
-&lt;p&gt;By using Into in a &lt;a href=&#34;https://doc.rust-lang.org/beta/book/generics.html&#34;&gt;Generic&lt;/a&gt; one can make a very flexible interface to provide a Vec&amp;lt;u8&amp;gt;:
-&lt;pre class=&#34;lang:rust decode:true&#34;&gt;fn myfunc&amp;lt;T: Into&amp;lt;Vec&amp;lt;u8&amp;gt;&amp;gt;&amp;gt;(data: T) {
-   // &amp;hellip;
-}&lt;/pre&gt;
-This function can now take String, &amp;amp;String, &amp;amp;str making the conversion of a string type to bytes (for the purposes of sending via TCP to Riak) a matter of function definition, which is super sleek.&lt;/p&gt;
-
-&lt;p&gt;I really enjoy writing code in Rust. I expect I&amp;rsquo;ll have a lot more write-ups to come as I discover things and learn better ways to do things I had already been doing.&lt;/p&gt;
-
-&lt;p&gt;If you&amp;rsquo;ve never checked out rust, try the &lt;a href=&#34;https://play.rust-lang.org/&#34;&gt;Rust Playground&lt;/a&gt;!&lt;/p&gt;
-
-&lt;p&gt;Happy coding!&lt;/p&gt;
-</description>
+      <guid>https://shaneutt.com/blog/rust-convert-into-and-from-2017/</guid>
+      <description>I&amp;rsquo;ve been spending time recently learning the Rust Programming Language by writing a Riak Client using Riak&amp;rsquo;s Protocol Buffers API.
+Through Ownership &amp;amp; Borrowing Rust enables safety that generally comes at the cost of flexibility. Through features like Traits Rust is able to give some flexibility back to the programmer.
+Some traits I&amp;rsquo;ve started to use recently include std::convert::Into and std::convert::From.
+When the Into trait is applied to a type, it allows it to consume itself to convert to another type.</description>
     </item>
     
   </channel>

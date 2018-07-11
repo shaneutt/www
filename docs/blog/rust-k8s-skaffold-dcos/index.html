@@ -7,7 +7,7 @@
     <meta name="author" content="map[]" />
     <meta name="description" content="My Programming Blog">
     <link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/img/favicon.ico">
-    <title>General - New blog built on Github Pages with Hugo</title>
+    <title>Programming - Deploying Rust Webapps on Kubernetes on DC/OS using Skaffold</title>
     <meta name="generator" content="Hugo 0.44-DEV" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://shaneutt.com/css/main.css" />
@@ -49,13 +49,21 @@
       <div class="container">
         <div class="blog-post">
           <h3>
-            <strong><a href="https://shaneutt.com/blog/new-blog-2017/">General - New blog built on Github Pages with Hugo</a></strong>
+            <strong><a href="https://shaneutt.com/blog/rust-k8s-skaffold-dcos/">Programming - Deploying Rust Webapps on Kubernetes on DC/OS using Skaffold</a></strong>
           </h3>
         </div>
         <div class="blog-title">
           <h4>
-          June 4, 2017
+          June 1, 2018
             &nbsp;&nbsp;
+            
+            <span class="label label-success">rust</span>
+            
+            <span class="label label-success">kubernetes</span>
+            
+            <span class="label label-success">dc/os</span>
+            
+            <span class="label label-success">skaffold</span>
             
           </h4>
         </div>
@@ -64,21 +72,47 @@
             <div class="blogpost">
               
 
-<h1 id="welcome-to-my-new-blog">Welcome to my new blog!</h1>
+<h1 id="deploying-rust-webapps-on-kubernetes-on-dc-os-using-skaffold">Deploying Rust Webapps on Kubernetes on DC/OS using Skaffold</h1>
 
-<p>This blog uses <a href="https://gohugo.io">Hugo</a> to generate fast static content, and <a href="https://pages.github.com">Github Pages</a> for hosting.</p>
+<p>Since my last post I&rsquo;ve joined as an engineer at <a href="https://mesosphere.com/">Mesosphere</a> and have been developing data pipeline software for cluster diagnostics.</p>
 
-<p>See the source for this site <a href="https://github.com/shaneutt/shaneutt.com">on Github</a>!</p>
+<p>During this same time I&rsquo;ve been deploying the software I&rsquo;ve been working on using <a href="https://docs.mesosphere.com/services/kubernetes/">Kubernetes on DC/OS</a>, and I&rsquo;ve been keeping up my interest in the <a href="https://www.rust-lang.org">Rust</a>, so I put together a demo of deploying webapps in Rust to Kubernetes on DC/OS using <a href="https://github.com/GoogleContainerTools/skaffold">Skaffold</a>:</p>
 
-<p>If you&rsquo;re looking to create your own blog, I highly recommend checking out the <a href="https://gohugo.io/overview/introduction/">&ldquo;getting started&rdquo; documenation for Hugo</a>, and the docs for <a href="https://gohugo.io/tutorials/github-pages-blog/">using Hugo with Github pages</a>.</p>
+<p><a href="https://github.com/shaneutt/dcos-k8s-rust-skaffold-demo">https://github.com/shaneutt/dcos-k8s-rust-skaffold-demo</a></p>
 
-<p>Soon I&rsquo;ll start adding some more posts after I&rsquo;ve imported my old ones from the previous blog.</p>
+<p>It&rsquo;s a step-by-step guide showing how to build a webapp in Rust using <a href="https://rocket.rs/">Rocket</a> and continuously deploy your changes up to a Kubernetes cluster during development.</p>
 
-<p>Happy coding!</p>
+<p>The guide in the repository can easily be fitted to other languages and tools, but in general Skaffold seems like a solid tool for continuous deployments during the development stages of an app.</p>
 
               <hr>
               <div class="related-posts">
                 <h5>Related Posts</h5>
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        April 11, 2017
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/blog/rust-coveralls-2017/">Rust - Coveralls.io for Rust</a></strong>
+                      </h6>
+                    </div>
+                  </div>
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        January 12, 2017
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/blog/rust-convert-into-and-from-2017/">Rust - std::convert::Into and std::convert::From</a></strong>
+                      </h6>
+                    </div>
+                  </div>
                 
               </div>
             </div>

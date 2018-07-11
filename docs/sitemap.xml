@@ -1,127 +1,158 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://shaneutt.com/blog/new-blog-2017/</loc>
+    <loc>https://shaneutt.com/blog/rust-k8s-skaffold-dcos/</loc>
+    <lastmod>2018-06-01T12:50:13-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shaneutt.com/blog/new-blog-2017/</loc>
     <lastmod>2017-06-04T12:50:13-04:00</lastmod>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/blog/rust-coveralls-2017/</loc>
+    <loc>https://shaneutt.com/blog/rust-coveralls-2017/</loc>
     <lastmod>2017-04-11T14:30:44-04:00</lastmod>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/blog/simple-erlang-webapps-cowboy-erlydtl-2017/</loc>
+    <loc>https://shaneutt.com/blog/simple-erlang-webapps-cowboy-erlydtl-2017/</loc>
     <lastmod>2017-03-28T14:27:56-04:00</lastmod>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/blog/riak-in-docker-2017/</loc>
+    <loc>https://shaneutt.com/blog/riak-in-docker-2017/</loc>
     <lastmod>2017-02-21T14:35:52-04:00</lastmod>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/blog/rust-convert-into-and-from-2017/</loc>
+    <loc>https://shaneutt.com/blog/rust-convert-into-and-from-2017/</loc>
     <lastmod>2017-01-12T14:34:10-04:00</lastmod>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/projects/</loc>
+    <loc>https://shaneutt.com/projects/</loc>
     <lastmod>2016-10-02T22:55:05-04:00</lastmod>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/blog/</loc>
-    <lastmod>2017-06-04T12:50:13-04:00</lastmod>
+    <loc>https://shaneutt.com/blog/</loc>
+    <lastmod>2018-06-01T12:50:13-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/categories/</loc>
+    <loc>https://shaneutt.com/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/tags/docker/</loc>
+    <loc>https://shaneutt.com/tags/dc/os/</loc>
+    <lastmod>2018-06-01T12:50:13-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shaneutt.com/tags/docker/</loc>
     <lastmod>2017-02-21T14:35:52-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/categories/docker/</loc>
+    <loc>https://shaneutt.com/categories/docker/</loc>
     <lastmod>2017-02-21T14:35:52-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/tags/erlang/</loc>
+    <loc>https://shaneutt.com/tags/erlang/</loc>
     <lastmod>2017-03-28T14:27:56-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/categories/erlang/</loc>
+    <loc>https://shaneutt.com/categories/erlang/</loc>
     <lastmod>2017-03-28T14:27:56-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/categories/general/</loc>
+    <loc>https://shaneutt.com/categories/general/</loc>
     <lastmod>2017-06-04T12:50:13-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/</loc>
-    <lastmod>2017-06-04T12:50:13-04:00</lastmod>
+    <loc>https://shaneutt.com/tags/kubernetes/</loc>
+    <lastmod>2018-06-01T12:50:13-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/categories/programming/</loc>
-    <lastmod>2017-04-11T14:30:44-04:00</lastmod>
+    <loc>https://shaneutt.com/categories/kubernetes/</loc>
+    <lastmod>2018-06-01T12:50:13-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/tags/projects/</loc>
+    <loc>https://shaneutt.com/</loc>
+    <lastmod>2018-06-01T12:50:13-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shaneutt.com/categories/programming/</loc>
+    <lastmod>2018-06-01T12:50:13-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shaneutt.com/tags/projects/</loc>
     <lastmod>2016-10-02T22:55:05-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/categories/projects/</loc>
+    <loc>https://shaneutt.com/categories/projects/</loc>
     <lastmod>2016-10-02T22:55:05-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/tags/riak/</loc>
+    <loc>https://shaneutt.com/tags/riak/</loc>
     <lastmod>2017-02-21T14:35:52-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/tags/rust/</loc>
-    <lastmod>2017-04-11T14:30:44-04:00</lastmod>
+    <loc>https://shaneutt.com/tags/rust/</loc>
+    <lastmod>2018-06-01T12:50:13-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/categories/rust/</loc>
-    <lastmod>2017-04-11T14:30:44-04:00</lastmod>
+    <loc>https://shaneutt.com/categories/rust/</loc>
+    <lastmod>2018-06-01T12:50:13-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/categories/systems/</loc>
+    <loc>https://shaneutt.com/tags/skaffold/</loc>
+    <lastmod>2018-06-01T12:50:13-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shaneutt.com/categories/systems/</loc>
     <lastmod>2017-02-21T14:35:52-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://shaneutt.com/tags/</loc>
+    <loc>https://shaneutt.com/tags/</loc>
+    <lastmod>2018-06-01T12:50:13-04:00</lastmod>
     <priority>0</priority>
   </url>
   

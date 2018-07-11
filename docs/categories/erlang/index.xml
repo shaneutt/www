@@ -2,66 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Erlang on My Programming Blog</title>
-    <link>http://shaneutt.com/categories/erlang/index.xml</link>
+    <link>https://shaneutt.com/categories/erlang/</link>
     <description>Recent content in Erlang on My Programming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://shaneutt.com/categories/erlang/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 28 Mar 2017 14:27:56 -0400</lastBuildDate>
+    
+	<atom:link href="https://shaneutt.com/categories/erlang/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Erlang - Simple webapps in Erlang with Cowboy and ErlyDTL</title>
-      <link>http://shaneutt.com/blog/simple-erlang-webapps-cowboy-erlydtl-2017/</link>
+      <link>https://shaneutt.com/blog/simple-erlang-webapps-cowboy-erlydtl-2017/</link>
       <pubDate>Tue, 28 Mar 2017 14:27:56 -0400</pubDate>
       
-      <guid>http://shaneutt.com/blog/simple-erlang-webapps-cowboy-erlydtl-2017/</guid>
-      <description>&lt;p&gt;Of all the programming languages I&amp;rsquo;ve written web applications in, Erlang is by far my favorite.&lt;/p&gt;
-
-&lt;p&gt;Perhaps the functional nature of Erlang, or the modular simplicity of apps and releases, or the easy primitives for concurrency make it most appealing.&lt;/p&gt;
-
-&lt;p&gt;Whatever the reason I&amp;rsquo;ve gotten in the habit of building new web applications with &lt;a href=&#34;https://github.com/ninenines/cowboy&#34;&gt;Cowboy&lt;/a&gt; for the web server, and &lt;a href=&#34;https://github.com/erlydtl/erlydtl&#34;&gt;ErlyDTL&lt;/a&gt; to provide &lt;a href=&#34;https://www.djangoproject.com&#34;&gt;Django&lt;/a&gt;-like templates.&lt;/p&gt;
-
-&lt;p&gt;As such I built a &lt;a href=&#34;https://www.rebar3.org/&#34;&gt;Rebar3&lt;/a&gt; template to make it easy to build these kinds of apps:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/shaneutt/cowboy_erlydtl_rebar3_template&#34;&gt;https://github.com/shaneutt/cowboy_erlydtl_rebar3_template&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;To use this template with your local copy of Rebar3, simple clone the repository to the Rebar3 template directory:
-&lt;pre class=&#34;lang:sh decode:true &#34;&gt;git clone &lt;a href=&#34;https://github.com/shaneutt/cowboy_erlydtl_rebar3_template&#34;&gt;https://github.com/shaneutt/cowboy_erlydtl_rebar3_template&lt;/a&gt; ~/.config/rebar3/templates/cowboy_erlydtl_rebar3_template/&lt;/pre&gt;
-And now you can use &lt;a href=&#34;https://www.rebar3.org/docs/commands#section-new&#34;&gt;new&lt;/a&gt; to build a base for your new app:
-&lt;pre class=&#34;lang:sh decode:true&#34;&gt;rebar3 new cowboy_erlydtl your_app_here&lt;/pre&gt;
-And that&amp;rsquo;s it, you should now have a base for your app deployed:
-&lt;pre class=&#34;lang:sh decode:true&#34;&gt;your_app_here/
-├── config
-│   ├── sys.config
-│   └── vm.args
-├── Makefile
-├── priv
-│   ├── static
-│   ├── templates
-│   │   └── index.dtl
-│   ├── templates-compiled
-│   └── www
-├── rebar.config
-└── src
-    ├── your_app_here_app.erl
-    ├── your_app_here.app.src
-    ├── your_app_here_default_router.erl
-    ├── your_app_here.erl
-    └── your_app_here_sup.erl&lt;/pre&gt;
-This provides a default DTL template that works right out of the box.&lt;/p&gt;
-
-&lt;p&gt;Just run:
-&lt;pre class=&#34;lang:sh decode:true &#34;&gt;cd your_app_here/
-rebar3 shell&lt;/pre&gt;
-Which will start the web server on &lt;a href=&#34;http://localhost:8080&#34;&gt;http://localhost:8080&lt;/a&gt;:
-&lt;pre class=&#34;lang:sh decode:true &#34;&gt;$ curl &lt;a href=&#34;http://localhost:8080&#34;&gt;http://localhost:8080&lt;/a&gt;
-Hello from Cowboy!
-&lt;/pre&gt;
-And that&amp;rsquo;s it, the sky is the limit!&lt;/p&gt;
-
-&lt;p&gt;From here you can add a Database like &lt;a href=&#34;https://www.postgresql.org/&#34;&gt;PostGreSQL&lt;/a&gt; with a client like &lt;a href=&#34;https://github.com/epgsql/epgsql&#34;&gt;ePGSQL&lt;/a&gt;, build your HTTP API using &lt;a href=&#34;https://github.com/talentdeficit/jsx&#34;&gt;JSX&lt;/a&gt; for &lt;a href=&#34;http://www.json.org/&#34;&gt;JSON&lt;/a&gt;, maybe even queue up work for another service with &lt;a href=&#34;https://www.rabbitmq.com/&#34;&gt;RabbitMQ&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Happy coding!&lt;/p&gt;
-</description>
+      <guid>https://shaneutt.com/blog/simple-erlang-webapps-cowboy-erlydtl-2017/</guid>
+      <description>Of all the programming languages I&amp;rsquo;ve written web applications in, Erlang is by far my favorite.
+Perhaps the functional nature of Erlang, or the modular simplicity of apps and releases, or the easy primitives for concurrency make it most appealing.
+Whatever the reason I&amp;rsquo;ve gotten in the habit of building new web applications with Cowboy for the web server, and ErlyDTL to provide Django-like templates.
+As such I built a Rebar3 template to make it easy to build these kinds of apps:</description>
     </item>
     
   </channel>
