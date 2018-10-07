@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Docker on My Programming Blog</title>
-    <link>https://shaneutt.com/tags/docker/</link>
-    <description>Recent content in Docker on My Programming Blog</description>
+    <title>Musl on My Programming Blog</title>
+    <link>https://shaneutt.com/tags/musl/</link>
+    <description>Recent content in Musl on My Programming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 07 Oct 2018 18:57:00 -0400</lastBuildDate>
     
-	<atom:link href="https://shaneutt.com/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://shaneutt.com/tags/musl/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -21,20 +21,6 @@
 We&amp;rsquo;ll start by creating a simple test application, and then building and iterating on a Dockerfile.
 Requirements Ensure you have the following installed:
  rustup v1.14.0+ docker v17.06.2+  Setup: demo app setup Make sure you have and are using the latest stable Rust with rustup:</description>
-    </item>
-    
-    <item>
-      <title>Docker - Riak in Docker</title>
-      <link>https://shaneutt.com/blog/riak-in-docker-2017/</link>
-      <pubDate>Tue, 21 Feb 2017 14:35:52 -0400</pubDate>
-      
-      <guid>https://shaneutt.com/blog/riak-in-docker-2017/</guid>
-      <description>Riak was designed to be deployed and run on dedicated infrastructure, as opposed to containers or virtualization platforms.
-Nonetheless, being able to quickly deploy a Riak cluster for testing and development purposes can be very useful.
-I&amp;rsquo;ve created a repository today that enables the user to build Docker images for most versions of Riak KV, TS, and CS ever produced:
-https://github.com/shaneutt/riak-docker
-The dockerfile is relatively simple: FROM centos:7
-ARG major_version</description>
     </item>
     
   </channel>

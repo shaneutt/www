@@ -6,10 +6,22 @@
     <description>Recent content in Rust on My Programming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 01 Jun 2018 12:50:13 -0400</lastBuildDate>
+    <lastBuildDate>Sun, 07 Oct 2018 18:57:00 -0400</lastBuildDate>
     
 	<atom:link href="https://shaneutt.com/tags/rust/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Rust - Fast &#43; Small Docker Image Builds</title>
+      <link>https://shaneutt.com/blog/rust-fast-small-docker-image-builds/</link>
+      <pubDate>Sun, 07 Oct 2018 18:57:00 -0400</pubDate>
+      
+      <guid>https://shaneutt.com/blog/rust-fast-small-docker-image-builds/</guid>
+      <description>Fast + Small Docker Image Builds for Rust Apps In this post I&amp;rsquo;m going to demonstrate how to create small, quickly built Docker Images for Rust applications.
+We&amp;rsquo;ll start by creating a simple test application, and then building and iterating on a Dockerfile.
+Requirements Ensure you have the following installed:
+ rustup v1.14.0+ docker v17.06.2+  Setup: demo app setup Make sure you have and are using the latest stable Rust with rustup:</description>
+    </item>
     
     <item>
       <title>Programming - Deploying Rust Webapps on Kubernetes on DC/OS using Skaffold</title>

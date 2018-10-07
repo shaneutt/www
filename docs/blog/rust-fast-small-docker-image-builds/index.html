@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="map[]" />
+    <meta name="description" content="My Programming Blog">
+    <link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/img/favicon.ico">
+    <title>Rust - Fast &#43; Small Docker Image Builds</title>
+    <meta name="generator" content="Hugo 0.50-DEV" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://shaneutt.com/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://shaneutt.com/"><i class="fa fa-home"></i></a>
+    </div>
+    <div id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="/blog/">BLOG</a></li>
+        
+        <li><a href="/projects/">PROJECTS</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="https://shaneutt.com/blog/rust-fast-small-docker-image-builds/">Rust - Fast &#43; Small Docker Image Builds</a></strong>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          October 7, 2018
+            &nbsp;&nbsp;
+            
+            <span class="label label-success">rust</span>
+            
+            <span class="label label-success">docker</span>
+            
+            <span class="label label-success">alpine</span>
+            
+            <span class="label label-success">musl</span>
+            
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              
+
+<h1 id="fast-small-docker-image-builds-for-rust-apps">Fast + Small Docker Image Builds for Rust Apps</h1>
+
+<p>In this post I&rsquo;m going to demonstrate how to create small, quickly built <a href="https://hub.docker.com/explore/">Docker Images</a> for <a href="https://www.rust-lang.org/">Rust</a> applications.</p>
+
+<p>We&rsquo;ll start by creating a simple test application, and then building and iterating on a <a href="https://docs.docker.com/engine/reference/builder/">Dockerfile</a>.</p>
+
+<h2 id="requirements">Requirements</h2>
+
+<p>Ensure you have the following installed:</p>
+
+<ul>
+<li><a href="https://rustup.rs">rustup</a> v1.14.0+</li>
+<li><a href="https://docker.com">docker</a> v17.06.2+</li>
+</ul>
+
+<h2 id="setup-demo-app-setup">Setup: demo app setup</h2>
+
+<p>Make sure you have and are using the latest stable Rust with <code>rustup</code>:</p>
+
+<pre><code>rustup default stable
+rustup update
+</code></pre>
+
+<p>Create a new project called &ldquo;myapp&rdquo;:</p>
+
+<pre><code>cargo new myapp
+cd myapp/
+</code></pre>
+
+<h2 id="setup-initial-dockerfile">Setup: initial dockerfile</h2>
+
+<p>The following is a starting place we&rsquo;ll use for our <a href="https://docs.docker.com/engine/reference/commandline/build/">docker build</a>, create a file named <code>Dockerfile</code> in the current directory:</p>
+
+<pre><code class="language-dockerfile">FROM rust:latest
+
+WORKDIR /usr/src/myapp
+
+COPY . .
+
+RUN cargo build --release
+
+RUN cargo install --path .
+
+CMD [&quot;/usr/local/cargo/bin/myapp&quot;]
+</code></pre>
+
+<p>And also create a <code>.dockerignore</code> file with the following contents:</p>
+
+<pre><code>target/
+Dockerfile
+</code></pre>
+
+<p>You can test building and running the app with:</p>
+
+<pre><code>docker build -t myapp .
+docker run --rm -it myapp
+</code></pre>
+
+<p>If everything is working properly, you should see the response <code>Hello, world!</code>.</p>
+
+<h2 id="problems-with-our-initial-docker-build">Problems with our initial docker build</h2>
+
+<p>At the time of writing this blog post, Rust&rsquo;s package manager <a href="https://github.com/rust-lang/cargo">cargo</a> has an issue where <a href="https://github.com/rust-lang/cargo/issues/2644">it does not have a &ndash;depedencies-only option to build depedencies independently</a>.</p>
+
+<p>The lack of an option with <code>cargo</code> to build the depedencies separately leads to a problem of having the dependencies for the application rebuilt on every change of the <code>src/</code> contents, when we really only want dependencies to be rebuilt if the <code>Cargo.toml</code> or <code>Cargo.lock</code> files are changed (e.g. when dependencies are added or updated).</p>
+
+<p>As an additional problem, while the <a href="https://hub.docker.com/r/library/rust/tags/">rust:latest</a> Docker image is great for building, it&rsquo;s a fairly large image coming in at over 1.5GB in size.</p>
+
+<h3 id="improving-builds-so-that-dependencies-don-t-rebuild-on-src-file-changes">Improving builds so that dependencies don&rsquo;t rebuild on src/ file changes</h3>
+
+<p>To avoid this problem and enable docker build cache so that builds are quicker, let&rsquo;s start by modifying our <code>Cargo.toml</code> to add a dependency:</p>
+
+<pre><code class="language-toml">[package]
+name = &quot;myapp&quot;
+version = &quot;0.1.0&quot;
+
+[dependencies]
+rand = &quot;0.5.5&quot;
+</code></pre>
+
+<p>We&rsquo;ve added a new <a href="https://crates.io">crate</a> as a dependency to our project named <a href="https://crates.io/crates/rand">rand</a> which provides convenient random number generation utilities.</p>
+
+<p>Now if we run:</p>
+
+<pre><code>docker build -t myapp .
+</code></pre>
+
+<p>It will build the <code>rand</code> dependency and add it to the cache, but changing <code>src/main.rs</code> will invalidate the cache for the next build:</p>
+
+<pre><code class="language-rust">cat &lt;&lt;EOF &gt; src/main.rs
+fn main() {
+    println!(&quot;I've been updated!&quot;);
+}
+EOF
+docker build -t myapp .
+</code></pre>
+
+<p>Notice that this build again had to rebuild the <code>rand</code> dependency.</p>
+
+<p>While we&rsquo;re waiting on a <code>--dependencies-only</code> build options for <code>cargo</code>, we can overcome this problem by changing our <code>Dockerfile</code> to have a default <code>src/main.rs</code> with which the dependencies are built before we <code>COPY</code> any of our code into the build:</p>
+
+<pre><code class="language-dockerfile">FROM rust:latest
+
+WORKDIR /usr/src/myapp
+
+COPY Cargo.toml Cargo.toml
+
+RUN mkdir src/
+
+RUN echo &quot;fn main() {println!(\&quot;if you see this, the build broke\&quot;)}&quot; &gt; src/main.rs
+
+RUN cargo build --release
+
+RUN rm -f target/release/deps/myapp*
+
+COPY . .
+
+RUN cargo build --release
+
+RUN cargo install --path .
+
+CMD [&quot;/usr/local/cargo/bin/myapp&quot;]
+</code></pre>
+
+<p>The following line from the above <code>Dockerfile</code> will cause the following <code>cargo build</code> to rebuild only our application:</p>
+
+<pre><code>RUN rm -f target/release/deps/myapp*
+</code></pre>
+
+<p>So now if we build:</p>
+
+<pre><code>docker build -t myapp .
+</code></pre>
+
+<p>And then make another change to <code>src/main.rs</code>:</p>
+
+<pre><code>cat &lt;&lt;EOF &gt; src/main.rs
+fn main() {
+    println!(&quot;I've been updated yet again!&quot;);
+}
+EOF
+</code></pre>
+
+<p>We&rsquo;ll find that subsequent <code>docker build</code> runs only rebuild <code>myapp</code> and the depedencies have been cached for quicker builds.</p>
+
+<h3 id="reducing-the-size-of-the-image">Reducing the size of the image</h3>
+
+<p>The <a href="https://hub.docker.com/r/library/rust/tags/">rust:latest</a> image has all the tools we need to build our project, but is over 1.5GB in size. We can improve the image size by using <a href="https://alpinelinux.org/">Alpine Linux</a> which is an excellent small Linux distribution.</p>
+
+<p>The Alpine team provides <a href="https://hub.docker.com/_/alpine/">a docker image</a> which is only several megabytes in size and still has some shell functionality for debugging and can be used as a small base image for our Rust builds.</p>
+
+<p>Using <a href="https://docs.docker.com/develop/develop-images/multistage-build/">multi-stage docker build</a>s we can use <a href="https://hub.docker.com/r/library/rust/tags/">rust:latest</a> to do our build work, but then simply copy the app into a final build stage based on <a href="https://hub.docker.com/_/alpine/">alpine:latest</a>:</p>
+
+<pre><code class="language-dockerfile"># ------------------------------------------------------------------------------
+# Cargo Build Stage
+# ------------------------------------------------------------------------------
+
+FROM rust:latest as cargo-build
+
+WORKDIR /usr/src/myapp
+
+COPY Cargo.toml Cargo.toml
+
+RUN mkdir src/
+
+RUN echo &quot;fn main() {println!(\&quot;if you see this, the build broke\&quot;)}&quot; &gt; src/main.rs
+
+RUN cargo build --release
+
+RUN rm -f target/release/deps/myapp*
+
+COPY . .
+
+RUN cargo build --release
+
+RUN cargo install --path .
+
+# ------------------------------------------------------------------------------
+# Final Stage
+# ------------------------------------------------------------------------------
+
+FROM alpine:latest
+
+COPY --from=cargo-build /usr/local/cargo/bin/myapp /usr/local/bin/myapp
+
+CMD [&quot;myapp&quot;]
+</code></pre>
+
+<p>Now if you run:</p>
+
+<pre><code>docker build -t myapp .
+docker images |grep myapp
+</code></pre>
+
+<p>You should see something like:</p>
+
+<pre><code>myapp               latest              03a3838a37bc        7 seconds ago       8.54MB
+</code></pre>
+
+<h2 id="next-follow-up-fixing-and-further-improving-our-build">Next: Follow up - fixing and further improving our build</h2>
+
+<p>If you tried to run the above example with <code>docker run --rm -it myapp</code>, you probably got an error like:</p>
+
+<pre><code>standard_init_linux.go:187: exec user process caused &quot;no such file or directory&quot;
+</code></pre>
+
+<p>If you&rsquo;re familiar with <a href="https://en.wikipedia.org/wiki/Ldd_(Unix)">ldd</a> you can run the following to see that we&rsquo;re missing shared libraries for our application:</p>
+
+<pre><code>docker run --rm -it myapp ldd /usr/local/bin/myapp
+</code></pre>
+
+<p>In the above examples we show how to avoid rebuilding depdencies on every <code>src/</code> file change, and how to reduce our image footprint from 1.5GB+ to several megabytes, however our build doesn&rsquo;t currently work because we need to build against <a href="https://www.musl-libc.org/">MUSL Libc</a> which is a lightweight, fast standard library available as the default in <code>alpine:latest</code>.</p>
+
+<p>Beyond that, we also want to make sure that our application runs as an unprivileged user inside the container so as to adhere to the <a href="https://en.wikipedia.org/wiki/Principle_of_least_privilege">principle of least privilege</a>.</p>
+
+<h3 id="building-for-musl-libc">Building for MUSL Libc</h3>
+
+<p>To build for MUSL libc we&rsquo;ll need to install the <code>x86_64-unknown-linux-musl</code> <a href="https://doc.rust-lang.org/rustc/targets/built-in.html">target</a> so that <code>cargo</code> can be flagged to build for it with <code>--target</code>. We&rsquo;ll also need to flag Rust to use the <code>musl-gcc</code> linker.</p>
+
+<p>The <code>rust:latest</code> image will come with <code>rustup</code> pre-installed. <code>rustup</code> allows you to install new targets with <code>rustup target add $NAME</code>, so we can modify our <code>Dockerfile</code> as such:</p>
+
+<pre><code class="language-dockerfile"># ------------------------------------------------------------------------------
+# Cargo Build Stage
+# ------------------------------------------------------------------------------
+
+FROM rust:latest as cargo-build
+
+RUN apt-get update
+
+RUN apt-get install musl-tools -y
+
+RUN rustup target add x86_64-unknown-linux-musl
+
+WORKDIR /usr/src/myapp
+
+COPY Cargo.toml Cargo.toml
+
+RUN mkdir src/
+
+RUN echo &quot;fn main() {println!(\&quot;if you see this, the build broke\&quot;)}&quot; &gt; src/main.rs
+
+RUN RUSTFLAGS=-Clinker=musl-gcc cargo build --release --target=x86_64-unknown-linux-musl
+
+RUN rm -f target/x86_64-unknown-linux-musl/release/deps/myapp*
+
+COPY . .
+
+RUN RUSTFLAGS=-Clinker=musl-gcc cargo build --release --target=x86_64-unknown-linux-musl
+
+# ------------------------------------------------------------------------------
+# Final Stage
+# ------------------------------------------------------------------------------
+
+FROM alpine:latest
+
+COPY --from=cargo-build /usr/src/myapp/target/x86_64-unknown-linux-musl/release/myapp /usr/local/bin/myapp
+
+CMD [&quot;myapp&quot;]
+</code></pre>
+
+<p>Note the following line which shows the new way in which we&rsquo;re building the app for MUSL Libc:</p>
+
+<pre><code>RUSTFLAGS=-Clinker=musl-gcc cargo build --release --target=x86_64-unknown-linux-musl
+</code></pre>
+
+<p>Do a fresh build of the app and run it:</p>
+
+<pre><code>docker build -t myapp .
+docker run --rm -it myapp
+</code></pre>
+
+<p>If everything worked properly you should again see <code>I've been updated yet again!</code>.</p>
+
+<h3 id="running-as-an-unprivileged-user">Running as an unprivileged user</h3>
+
+<p>To follow <a href="https://en.wikipedia.org/wiki/Principle_of_least_privilege">principle of least privilege</a>, let&rsquo;s create a user named &ldquo;myapp&rdquo; which we&rsquo;ll use to run <code>myapp</code> as instead of as the <code>root</code> user.</p>
+
+<p>Change the <code>Final Stage</code> docker build stage to the following:</p>
+
+<pre><code class="language-dockerfile"># ------------------------------------------------------------------------------
+# Final Stage
+# ------------------------------------------------------------------------------
+
+FROM alpine:latest
+
+RUN addgroup -g 1000 myapp
+
+RUN adduser -D -s /bin/sh -u 1000 -G myapp myapp
+
+WORKDIR /home/myapp/bin/
+
+COPY --from=cargo-build /usr/src/myapp/target/x86_64-unknown-linux-musl/release/myapp .
+
+RUN chown myapp:myapp myapp
+
+USER myapp
+
+CMD [&quot;./myapp&quot;]
+</code></pre>
+
+<p>Update <code>src/main.rs</code>:</p>
+
+<pre><code>cat &lt;&lt;EOF &gt; src/main.rs
+use std::process::Command;
+
+fn main() {
+    let mut user = String::from_utf8(Command::new(&quot;whoami&quot;).output().unwrap().stdout).unwrap();
+    user.pop();
+    println!(&quot;I've once more been updated, and now I run as the user {}!&quot;, user)
+}
+</code></pre>
+
+<p>And now build the image and run:</p>
+
+<pre><code>docker build -t myapp .
+docker run --rm -it myapp
+</code></pre>
+
+<p>If everything worked properly you should see <code>I've once more been updated, and now I run as the user myapp!</code>.</p>
+
+<h2 id="wrapup">Wrapup!</h2>
+
+<p>The complete <code>Dockerfile</code> we have now for building our app while we&rsquo;re working on it now looks like:</p>
+
+<pre><code class="language-dockerfile"># ------------------------------------------------------------------------------
+# Cargo Build Stage
+# ------------------------------------------------------------------------------
+
+FROM rust:latest as cargo-build
+
+RUN apt-get update
+
+RUN apt-get install musl-tools -y
+
+RUN rustup target add x86_64-unknown-linux-musl
+
+WORKDIR /usr/src/myapp
+
+COPY Cargo.toml Cargo.toml
+
+RUN mkdir src/
+
+RUN echo &quot;fn main() {println!(\&quot;if you see this, the build broke\&quot;)}&quot; &gt; src/main.rs
+
+RUN RUSTFLAGS=-Clinker=musl-gcc cargo build --release --target=x86_64-unknown-linux-musl
+
+RUN rm -f target/x86_64-unknown-linux-musl/release/deps/myapp*
+
+COPY . .
+
+RUN RUSTFLAGS=-Clinker=musl-gcc cargo build --release --target=x86_64-unknown-linux-musl
+
+# ------------------------------------------------------------------------------
+# Final Stage
+# ------------------------------------------------------------------------------
+
+FROM alpine:latest
+
+RUN addgroup -g 1000 myapp
+
+RUN adduser -D -s /bin/sh -u 1000 -G myapp myapp
+
+WORKDIR /home/myapp/bin/
+
+COPY --from=cargo-build /usr/src/myapp/target/x86_64-unknown-linux-musl/release/myapp .
+
+RUN chown myapp:myapp myapp
+
+USER myapp
+
+CMD [&quot;./myapp&quot;]
+</code></pre>
+
+<p>From here see my demo on <a href="https://github.com/shaneutt/dcos-k8s-rust-skaffold-demo">deploying Rust to Kubernetes on DC/OS with Skaffold</a>. Utilizing some of the techniques in that demo, you could automate deployment of your application to <a href="https://kubernetes.io">Kubernetes</a> for testing on a local <a href="https://kubernetes.io/docs/setup/minikube/">minikube</a> system using <a href="https://github.com/GoogleContainerTools/skaffold">Skaffold</a>.</p>
+
+<p>Happy coding!</p>
+
+              <hr>
+              <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        June 1, 2018
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/blog/rust-k8s-skaffold-dcos/">Programming - Deploying Rust Webapps on Kubernetes on DC/OS using Skaffold</a></strong>
+                      </h6>
+                    </div>
+                  </div>
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        April 11, 2017
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/blog/rust-coveralls-2017/">Rust - Coveralls.io for Rust</a></strong>
+                      </h6>
+                    </div>
+                  </div>
+                
+                  <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                      <h6 style="text-align: right">
+                        February 21, 2017
+                      </h6>
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                      <h6 style="text-align: left">
+                        <strong><a href="/blog/riak-in-docker-2017/">Docker - Riak in Docker</a></strong>
+                      </h6>
+                    </div>
+                  </div>
+                
+              </div>
+            </div>
+          </div>
+          <hr>
+        </div>
+      </div>
+      
+    </div>
+
+    
+    <footer>
+    <div class="social">
+      <ul class="social-links">
+        
+          <li><a href="http://github.com/shaneutt"><i class="fa fa-github"></i></a></li>
+        
+
+        
+          <li><a href="mailto:shaneutt@linux.com"><i class="fa fa-envelope"></i></a></li>
+        
+
+        
+          <li><a href="http://twitter.com/shaneutt"><i class="fa fa-twitter"></i></a></li>
+        
+
+        
+          <li><a href="http://linkedin.com/in/shaneutt"><i class="fa fa-linkedin"></i></a></li>
+        
+      </ul>
+    </div>
+    <div id="footer">
+        <div class="container">
+            <p class="text-muted">&copy; 2018 Shane Utt, All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+<div class="footer"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://shaneutt.com/js/docs.min.js"></script>
+<script src="https://shaneutt.com/js/main.js"></script>
+
+<script src="https://shaneutt.com/js/ie10-viewport-bug-workaround.js"></script>
+
+
+    
+  </body>
+</html>

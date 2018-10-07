@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://shaneutt.com/blog/rust-fast-small-docker-image-builds/</loc>
+    <lastmod>2018-10-07T18:57:00-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://shaneutt.com/blog/rust-k8s-skaffold-dcos/</loc>
     <lastmod>2018-06-01T12:50:13-04:00</lastmod>
   </url>
@@ -38,8 +43,14 @@
   </url>
   
   <url>
+    <loc>https://shaneutt.com/tags/alpine/</loc>
+    <lastmod>2018-10-07T18:57:00-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://shaneutt.com/blog/</loc>
-    <lastmod>2018-06-01T12:50:13-04:00</lastmod>
+    <lastmod>2018-10-07T18:57:00-04:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -49,14 +60,14 @@
   </url>
   
   <url>
-    <loc>https://shaneutt.com/tags/dc/os/</loc>
+    <loc>https://shaneutt.com/tags/dc-os/</loc>
     <lastmod>2018-06-01T12:50:13-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://shaneutt.com/tags/docker/</loc>
-    <lastmod>2017-02-21T14:35:52-04:00</lastmod>
+    <lastmod>2018-10-07T18:57:00-04:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -97,14 +108,20 @@
   </url>
   
   <url>
+    <loc>https://shaneutt.com/tags/musl/</loc>
+    <lastmod>2018-10-07T18:57:00-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://shaneutt.com/</loc>
-    <lastmod>2018-06-01T12:50:13-04:00</lastmod>
+    <lastmod>2018-10-07T18:57:00-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://shaneutt.com/categories/programming/</loc>
-    <lastmod>2018-06-01T12:50:13-04:00</lastmod>
+    <lastmod>2018-10-07T18:57:00-04:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -128,13 +145,13 @@
   
   <url>
     <loc>https://shaneutt.com/tags/rust/</loc>
-    <lastmod>2018-06-01T12:50:13-04:00</lastmod>
+    <lastmod>2018-10-07T18:57:00-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://shaneutt.com/categories/rust/</loc>
-    <lastmod>2018-06-01T12:50:13-04:00</lastmod>
+    <lastmod>2018-10-07T18:57:00-04:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -152,7 +169,7 @@
   
   <url>
     <loc>https://shaneutt.com/tags/</loc>
-    <lastmod>2018-06-01T12:50:13-04:00</lastmod>
+    <lastmod>2018-10-07T18:57:00-04:00</lastmod>
     <priority>0</priority>
   </url>
   
