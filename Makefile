@@ -11,6 +11,6 @@ build:
 	@$(HUGO)
 
 server: clean build
-	@$(HUGO) server -w
+	@$(HUGO) server -w --disableFastRender
 
 .PHONY: clean build server

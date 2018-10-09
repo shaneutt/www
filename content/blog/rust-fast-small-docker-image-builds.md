@@ -3,6 +3,7 @@ date = "2018-10-07T18:57:00-04:00"
 title = "Rust - Fast + Small Docker Image Builds"
 categories = ["programming", "rust"]
 tags = ["rust", "docker", "alpine", "musl"]
+highlight = true
 
 +++
 

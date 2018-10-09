@@ -3,6 +3,7 @@ date = "2017-02-21T14:35:52-04:00"
 title = "Docker - Riak in Docker"
 categories = ["systems", "docker"]
 tags = ["docker", "riak"]
+hightlight = true
 
 +++
 

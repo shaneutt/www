@@ -3,6 +3,7 @@ date = "2017-03-28T14:27:56-04:00"
 title = "Erlang - Simple webapps in Erlang with Cowboy and ErlyDTL"
 categories = ["programming", "erlang"]
 tags = ["erlang"]
+highlight = true
 
 +++
 

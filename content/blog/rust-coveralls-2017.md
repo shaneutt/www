@@ -3,6 +3,7 @@ date = "2017-04-11T14:30:44-04:00"
 categories = ["programming", "rust"]
 tags = ["rust"]
 title = "Rust - Coveralls.io for Rust"
+highlight = true
 
 +++
 
