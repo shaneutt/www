@@ -2,8 +2,6 @@ baseurl = "https://shaneutt.com/"
 languageCode = "en-us"
 title = "My Programming Blog"
 publishDir = "docs"
-disqusShortname = ""
-googleAnalytics = ""
 theme = "sustain"
 
 [permalinks]
