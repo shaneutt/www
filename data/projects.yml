@@ -1,14 +1,14 @@
 name: Projects
 source:
+  - url: https://github.com/shaneutt/dcos-k8s-rust-skaffold-demo
+    icon: fa fa-github
+    name: Rust + Kubernetes + Skaffold
+    description: A demo of deploying Rust apps to Kubernetes using Skaffold
+
   - url: https://github.com/shaneutt/shaneutt.com
     icon: fa fa-github
     name: My personal website
     description: The source code for this very site, hosted using Github Pages!
-
-  - url: https://github.com/shaneutt/dcos-k8s-rust-skaffold-demo
-    icon: fa fa-github
-    name: Rust K8s DC/OS Skaffold
-    description: A demo application and blog post deploying Rust webapps to Kubernetes on DC/OS using Skaffold
 
   - url: https://github.com/shaneutt/riak-rust-client
     icon: fa fa-github

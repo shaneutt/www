@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Shane Utt" />
+    <meta name="description" content="My Programming Blog">
+    <link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/img/favicon.ico">
+    <title>Golang - Creating a Certificate Authority &#43; Signing Certificates in Go</title>
+    <meta name="generator" content="Hugo 0.54-DEV" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://shaneutt.com/css/main.css" /><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/tomorrow.min.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://shaneutt.com/"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="/blog/">BLOG</a></li>
+        
+        <li><a href="/projects/">PROJECTS</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="https://shaneutt.com/blog/golang-ca-and-signed-cert-go/">Golang - Creating a Certificate Authority &#43; Signing Certificates in Go</a></strong>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          January 19, 2019
+            &nbsp;&nbsp;
+            
+            <span class="label label-success">golang</span>
+            
+            <span class="label label-success">tls</span>
+            
+            <span class="label label-success">ssl</span>
+            
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              
+
+<h1 id="creating-a-certificate-authority-signing-certificates-in-go">Creating a Certificate Authority + Signing Certificates in Go</h1>
+
+<p>In this post I&rsquo;m going to describe how to create a <a href="https://en.wikipedia.org/wiki/Certificate_authority">CA Certificate</a> and demonstrate signing certificates with that CA entirely in <a href="https://golang.org/">Golang</a>. For demonstration purposes, we&rsquo;ll use an <a href="https://godoc.org/net/http/httptest#Server">httptest</a> Server to deploy our cert, and an <a href="https://godoc.org/net/http#Client">net/http</a> Client to communicate with the server.</p>
+
+<h1 id="requirements">Requirements</h1>
+
+<ul>
+<li><a href="https://golang.org/dl/">Golang v1.11.4+</a></li>
+</ul>
+
+<h1 id="packages-used">Packages Used</h1>
+
+<p>In this demo we&rsquo;re going to make use of the following Go packages available in the Golang <a href="https://golang.org/pkg/#stdlib">standard library</a>:</p>
+
+<ul>
+<li><a href="https://godoc.org/bytes">bytes</a></li>
+<li><a href="https://godoc.org/crypto/rand">crypto/rand</a></li>
+<li><a href="https://godoc.org/crypto/rsa">crypto/rsa</a></li>
+<li><a href="https://godoc.org/crypto/tls">crypto/tls</a></li>
+<li><a href="https://godoc.org/crypto/x509">crypto/x509</a></li>
+<li><a href="https://godoc.org/crypto/x509/pkix">crypto/x509/pkix</a></li>
+<li><a href="https://godoc.org/encoding/pem">encoding/pem</a></li>
+<li><a href="https://godoc.org/fmt">fmt</a></li>
+<li><a href="https://godoc.org/io/ioutil">io/ioutil</a></li>
+<li><a href="https://godoc.org/math/big">math/big</a></li>
+<li><a href="https://godoc.org/net">net</a></li>
+<li><a href="https://godoc.org/net/http">net/http</a></li>
+<li><a href="https://godoc.org/net/http/httptest">net/http/httptest</a></li>
+<li><a href="https://godoc.org/strings">strings</a></li>
+<li><a href="https://godoc.org/time">time</a></li>
+</ul>
+
+<h1 id="creating-a-certificate-authority">Creating a Certificate Authority</h1>
+
+<p>First we&rsquo;ll start off by creating our CA certificate. This is what we&rsquo;ll use to sign other certificates that we create:</p>
+
+<pre><code class="language-golang">ca := &amp;x509.Certificate{
+	SerialNumber: big.NewInt(2019),
+	Subject: pkix.Name{
+		Organization:  []string{&quot;Company, INC.&quot;},
+		Country:       []string{&quot;US&quot;},
+		Province:      []string{&quot;&quot;},
+		Locality:      []string{&quot;San Francisco&quot;},
+		StreetAddress: []string{&quot;Golden Gate Bridge&quot;},
+		PostalCode:    []string{&quot;94016&quot;},
+	},
+	NotBefore:             time.Now(),
+	NotAfter:              time.Now().AddDate(10, 0, 0),
+	IsCA:                  true,
+	ExtKeyUsage:           []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth},
+	KeyUsage:              x509.KeyUsageDigitalSignature | x509.KeyUsageCertSign,
+	BasicConstraintsValid: true,
+}
+</code></pre>
+
+<p>The <code>IsCA</code> field set to <code>true</code> will indicate that this is our CA certificate. From here, we need to generate a public and private key for the certificate:</p>
+
+<pre><code class="language-golang">caPrivKey, err := rsa.GenerateKey(rand.Reader, 4096)
+if err != nil {
+	return err
+}
+</code></pre>
+
+<p>And then we&rsquo;ll generate the certificate:</p>
+
+<pre><code class="language-golang">caBytes, err := x509.CreateCertificate(rand.Reader, ca, ca, &amp;caPrivKey.PublicKey, caPrivKey)
+if err != nil {
+	return err
+}
+</code></pre>
+
+<p>Now in <code>caBytes</code> we have our generated certificate, which we can PEM encode for later use:</p>
+
+<pre><code class="language-golang">caPEM := new(bytes.Buffer)
+pem.Encode(caPEM, &amp;pem.Block{
+	Type:  &quot;CERTIFICATE&quot;,
+	Bytes: caBytes,
+})
+
+caPrivKeyPEM := new(bytes.Buffer)
+pem.Encode(caPrivKeyPEM, &amp;pem.Block{
+	Type:  &quot;RSA PRIVATE KEY&quot;,
+	Bytes: x509.MarshalPKCS1PrivateKey(caPrivKey),
+})
+</code></pre>
+
+<p>Now we&rsquo;ve got our CA created and we&rsquo;re ready to sign certificates.</p>
+
+<h1 id="creating-a-certificate">Creating a Certificate</h1>
+
+<p>Creating the certificate we&rsquo;ll use for our HTTP server is similar to how we generated the CA, but with some changes to <code>x509.Certificate</code> fields:</p>
+
+<pre><code class="language-golang">cert := &amp;x509.Certificate{
+	SerialNumber: big.NewInt(1658),
+	Subject: pkix.Name{
+		Organization:  []string{&quot;Company, INC.&quot;},
+		Country:       []string{&quot;US&quot;},
+		Province:      []string{&quot;&quot;},
+		Locality:      []string{&quot;San Francisco&quot;},
+		StreetAddress: []string{&quot;Golden Gate Bridge&quot;},
+		PostalCode:    []string{&quot;94016&quot;},
+	},
+	IPAddresses:  []net.IP{net.IPv4(127, 0, 0, 1), net.IPv6loopback},
+	NotBefore:    time.Now(),
+	NotAfter:     time.Now().AddDate(10, 0, 0),
+	SubjectKeyId: []byte{1, 2, 3, 4, 6},
+	ExtKeyUsage:  []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth},
+	KeyUsage:     x509.KeyUsageDigitalSignature,
+}
+</code></pre>
+
+<p>Note that in this certificate we&rsquo;ve specifically added <code>IPAddresses:  []net.IP{net.IPv4(127, 0, 0, 1), net.IPv6loopback},</code>, as we want this certificate to be valid at <code>localhost</code>.</p>
+
+<p>Create a private and public key for the certificate:</p>
+
+<pre><code class="language-golang">certPrivKey, err := rsa.GenerateKey(rand.Reader, 4096)
+if err != nil {
+	return err
+}
+</code></pre>
+
+<h1 id="signing-the-certificate-with-the-ca">Signing the Certificate with the CA</h1>
+
+<p>Now we&rsquo;ll create the certificate and sign it with our CA:</p>
+
+<pre><code class="language-golang">certBytes, err := x509.CreateCertificate(rand.Reader, cert, ca, &amp;certPrivKey.PublicKey, caPrivKey)
+if err != nil {
+	return err
+}
+</code></pre>
+
+<p>And PEM encode the certificate and private key:</p>
+
+<pre><code class="language-golang">certPEM := new(bytes.Buffer)
+pem.Encode(certPEM, &amp;pem.Block{
+	Type:  &quot;CERTIFICATE&quot;,
+	Bytes: certBytes,
+})
+
+certPrivKeyPEM := new(bytes.Buffer)
+pem.Encode(certPrivKeyPEM, &amp;pem.Block{
+	Type:  &quot;RSA PRIVATE KEY&quot;,
+	Bytes: x509.MarshalPKCS1PrivateKey(certPrivKey),
+})
+</code></pre>
+
+<p>Now let&rsquo;s create the server and client <code>tls.Config</code> we will use for testing:</p>
+
+<pre><code class="language-golang">serverCert, err := tls.X509KeyPair(certPEM.Bytes(), certPrivKeyPEM.Bytes())
+if err != nil {
+	return nil, nil, err
+}
+
+serverTLSConf = &amp;tls.Config{
+	Certificates: []tls.Certificate{serverCert},
+}
+
+certpool := x509.NewCertPool()
+certpool.AppendCertsFromPEM(caPEM.Bytes())
+clientTLSConf = &amp;tls.Config{
+	RootCAs: certpool,
+}
+</code></pre>
+
+<h1 id="using-our-certificate-in-an-httptest-server">Using our Certificate in an httptest.Server</h1>
+
+<p>Now we have everything we need to start our server using our new certificate signed by our CA, and for our client to trust that server.</p>
+
+<p>First we&rsquo;ll configure and start the <code>httptest.Server</code>:</p>
+
+<pre><code class="language-golang">server := httptest.NewUnstartedServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, &quot;success!&quot;)
+}))
+server.TLS = serverTLSConf
+server.StartTLS()
+defer server.Close()
+</code></pre>
+
+<p>This will response with HTTP <code>200 OK</code> and a body containing <code>success!</code>. We can now set up the client to trust the CA, and send a request to the server:</p>
+
+<pre><code class="language-golang">transport := &amp;http.Transport{
+	TLSClientConfig: clientTLSConf,
+}
+http := http.Client{
+	Transport: transport,
+}
+resp, err := http.Get(server.URL)
+if err != nil {
+	panic(err)
+}
+</code></pre>
+
+<p>If no errors occurred, we now have our <code>success!</code> response from the server, and can verify it:</p>
+
+<pre><code class="language-golang">respBodyBytes, err := ioutil.ReadAll(resp.Body)
+if err != nil {
+	panic(err)
+}
+body := strings.TrimSpace(string(respBodyBytes[:]))
+if body == &quot;success!&quot; {
+	fmt.Println(body)
+} else {
+	panic(&quot;not successful!&quot;)
+}
+</code></pre>
+
+<h1 id="bringing-it-all-together">Bringing It All Together</h1>
+
+<p>Here&rsquo;s a program that brings all the pieces together:</p>
+
+<pre><code class="language-golang">package main
+
+import (
+	&quot;bytes&quot;
+	&quot;crypto/rand&quot;
+	&quot;crypto/rsa&quot;
+	&quot;crypto/tls&quot;
+	&quot;crypto/x509&quot;
+	&quot;crypto/x509/pkix&quot;
+	&quot;encoding/pem&quot;
+	&quot;fmt&quot;
+	&quot;io/ioutil&quot;
+	&quot;math/big&quot;
+	&quot;net&quot;
+	&quot;net/http&quot;
+	&quot;net/http/httptest&quot;
+	&quot;strings&quot;
+	&quot;time&quot;
+)
+
+func main() {
+	// get our ca and server certificate
+	serverTLSConf, clientTLSConf, err := certsetup()
+	if err != nil {
+		panic(err)
+	}
+
+	// set up the httptest.Server using our certificate signed by our CA
+	server := httptest.NewUnstartedServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, &quot;success!&quot;)
+	}))
+	server.TLS = serverTLSConf
+	server.StartTLS()
+	defer server.Close()
+
+	// communicate with the server using an http.Client configured to trust our CA
+	transport := &amp;http.Transport{
+		TLSClientConfig: clientTLSConf,
+	}
+	http := http.Client{
+		Transport: transport,
+	}
+	resp, err := http.Get(server.URL)
+	if err != nil {
+		panic(err)
+	}
+
+	// verify the response
+	respBodyBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		panic(err)
+	}
+	body := strings.TrimSpace(string(respBodyBytes[:]))
+	if body == &quot;success!&quot; {
+		fmt.Println(body)
+	} else {
+		panic(&quot;not successful!&quot;)
+	}
+}
+
+func certsetup() (serverTLSConf *tls.Config, clientTLSConf *tls.Config, err error) {
+	// set up our CA certificate
+	ca := &amp;x509.Certificate{
+		SerialNumber: big.NewInt(2019),
+		Subject: pkix.Name{
+			Organization:  []string{&quot;Company, INC.&quot;},
+			Country:       []string{&quot;US&quot;},
+			Province:      []string{&quot;&quot;},
+			Locality:      []string{&quot;San Francisco&quot;},
+			StreetAddress: []string{&quot;Golden Gate Bridge&quot;},
+			PostalCode:    []string{&quot;94016&quot;},
+		},
+		NotBefore:             time.Now(),
+		NotAfter:              time.Now().AddDate(10, 0, 0),
+		IsCA:                  true,
+		ExtKeyUsage:           []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth},
+		KeyUsage:              x509.KeyUsageDigitalSignature | x509.KeyUsageCertSign,
+		BasicConstraintsValid: true,
+	}
+
+	// create our private and public key
+	caPrivKey, err := rsa.GenerateKey(rand.Reader, 4096)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	// create the CA
+	caBytes, err := x509.CreateCertificate(rand.Reader, ca, ca, &amp;caPrivKey.PublicKey, caPrivKey)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	// pem encode
+	caPEM := new(bytes.Buffer)
+	pem.Encode(caPEM, &amp;pem.Block{
+		Type:  &quot;CERTIFICATE&quot;,
+		Bytes: caBytes,
+	})
+
+	caPrivKeyPEM := new(bytes.Buffer)
+	pem.Encode(caPrivKeyPEM, &amp;pem.Block{
+		Type:  &quot;RSA PRIVATE KEY&quot;,
+		Bytes: x509.MarshalPKCS1PrivateKey(caPrivKey),
+	})
+
+	// set up our server certificate
+	cert := &amp;x509.Certificate{
+		SerialNumber: big.NewInt(2019),
+		Subject: pkix.Name{
+			Organization:  []string{&quot;Company, INC.&quot;},
+			Country:       []string{&quot;US&quot;},
+			Province:      []string{&quot;&quot;},
+			Locality:      []string{&quot;San Francisco&quot;},
+			StreetAddress: []string{&quot;Golden Gate Bridge&quot;},
+			PostalCode:    []string{&quot;94016&quot;},
+		},
+		IPAddresses:  []net.IP{net.IPv4(127, 0, 0, 1), net.IPv6loopback},
+		NotBefore:    time.Now(),
+		NotAfter:     time.Now().AddDate(10, 0, 0),
+		SubjectKeyId: []byte{1, 2, 3, 4, 6},
+		ExtKeyUsage:  []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth},
+		KeyUsage:     x509.KeyUsageDigitalSignature,
+	}
+
+	certPrivKey, err := rsa.GenerateKey(rand.Reader, 4096)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	certBytes, err := x509.CreateCertificate(rand.Reader, cert, ca, &amp;certPrivKey.PublicKey, caPrivKey)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	certPEM := new(bytes.Buffer)
+	pem.Encode(certPEM, &amp;pem.Block{
+		Type:  &quot;CERTIFICATE&quot;,
+		Bytes: certBytes,
+	})
+
+	certPrivKeyPEM := new(bytes.Buffer)
+	pem.Encode(certPrivKeyPEM, &amp;pem.Block{
+		Type:  &quot;RSA PRIVATE KEY&quot;,
+		Bytes: x509.MarshalPKCS1PrivateKey(certPrivKey),
+	})
+
+	serverCert, err := tls.X509KeyPair(certPEM.Bytes(), certPrivKeyPEM.Bytes())
+	if err != nil {
+		return nil, nil, err
+	}
+
+	serverTLSConf = &amp;tls.Config{
+		Certificates: []tls.Certificate{serverCert},
+	}
+
+	certpool := x509.NewCertPool()
+	certpool.AppendCertsFromPEM(caPEM.Bytes())
+	clientTLSConf = &amp;tls.Config{
+		RootCAs: certpool,
+	}
+
+	return
+}
+</code></pre>
+
+<p>Which is also available <a href="https://gist.github.com/shaneutt/5e1995295cff6721c89a71d13a71c251">on Github</a>.</p>
+
+<p>Happy coding!</p>
+
+              <hr>
+              <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+              </div>
+            </div>
+          </div>
+          <hr>
+        <div class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+
+    (function() {
+      
+      
+      if (window.location.hostname == "localhost")
+        return;
+
+      var disqus_shortname = '';
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+        </div>
+      </div>
+      
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://shaneutt.com/js/docs.min.js"></script>
+<script src="https://shaneutt.com/js/main.js"></script>
+
+<script src="https://shaneutt.com/js/ie10-viewport-bug-workaround.js"></script><!-- Syntax highlighting -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+</html>
