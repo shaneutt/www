@@ -7,10 +7,9 @@
         <div class="avatar">
           <img class="img-circle" src="{{ .Site.BaseURL }}img/{{ .Site.Params.avatar }}" alt="Responsive image">
         </div>
-        <h3>I'm <strong>{{ .Site.Params.author }}</strong>, a Software Engineer.</h3>
-        <h3>I'm an open-source enthusiast and programming polyglot.</h3>
-        <h3>Have a look at some of my <a href="{{ .Site.BaseURL }}projects/">projects</a>.</h3>
-        <h3>For more check out my <a href="/blog/">blog</a>.</h3>
+	<h3>I'm <strong>{{ .Site.Params.author }}</strong>, a Software Engineer.
+	<h3>I work at <a href="https://d2iq.com">D2iQ</a> on our <a href="https://kubernetes.io/">Kubernetes</a> products and platforms.</h3>
+	<h3>Have a look at some of my <a href="https://github.com/shaneutt">projects on Github</a> and check out my <a href="/blog/">blog</a>!</h3>
         <h3>Contact me at <a href="https://twitter.com/{{ .Site.Params.Social.Twitter }}">@{{ .Site.Params.Social.Twitter }}</a>.</h3>
         {{ partial "social.html" . }}
         </div>

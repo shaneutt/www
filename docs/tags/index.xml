@@ -6,49 +6,13 @@
     <description>Recent content in Tags on My Programming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 07 Oct 2018 18:57:00 -0400</lastBuildDate>
+    <lastBuildDate>Sat, 19 Jan 2019 06:55:00 -0400</lastBuildDate>
     
 	<atom:link href="https://shaneutt.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Alpine</title>
-      <link>https://shaneutt.com/tags/alpine/</link>
-      <pubDate>Sun, 07 Oct 2018 18:57:00 -0400</pubDate>
-      
-      <guid>https://shaneutt.com/tags/alpine/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Dc/Os</title>
-      <link>https://shaneutt.com/tags/dc/os/</link>
-      <pubDate>Fri, 01 Jun 2018 12:50:13 -0400</pubDate>
-      
-      <guid>https://shaneutt.com/tags/dc/os/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Docker</title>
-      <link>https://shaneutt.com/tags/docker/</link>
-      <pubDate>Sun, 07 Oct 2018 18:57:00 -0400</pubDate>
-      
-      <guid>https://shaneutt.com/tags/docker/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Erlang</title>
-      <link>https://shaneutt.com/tags/erlang/</link>
-      <pubDate>Tue, 28 Mar 2017 14:27:56 -0400</pubDate>
-      
-      <guid>https://shaneutt.com/tags/erlang/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Golang</title>
+      <title>golang</title>
       <link>https://shaneutt.com/tags/golang/</link>
       <pubDate>Sat, 19 Jan 2019 06:55:00 -0400</pubDate>
       
@@ -57,61 +21,7 @@
     </item>
     
     <item>
-      <title>Kubernetes</title>
-      <link>https://shaneutt.com/tags/kubernetes/</link>
-      <pubDate>Fri, 01 Jun 2018 12:50:13 -0400</pubDate>
-      
-      <guid>https://shaneutt.com/tags/kubernetes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Musl</title>
-      <link>https://shaneutt.com/tags/musl/</link>
-      <pubDate>Sun, 07 Oct 2018 18:57:00 -0400</pubDate>
-      
-      <guid>https://shaneutt.com/tags/musl/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Projects</title>
-      <link>https://shaneutt.com/tags/projects/</link>
-      <pubDate>Sun, 02 Oct 2016 22:55:05 -0400</pubDate>
-      
-      <guid>https://shaneutt.com/tags/projects/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Riak</title>
-      <link>https://shaneutt.com/tags/riak/</link>
-      <pubDate>Tue, 21 Feb 2017 14:35:52 -0400</pubDate>
-      
-      <guid>https://shaneutt.com/tags/riak/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Rust</title>
-      <link>https://shaneutt.com/tags/rust/</link>
-      <pubDate>Sun, 07 Oct 2018 18:57:00 -0400</pubDate>
-      
-      <guid>https://shaneutt.com/tags/rust/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Skaffold</title>
-      <link>https://shaneutt.com/tags/skaffold/</link>
-      <pubDate>Fri, 01 Jun 2018 12:50:13 -0400</pubDate>
-      
-      <guid>https://shaneutt.com/tags/skaffold/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Ssl</title>
+      <title>ssl</title>
       <link>https://shaneutt.com/tags/ssl/</link>
       <pubDate>Sat, 19 Jan 2019 06:55:00 -0400</pubDate>
       
@@ -120,11 +30,101 @@
     </item>
     
     <item>
-      <title>Tls</title>
+      <title>tls</title>
       <link>https://shaneutt.com/tags/tls/</link>
       <pubDate>Sat, 19 Jan 2019 06:55:00 -0400</pubDate>
       
       <guid>https://shaneutt.com/tags/tls/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>alpine</title>
+      <link>https://shaneutt.com/tags/alpine/</link>
+      <pubDate>Sun, 07 Oct 2018 18:57:00 -0400</pubDate>
+      
+      <guid>https://shaneutt.com/tags/alpine/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker</title>
+      <link>https://shaneutt.com/tags/docker/</link>
+      <pubDate>Sun, 07 Oct 2018 18:57:00 -0400</pubDate>
+      
+      <guid>https://shaneutt.com/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>musl</title>
+      <link>https://shaneutt.com/tags/musl/</link>
+      <pubDate>Sun, 07 Oct 2018 18:57:00 -0400</pubDate>
+      
+      <guid>https://shaneutt.com/tags/musl/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rust</title>
+      <link>https://shaneutt.com/tags/rust/</link>
+      <pubDate>Sun, 07 Oct 2018 18:57:00 -0400</pubDate>
+      
+      <guid>https://shaneutt.com/tags/rust/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dc/os</title>
+      <link>https://shaneutt.com/tags/dc/os/</link>
+      <pubDate>Fri, 01 Jun 2018 12:50:13 -0400</pubDate>
+      
+      <guid>https://shaneutt.com/tags/dc/os/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kubernetes</title>
+      <link>https://shaneutt.com/tags/kubernetes/</link>
+      <pubDate>Fri, 01 Jun 2018 12:50:13 -0400</pubDate>
+      
+      <guid>https://shaneutt.com/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>skaffold</title>
+      <link>https://shaneutt.com/tags/skaffold/</link>
+      <pubDate>Fri, 01 Jun 2018 12:50:13 -0400</pubDate>
+      
+      <guid>https://shaneutt.com/tags/skaffold/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>erlang</title>
+      <link>https://shaneutt.com/tags/erlang/</link>
+      <pubDate>Tue, 28 Mar 2017 14:27:56 -0400</pubDate>
+      
+      <guid>https://shaneutt.com/tags/erlang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>riak</title>
+      <link>https://shaneutt.com/tags/riak/</link>
+      <pubDate>Tue, 21 Feb 2017 14:35:52 -0400</pubDate>
+      
+      <guid>https://shaneutt.com/tags/riak/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>projects</title>
+      <link>https://shaneutt.com/tags/projects/</link>
+      <pubDate>Sun, 02 Oct 2016 22:55:05 -0400</pubDate>
+      
+      <guid>https://shaneutt.com/tags/projects/</guid>
       <description></description>
     </item>
     

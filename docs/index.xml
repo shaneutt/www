@@ -6,10 +6,20 @@
     <description>Recent content on My Programming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 19 Jan 2019 06:55:00 -0400</lastBuildDate>
+    <lastBuildDate>Mon, 12 Aug 2019 12:50:13 -0400</lastBuildDate>
     
 	<atom:link href="https://shaneutt.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Konvoy: A new managed Kubernetes platform</title>
+      <link>https://shaneutt.com/blog/konvoy-managed-kubernetes/</link>
+      <pubDate>Mon, 12 Aug 2019 12:50:13 -0400</pubDate>
+      
+      <guid>https://shaneutt.com/blog/konvoy-managed-kubernetes/</guid>
+      <description>Konvoy Managed Kubernetes Platform After a long year of work my company both renamed and rebranded, and my team and I finally shipped the managed Kubernetes platform &amp;ldquo;Konvoy&amp;rdquo; we had been developing this year.
+Konvoy is a &amp;ldquo;turn-key&amp;rdquo; Kubernetes distribution which provides an easy to set up and maintain certified Kubernetes distro. It comes with a range of default addons which are deployed by default and include managed configurations, and at it&amp;rsquo;s best it&amp;rsquo;s konvoy up and then you have a fully operational Kubernetes cluster at your disposal.</description>
+    </item>
     
     <item>
       <title>Golang - Creating a Certificate Authority &#43; Signing Certificates in Go</title>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Docker on My Programming Blog</title>
+    <title>docker on My Programming Blog</title>
     <link>https://shaneutt.com/categories/docker/</link>
-    <description>Recent content in Docker on My Programming Blog</description>
+    <description>Recent content in docker on My Programming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 21 Feb 2017 14:35:52 -0400</lastBuildDate>
