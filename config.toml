@@ -27,8 +27,3 @@ theme = "sustain"
   weight = 100
   identifier = "blog"
   url = "/blog/"
-[[menu.main]]
-  name = "projects"
-  identifier = "projects"
-  weight = 200
-  url = "/projects/"

@@ -117,14 +117,5 @@ Some traits I&amp;rsquo;ve started to use recently include std::convert::Into 
 When the Into trait is applied to a type, it allows it to consume itself to convert to another type.</description>
     </item>
     
-    <item>
-      <title>Projects</title>
-      <link>https://shaneutt.com/projects/</link>
-      <pubDate>Sun, 02 Oct 2016 22:55:05 -0400</pubDate>
-      
-      <guid>https://shaneutt.com/projects/</guid>
-      <description></description>
-    </item>
-    
   </channel>
 </rss>
