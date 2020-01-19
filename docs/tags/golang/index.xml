@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>golang on My Programming Blog</title>
@@ -17,8 +17,8 @@
       <pubDate>Sat, 19 Jan 2019 06:55:00 -0400</pubDate>
       
       <guid>https://shaneutt.com/blog/golang-ca-and-signed-cert-go/</guid>
-      <description>Creating a Certificate Authority + Signing Certificates in Go In this post I&amp;rsquo;m going to describe how to create a CA Certificate and demonstrate signing certificates with that CA entirely in Golang. For demonstration purposes, we&amp;rsquo;ll use an httptest Server to deploy our cert, and an net/http Client to communicate with the server.
-Requirements  Golang v1.11.4+  Packages Used In this demo we&amp;rsquo;re going to make use of the following Go packages available in the Golang standard library:</description>
+      <description>Creating a Certificate Authority + Signing Certificates in Go In this post I&#39;m going to describe how to create a CA Certificate and demonstrate signing certificates with that CA entirely in Golang. For demonstration purposes, we&#39;ll use an httptest Server to deploy our cert, and an net/http Client to communicate with the server.
+Requirements  Golang v1.11.4+  Packages Used In this demo we&#39;re going to make use of the following Go packages available in the Golang standard library:</description>
     </item>
     
   </channel>

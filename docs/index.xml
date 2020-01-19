@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>My Programming Blog</title>
@@ -18,7 +18,7 @@
       
       <guid>https://shaneutt.com/blog/konvoy-managed-kubernetes/</guid>
       <description>Konvoy Managed Kubernetes Platform After a long year of work my company both renamed and rebranded, and my team and I finally shipped the managed Kubernetes platform &amp;ldquo;Konvoy&amp;rdquo; we had been developing this year.
-Konvoy is a &amp;ldquo;turn-key&amp;rdquo; Kubernetes distribution which provides an easy to set up and maintain certified Kubernetes distro. It comes with a range of default addons which are deployed by default and include managed configurations, and at it&amp;rsquo;s best it&amp;rsquo;s konvoy up and then you have a fully operational Kubernetes cluster at your disposal.</description>
+Konvoy is a &amp;ldquo;turn-key&amp;rdquo; Kubernetes distribution which provides an easy to set up and maintain certified Kubernetes distro. It comes with a range of default addons which are deployed by default and include managed configurations, and at it&#39;s best it&#39;s konvoy up and then you have a fully operational Kubernetes cluster at your disposal.</description>
     </item>
     
     <item>
@@ -27,8 +27,8 @@ Konvoy is a &amp;ldquo;turn-key&amp;rdquo; Kubernetes distribution which provide
       <pubDate>Sat, 19 Jan 2019 06:55:00 -0400</pubDate>
       
       <guid>https://shaneutt.com/blog/golang-ca-and-signed-cert-go/</guid>
-      <description>Creating a Certificate Authority + Signing Certificates in Go In this post I&amp;rsquo;m going to describe how to create a CA Certificate and demonstrate signing certificates with that CA entirely in Golang. For demonstration purposes, we&amp;rsquo;ll use an httptest Server to deploy our cert, and an net/http Client to communicate with the server.
-Requirements  Golang v1.11.4+  Packages Used In this demo we&amp;rsquo;re going to make use of the following Go packages available in the Golang standard library:</description>
+      <description>Creating a Certificate Authority + Signing Certificates in Go In this post I&#39;m going to describe how to create a CA Certificate and demonstrate signing certificates with that CA entirely in Golang. For demonstration purposes, we&#39;ll use an httptest Server to deploy our cert, and an net/http Client to communicate with the server.
+Requirements  Golang v1.11.4+  Packages Used In this demo we&#39;re going to make use of the following Go packages available in the Golang standard library:</description>
     </item>
     
     <item>
@@ -37,8 +37,8 @@ Requirements  Golang v1.11.4+  Packages Used In this demo we&amp;rsquo;re going 
       <pubDate>Sun, 07 Oct 2018 18:57:00 -0400</pubDate>
       
       <guid>https://shaneutt.com/blog/rust-fast-small-docker-image-builds/</guid>
-      <description>Fast + Small Docker Image Builds for Rust Apps In this post I&amp;rsquo;m going to demonstrate how to create small, quickly built Docker Images for Rust applications.
-We&amp;rsquo;ll start by creating a simple test application, and then building and iterating on a Dockerfile.
+      <description>Fast + Small Docker Image Builds for Rust Apps In this post I&#39;m going to demonstrate how to create small, quickly built Docker Images for Rust applications.
+We&#39;ll start by creating a simple test application, and then building and iterating on a Dockerfile.
 Requirements Ensure you have the following installed:
  rustup v1.14.0+ docker v17.06.2+  Setup: demo app setup Make sure you have and are using the latest stable Rust with rustup:</description>
     </item>
@@ -49,8 +49,8 @@ Requirements Ensure you have the following installed:
       <pubDate>Fri, 01 Jun 2018 12:50:13 -0400</pubDate>
       
       <guid>https://shaneutt.com/blog/rust-k8s-skaffold-dcos/</guid>
-      <description>Deploying Rust Webapps on Kubernetes on DC/OS using Skaffold Since my last post I&amp;rsquo;ve joined as an engineer at Mesosphere and have been developing data pipeline software for cluster diagnostics.
-During this same time I&amp;rsquo;ve been deploying the software I&amp;rsquo;ve been working on using Kubernetes on DC/OS, and I&amp;rsquo;ve been keeping up my interest in the Rust, so I put together a demo of deploying webapps in Rust to Kubernetes on DC/OS using Skaffold:</description>
+      <description>Deploying Rust Webapps on Kubernetes on DC/OS using Skaffold Since my last post I&#39;ve joined as an engineer at Mesosphere and have been developing data pipeline software for cluster diagnostics.
+During this same time I&#39;ve been deploying the software I&#39;ve been working on using Kubernetes on DC/OS, and I&#39;ve been keeping up my interest in the Rust, so I put together a demo of deploying webapps in Rust to Kubernetes on DC/OS using Skaffold:</description>
     </item>
     
     <item>
@@ -61,8 +61,8 @@ During this same time I&amp;rsquo;ve been deploying the software I&amp;rsquo;ve 
       <guid>https://shaneutt.com/blog/new-blog-2017/</guid>
       <description>Welcome to my new blog! This blog uses Hugo to generate fast static content, and Github Pages for hosting.
 See the source for this site on Github!
-If you&amp;rsquo;re looking to create your own blog, I highly recommend checking out the &amp;ldquo;getting started&amp;rdquo; documenation for Hugo, and the docs for using Hugo with Github pages.
-Soon I&amp;rsquo;ll start adding some more posts after I&amp;rsquo;ve imported my old ones from the previous blog.</description>
+If you&#39;re looking to create your own blog, I highly recommend checking out the &amp;ldquo;getting started&amp;rdquo; documenation for Hugo, and the docs for using Hugo with Github pages.
+Soon I&#39;ll start adding some more posts after I&#39;ve imported my old ones from the previous blog.</description>
     </item>
     
     <item>
@@ -71,12 +71,12 @@ Soon I&amp;rsquo;ll start adding some more posts after I&amp;rsquo;ve imported m
       <pubDate>Tue, 11 Apr 2017 14:30:44 -0400</pubDate>
       
       <guid>https://shaneutt.com/blog/rust-coveralls-2017/</guid>
-      <description>While looking for a way to provide code coverage with https://coveralls.io for Rust, I stumbled upon a solution while reading through Iron.
-The solution involves a tool called kcov which is a Linux/OSX code coverage tester for compiled languages.
-This tool can be implemented inside a .travis.yml file to push coverage data from a Travis CI  build.
-Here is an example .travis.yml file: sudo: required
-language: rust
-rust: - stable - beta - nightly</description>
+      <description>While looking for a way to provide code coverage with https://coveralls.io&amp;lt;/a&amp;gt; for Rust, I stumbled upon a solution while reading through Iron.
+The solution involves a tool called kcovwhich is a Linux/OSX code coverage tester for compiled languages.
+This tool can be implemented inside a .travis.ymlfile to push coverage data from a Travis CI build.
+Here is an example .travis.yml file:
+Basically all you have to do is run:
+Changing &amp;ldquo;riak-*&amp;rdquo; for your own project, and everything before that is just to compiled kcov inside the Travis CI environment.</description>
     </item>
     
     <item>
@@ -85,10 +85,10 @@ rust: - stable - beta - nightly</description>
       <pubDate>Tue, 28 Mar 2017 14:27:56 -0400</pubDate>
       
       <guid>https://shaneutt.com/blog/simple-erlang-webapps-cowboy-erlydtl-2017/</guid>
-      <description>Of all the programming languages I&amp;rsquo;ve written web applications in, Erlang is by far my favorite.
+      <description>Of all the programming languages I&#39;ve written web applications in, Erlang is by far my favorite.
 Perhaps the functional nature of Erlang, or the modular simplicity of apps and releases, or the easy primitives for concurrency make it most appealing.
-Whatever the reason I&amp;rsquo;ve gotten in the habit of building new web applications with Cowboy for the web server, and ErlyDTL to provide Django-like templates.
-As such I built a Rebar3 template to make it easy to build these kinds of apps:</description>
+Whatever the reason I&#39;ve gotten in the habit of building new web applications with Cowboyfor the web server, and ErlyDTLto provide Django-like templates.
+As such I built a Rebar3template to make it easy to build these kinds of apps:</description>
     </item>
     
     <item>
@@ -97,12 +97,12 @@ As such I built a Rebar3 template to make it easy to build these kinds of apps:<
       <pubDate>Tue, 21 Feb 2017 14:35:52 -0400</pubDate>
       
       <guid>https://shaneutt.com/blog/riak-in-docker-2017/</guid>
-      <description>Riak was designed to be deployed and run on dedicated infrastructure, as opposed to containers or virtualization platforms.
+      <description>Riakwas designed to be deployed and run on dedicated infrastructure, as opposed to containers or virtualization platforms.
 Nonetheless, being able to quickly deploy a Riak cluster for testing and development purposes can be very useful.
-I&amp;rsquo;ve created a repository today that enables the user to build Docker images for most versions of Riak KV, TS, and CS ever produced:
-https://github.com/shaneutt/riak-docker
-The dockerfile is relatively simple: FROM centos:7
-ARG major_version</description>
+I&#39;ve created a repository today that enables the user to build Dockerimages for most versions of Riak KV, TS, and CS ever produced:
+https://github.com/shaneutt/riak-docker&amp;lt;/a&amp;gt;
+The dockerfileis relatively simple:
+The script used to start the Riak service takes care of some basic configuration and then tails the logs:</description>
     </item>
     
     <item>
@@ -111,9 +111,9 @@ ARG major_version</description>
       <pubDate>Thu, 12 Jan 2017 14:34:10 -0400</pubDate>
       
       <guid>https://shaneutt.com/blog/rust-convert-into-and-from-2017/</guid>
-      <description>I&amp;rsquo;ve been spending time recently learning the Rust Programming Language by writing a Riak Client using Riak&amp;rsquo;s Protocol Buffers API.
-Through Ownership &amp;amp; Borrowing Rust enables safety that generally comes at the cost of flexibility. Through features like Traits Rust is able to give some flexibility back to the programmer.
-Some traits I&amp;rsquo;ve started to use recently include std::convert::Into and std::convert::From.
+      <description>I&#39;ve been spending time recently learning the Rust Programming Languageby writing a Riak Clientusing Riak&#39;s Protocol Buffers API.
+Through Ownership&amp;amp; BorrowingRust enables safety that generally comes at the cost of flexibility. Through features like TraitsRust is able to give some flexibility back to the programmer.
+Some traits I&#39;ve started to use recently include std::convert::Intoand std::convert::From.
 When the Into trait is applied to a type, it allows it to consume itself to convert to another type.</description>
     </item>
     

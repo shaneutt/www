@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>kubernetes on My Programming Blog</title>
@@ -18,7 +18,7 @@
       
       <guid>https://shaneutt.com/blog/konvoy-managed-kubernetes/</guid>
       <description>Konvoy Managed Kubernetes Platform After a long year of work my company both renamed and rebranded, and my team and I finally shipped the managed Kubernetes platform &amp;ldquo;Konvoy&amp;rdquo; we had been developing this year.
-Konvoy is a &amp;ldquo;turn-key&amp;rdquo; Kubernetes distribution which provides an easy to set up and maintain certified Kubernetes distro. It comes with a range of default addons which are deployed by default and include managed configurations, and at it&amp;rsquo;s best it&amp;rsquo;s konvoy up and then you have a fully operational Kubernetes cluster at your disposal.</description>
+Konvoy is a &amp;ldquo;turn-key&amp;rdquo; Kubernetes distribution which provides an easy to set up and maintain certified Kubernetes distro. It comes with a range of default addons which are deployed by default and include managed configurations, and at it&#39;s best it&#39;s konvoy up and then you have a fully operational Kubernetes cluster at your disposal.</description>
     </item>
     
     <item>
@@ -27,8 +27,8 @@ Konvoy is a &amp;ldquo;turn-key&amp;rdquo; Kubernetes distribution which provide
       <pubDate>Fri, 01 Jun 2018 12:50:13 -0400</pubDate>
       
       <guid>https://shaneutt.com/blog/rust-k8s-skaffold-dcos/</guid>
-      <description>Deploying Rust Webapps on Kubernetes on DC/OS using Skaffold Since my last post I&amp;rsquo;ve joined as an engineer at Mesosphere and have been developing data pipeline software for cluster diagnostics.
-During this same time I&amp;rsquo;ve been deploying the software I&amp;rsquo;ve been working on using Kubernetes on DC/OS, and I&amp;rsquo;ve been keeping up my interest in the Rust, so I put together a demo of deploying webapps in Rust to Kubernetes on DC/OS using Skaffold:</description>
+      <description>Deploying Rust Webapps on Kubernetes on DC/OS using Skaffold Since my last post I&#39;ve joined as an engineer at Mesosphere and have been developing data pipeline software for cluster diagnostics.
+During this same time I&#39;ve been deploying the software I&#39;ve been working on using Kubernetes on DC/OS, and I&#39;ve been keeping up my interest in the Rust, so I put together a demo of deploying webapps in Rust to Kubernetes on DC/OS using Skaffold:</description>
     </item>
     
   </channel>

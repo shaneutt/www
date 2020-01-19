@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>rust on My Programming Blog</title>
@@ -17,8 +17,8 @@
       <pubDate>Sun, 07 Oct 2018 18:57:00 -0400</pubDate>
       
       <guid>https://shaneutt.com/blog/rust-fast-small-docker-image-builds/</guid>
-      <description>Fast + Small Docker Image Builds for Rust Apps In this post I&amp;rsquo;m going to demonstrate how to create small, quickly built Docker Images for Rust applications.
-We&amp;rsquo;ll start by creating a simple test application, and then building and iterating on a Dockerfile.
+      <description>Fast + Small Docker Image Builds for Rust Apps In this post I&#39;m going to demonstrate how to create small, quickly built Docker Images for Rust applications.
+We&#39;ll start by creating a simple test application, and then building and iterating on a Dockerfile.
 Requirements Ensure you have the following installed:
  rustup v1.14.0+ docker v17.06.2+  Setup: demo app setup Make sure you have and are using the latest stable Rust with rustup:</description>
     </item>
@@ -29,8 +29,8 @@ Requirements Ensure you have the following installed:
       <pubDate>Fri, 01 Jun 2018 12:50:13 -0400</pubDate>
       
       <guid>https://shaneutt.com/blog/rust-k8s-skaffold-dcos/</guid>
-      <description>Deploying Rust Webapps on Kubernetes on DC/OS using Skaffold Since my last post I&amp;rsquo;ve joined as an engineer at Mesosphere and have been developing data pipeline software for cluster diagnostics.
-During this same time I&amp;rsquo;ve been deploying the software I&amp;rsquo;ve been working on using Kubernetes on DC/OS, and I&amp;rsquo;ve been keeping up my interest in the Rust, so I put together a demo of deploying webapps in Rust to Kubernetes on DC/OS using Skaffold:</description>
+      <description>Deploying Rust Webapps on Kubernetes on DC/OS using Skaffold Since my last post I&#39;ve joined as an engineer at Mesosphere and have been developing data pipeline software for cluster diagnostics.
+During this same time I&#39;ve been deploying the software I&#39;ve been working on using Kubernetes on DC/OS, and I&#39;ve been keeping up my interest in the Rust, so I put together a demo of deploying webapps in Rust to Kubernetes on DC/OS using Skaffold:</description>
     </item>
     
     <item>
@@ -39,12 +39,12 @@ During this same time I&amp;rsquo;ve been deploying the software I&amp;rsquo;ve 
       <pubDate>Tue, 11 Apr 2017 14:30:44 -0400</pubDate>
       
       <guid>https://shaneutt.com/blog/rust-coveralls-2017/</guid>
-      <description>While looking for a way to provide code coverage with https://coveralls.io for Rust, I stumbled upon a solution while reading through Iron.
-The solution involves a tool called kcov which is a Linux/OSX code coverage tester for compiled languages.
-This tool can be implemented inside a .travis.yml file to push coverage data from a Travis CI  build.
-Here is an example .travis.yml file: sudo: required
-language: rust
-rust: - stable - beta - nightly</description>
+      <description>While looking for a way to provide code coverage with https://coveralls.io&amp;lt;/a&amp;gt; for Rust, I stumbled upon a solution while reading through Iron.
+The solution involves a tool called kcovwhich is a Linux/OSX code coverage tester for compiled languages.
+This tool can be implemented inside a .travis.ymlfile to push coverage data from a Travis CI build.
+Here is an example .travis.yml file:
+Basically all you have to do is run:
+Changing &amp;ldquo;riak-*&amp;rdquo; for your own project, and everything before that is just to compiled kcov inside the Travis CI environment.</description>
     </item>
     
     <item>
@@ -53,9 +53,9 @@ rust: - stable - beta - nightly</description>
       <pubDate>Thu, 12 Jan 2017 14:34:10 -0400</pubDate>
       
       <guid>https://shaneutt.com/blog/rust-convert-into-and-from-2017/</guid>
-      <description>I&amp;rsquo;ve been spending time recently learning the Rust Programming Language by writing a Riak Client using Riak&amp;rsquo;s Protocol Buffers API.
-Through Ownership &amp;amp; Borrowing Rust enables safety that generally comes at the cost of flexibility. Through features like Traits Rust is able to give some flexibility back to the programmer.
-Some traits I&amp;rsquo;ve started to use recently include std::convert::Into and std::convert::From.
+      <description>I&#39;ve been spending time recently learning the Rust Programming Languageby writing a Riak Clientusing Riak&#39;s Protocol Buffers API.
+Through Ownership&amp;amp; BorrowingRust enables safety that generally comes at the cost of flexibility. Through features like TraitsRust is able to give some flexibility back to the programmer.
+Some traits I&#39;ve started to use recently include std::convert::Intoand std::convert::From.
 When the Into trait is applied to a type, it allows it to consume itself to convert to another type.</description>
     </item>
     

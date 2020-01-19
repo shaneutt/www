@@ -8,7 +8,7 @@
     <meta name="description" content="My Programming Blog">
     <link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/img/favicon.ico">
     <title>Golang - Creating a Certificate Authority &#43; Signing Certificates in Go</title>
-    <meta name="generator" content="Hugo 0.56.3" />
+    <meta name="generator" content="Hugo 0.62.2" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://shaneutt.com/css/main.css" /><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/tomorrow.min.css">
     
@@ -72,22 +72,14 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="blogpost">
-              
-
-<h1 id="creating-a-certificate-authority-signing-certificates-in-go">Creating a Certificate Authority + Signing Certificates in Go</h1>
-
-<p>In this post I&rsquo;m going to describe how to create a <a href="https://en.wikipedia.org/wiki/Certificate_authority">CA Certificate</a> and demonstrate signing certificates with that CA entirely in <a href="https://golang.org/">Golang</a>. For demonstration purposes, we&rsquo;ll use an <a href="https://godoc.org/net/http/httptest#Server">httptest</a> Server to deploy our cert, and an <a href="https://godoc.org/net/http#Client">net/http</a> Client to communicate with the server.</p>
-
+              <h1 id="creating-a-certificate-authority--signing-certificates-in-go">Creating a Certificate Authority + Signing Certificates in Go</h1>
+<p>In this post I'm going to describe how to create a <a href="https://en.wikipedia.org/wiki/Certificate_authority">CA Certificate</a> and demonstrate signing certificates with that CA entirely in <a href="https://golang.org/">Golang</a>. For demonstration purposes, we'll use an <a href="https://godoc.org/net/http/httptest#Server">httptest</a> Server to deploy our cert, and an <a href="https://godoc.org/net/http#Client">net/http</a> Client to communicate with the server.</p>
 <h1 id="requirements">Requirements</h1>
-
 <ul>
 <li><a href="https://golang.org/dl/">Golang v1.11.4+</a></li>
 </ul>
-
 <h1 id="packages-used">Packages Used</h1>
-
-<p>In this demo we&rsquo;re going to make use of the following Go packages available in the Golang <a href="https://golang.org/pkg/#stdlib">standard library</a>:</p>
-
+<p>In this demo we're going to make use of the following Go packages available in the Golang <a href="https://golang.org/pkg/#stdlib">standard library</a>:</p>
 <ul>
 <li><a href="https://godoc.org/bytes">bytes</a></li>
 <li><a href="https://godoc.org/crypto/rand">crypto/rand</a></li>
@@ -105,352 +97,303 @@
 <li><a href="https://godoc.org/strings">strings</a></li>
 <li><a href="https://godoc.org/time">time</a></li>
 </ul>
-
 <h1 id="creating-a-certificate-authority">Creating a Certificate Authority</h1>
-
-<p>First we&rsquo;ll start off by creating our CA certificate. This is what we&rsquo;ll use to sign other certificates that we create:</p>
-
-<pre><code class="language-golang">ca := &amp;x509.Certificate{
-	SerialNumber: big.NewInt(2019),
-	Subject: pkix.Name{
-		Organization:  []string{&quot;Company, INC.&quot;},
-		Country:       []string{&quot;US&quot;},
-		Province:      []string{&quot;&quot;},
-		Locality:      []string{&quot;San Francisco&quot;},
-		StreetAddress: []string{&quot;Golden Gate Bridge&quot;},
-		PostalCode:    []string{&quot;94016&quot;},
+<p>First we'll start off by creating our CA certificate. This is what we'll use to sign other certificates that we create:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#a6e22e">ca</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">Certificate</span>{
+	<span style="color:#a6e22e">SerialNumber</span>: <span style="color:#a6e22e">big</span>.<span style="color:#a6e22e">NewInt</span>(<span style="color:#ae81ff">2019</span>),
+	<span style="color:#a6e22e">Subject</span>: <span style="color:#a6e22e">pkix</span>.<span style="color:#a6e22e">Name</span>{
+		<span style="color:#a6e22e">Organization</span>:  []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;Company, INC.&#34;</span>},
+		<span style="color:#a6e22e">Country</span>:       []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;US&#34;</span>},
+		<span style="color:#a6e22e">Province</span>:      []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;&#34;</span>},
+		<span style="color:#a6e22e">Locality</span>:      []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;San Francisco&#34;</span>},
+		<span style="color:#a6e22e">StreetAddress</span>: []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;Golden Gate Bridge&#34;</span>},
+		<span style="color:#a6e22e">PostalCode</span>:    []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;94016&#34;</span>},
 	},
-	NotBefore:             time.Now(),
-	NotAfter:              time.Now().AddDate(10, 0, 0),
-	IsCA:                  true,
-	ExtKeyUsage:           []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth},
-	KeyUsage:              x509.KeyUsageDigitalSignature | x509.KeyUsageCertSign,
-	BasicConstraintsValid: true,
+	<span style="color:#a6e22e">NotBefore</span>:             <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>(),
+	<span style="color:#a6e22e">NotAfter</span>:              <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>().<span style="color:#a6e22e">AddDate</span>(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>),
+	<span style="color:#a6e22e">IsCA</span>:                  <span style="color:#66d9ef">true</span>,
+	<span style="color:#a6e22e">ExtKeyUsage</span>:           []<span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">ExtKeyUsage</span>{<span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">ExtKeyUsageClientAuth</span>, <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">ExtKeyUsageServerAuth</span>},
+	<span style="color:#a6e22e">KeyUsage</span>:              <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">KeyUsageDigitalSignature</span> | <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">KeyUsageCertSign</span>,
+	<span style="color:#a6e22e">BasicConstraintsValid</span>: <span style="color:#66d9ef">true</span>,
 }
-</code></pre>
-
-<p>The <code>IsCA</code> field set to <code>true</code> will indicate that this is our CA certificate. From here, we need to generate a public and private key for the certificate:</p>
-
-<pre><code class="language-golang">caPrivKey, err := rsa.GenerateKey(rand.Reader, 4096)
-if err != nil {
-	return err
+</code></pre></div><p>The <code>IsCA</code> field set to <code>true</code> will indicate that this is our CA certificate. From here, we need to generate a public and private key for the certificate:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#a6e22e">caPrivKey</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">rsa</span>.<span style="color:#a6e22e">GenerateKey</span>(<span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Reader</span>, <span style="color:#ae81ff">4096</span>)
+<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
 }
-</code></pre>
-
-<p>And then we&rsquo;ll generate the certificate:</p>
-
-<pre><code class="language-golang">caBytes, err := x509.CreateCertificate(rand.Reader, ca, ca, &amp;caPrivKey.PublicKey, caPrivKey)
-if err != nil {
-	return err
+</code></pre></div><p>And then we'll generate the certificate:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#a6e22e">caBytes</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">CreateCertificate</span>(<span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Reader</span>, <span style="color:#a6e22e">ca</span>, <span style="color:#a6e22e">ca</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">caPrivKey</span>.<span style="color:#a6e22e">PublicKey</span>, <span style="color:#a6e22e">caPrivKey</span>)
+<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
 }
-</code></pre>
-
-<p>Now in <code>caBytes</code> we have our generated certificate, which we can PEM encode for later use:</p>
-
-<pre><code class="language-golang">caPEM := new(bytes.Buffer)
-pem.Encode(caPEM, &amp;pem.Block{
-	Type:  &quot;CERTIFICATE&quot;,
-	Bytes: caBytes,
+</code></pre></div><p>Now in <code>caBytes</code> we have our generated certificate, which we can PEM encode for later use:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#a6e22e">caPEM</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">Buffer</span>)
+<span style="color:#a6e22e">pem</span>.<span style="color:#a6e22e">Encode</span>(<span style="color:#a6e22e">caPEM</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">pem</span>.<span style="color:#a6e22e">Block</span>{
+	<span style="color:#a6e22e">Type</span>:  <span style="color:#e6db74">&#34;CERTIFICATE&#34;</span>,
+	<span style="color:#a6e22e">Bytes</span>: <span style="color:#a6e22e">caBytes</span>,
 })
 
-caPrivKeyPEM := new(bytes.Buffer)
-pem.Encode(caPrivKeyPEM, &amp;pem.Block{
-	Type:  &quot;RSA PRIVATE KEY&quot;,
-	Bytes: x509.MarshalPKCS1PrivateKey(caPrivKey),
+<span style="color:#a6e22e">caPrivKeyPEM</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">Buffer</span>)
+<span style="color:#a6e22e">pem</span>.<span style="color:#a6e22e">Encode</span>(<span style="color:#a6e22e">caPrivKeyPEM</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">pem</span>.<span style="color:#a6e22e">Block</span>{
+	<span style="color:#a6e22e">Type</span>:  <span style="color:#e6db74">&#34;RSA PRIVATE KEY&#34;</span>,
+	<span style="color:#a6e22e">Bytes</span>: <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">MarshalPKCS1PrivateKey</span>(<span style="color:#a6e22e">caPrivKey</span>),
 })
-</code></pre>
-
-<p>Now we&rsquo;ve got our CA created and we&rsquo;re ready to sign certificates.</p>
-
+</code></pre></div><p>Now we've got our CA created and we're ready to sign certificates.</p>
 <h1 id="creating-a-certificate">Creating a Certificate</h1>
-
-<p>Creating the certificate we&rsquo;ll use for our HTTP server is similar to how we generated the CA, but with some changes to <code>x509.Certificate</code> fields:</p>
-
-<pre><code class="language-golang">cert := &amp;x509.Certificate{
-	SerialNumber: big.NewInt(1658),
-	Subject: pkix.Name{
-		Organization:  []string{&quot;Company, INC.&quot;},
-		Country:       []string{&quot;US&quot;},
-		Province:      []string{&quot;&quot;},
-		Locality:      []string{&quot;San Francisco&quot;},
-		StreetAddress: []string{&quot;Golden Gate Bridge&quot;},
-		PostalCode:    []string{&quot;94016&quot;},
+<p>Creating the certificate we'll use for our HTTP server is similar to how we generated the CA, but with some changes to <code>x509.Certificate</code> fields:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#a6e22e">cert</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">Certificate</span>{
+	<span style="color:#a6e22e">SerialNumber</span>: <span style="color:#a6e22e">big</span>.<span style="color:#a6e22e">NewInt</span>(<span style="color:#ae81ff">1658</span>),
+	<span style="color:#a6e22e">Subject</span>: <span style="color:#a6e22e">pkix</span>.<span style="color:#a6e22e">Name</span>{
+		<span style="color:#a6e22e">Organization</span>:  []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;Company, INC.&#34;</span>},
+		<span style="color:#a6e22e">Country</span>:       []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;US&#34;</span>},
+		<span style="color:#a6e22e">Province</span>:      []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;&#34;</span>},
+		<span style="color:#a6e22e">Locality</span>:      []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;San Francisco&#34;</span>},
+		<span style="color:#a6e22e">StreetAddress</span>: []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;Golden Gate Bridge&#34;</span>},
+		<span style="color:#a6e22e">PostalCode</span>:    []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;94016&#34;</span>},
 	},
-	IPAddresses:  []net.IP{net.IPv4(127, 0, 0, 1), net.IPv6loopback},
-	NotBefore:    time.Now(),
-	NotAfter:     time.Now().AddDate(10, 0, 0),
-	SubjectKeyId: []byte{1, 2, 3, 4, 6},
-	ExtKeyUsage:  []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth},
-	KeyUsage:     x509.KeyUsageDigitalSignature,
+	<span style="color:#a6e22e">IPAddresses</span>:  []<span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">IP</span>{<span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">IPv4</span>(<span style="color:#ae81ff">127</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>), <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">IPv6loopback</span>},
+	<span style="color:#a6e22e">NotBefore</span>:    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>(),
+	<span style="color:#a6e22e">NotAfter</span>:     <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>().<span style="color:#a6e22e">AddDate</span>(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>),
+	<span style="color:#a6e22e">SubjectKeyId</span>: []<span style="color:#66d9ef">byte</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">6</span>},
+	<span style="color:#a6e22e">ExtKeyUsage</span>:  []<span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">ExtKeyUsage</span>{<span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">ExtKeyUsageClientAuth</span>, <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">ExtKeyUsageServerAuth</span>},
+	<span style="color:#a6e22e">KeyUsage</span>:     <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">KeyUsageDigitalSignature</span>,
 }
-</code></pre>
-
-<p>Note that in this certificate we&rsquo;ve specifically added <code>IPAddresses:  []net.IP{net.IPv4(127, 0, 0, 1), net.IPv6loopback},</code>, as we want this certificate to be valid at <code>localhost</code>.</p>
-
+</code></pre></div><p>Note that in this certificate we've specifically added <code>IPAddresses:  []net.IP{net.IPv4(127, 0, 0, 1), net.IPv6loopback},</code>, as we want this certificate to be valid at <code>localhost</code>.</p>
 <p>Create a private and public key for the certificate:</p>
-
-<pre><code class="language-golang">certPrivKey, err := rsa.GenerateKey(rand.Reader, 4096)
-if err != nil {
-	return err
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#a6e22e">certPrivKey</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">rsa</span>.<span style="color:#a6e22e">GenerateKey</span>(<span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Reader</span>, <span style="color:#ae81ff">4096</span>)
+<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
 }
-</code></pre>
-
-<h1 id="signing-the-certificate-with-the-ca">Signing the Certificate with the CA</h1>
-
-<p>Now we&rsquo;ll create the certificate and sign it with our CA:</p>
-
-<pre><code class="language-golang">certBytes, err := x509.CreateCertificate(rand.Reader, cert, ca, &amp;certPrivKey.PublicKey, caPrivKey)
-if err != nil {
-	return err
+</code></pre></div><h1 id="signing-the-certificate-with-the-ca">Signing the Certificate with the CA</h1>
+<p>Now we'll create the certificate and sign it with our CA:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#a6e22e">certBytes</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">CreateCertificate</span>(<span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Reader</span>, <span style="color:#a6e22e">cert</span>, <span style="color:#a6e22e">ca</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">certPrivKey</span>.<span style="color:#a6e22e">PublicKey</span>, <span style="color:#a6e22e">caPrivKey</span>)
+<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
 }
-</code></pre>
-
-<p>And PEM encode the certificate and private key:</p>
-
-<pre><code class="language-golang">certPEM := new(bytes.Buffer)
-pem.Encode(certPEM, &amp;pem.Block{
-	Type:  &quot;CERTIFICATE&quot;,
-	Bytes: certBytes,
+</code></pre></div><p>And PEM encode the certificate and private key:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#a6e22e">certPEM</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">Buffer</span>)
+<span style="color:#a6e22e">pem</span>.<span style="color:#a6e22e">Encode</span>(<span style="color:#a6e22e">certPEM</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">pem</span>.<span style="color:#a6e22e">Block</span>{
+	<span style="color:#a6e22e">Type</span>:  <span style="color:#e6db74">&#34;CERTIFICATE&#34;</span>,
+	<span style="color:#a6e22e">Bytes</span>: <span style="color:#a6e22e">certBytes</span>,
 })
 
-certPrivKeyPEM := new(bytes.Buffer)
-pem.Encode(certPrivKeyPEM, &amp;pem.Block{
-	Type:  &quot;RSA PRIVATE KEY&quot;,
-	Bytes: x509.MarshalPKCS1PrivateKey(certPrivKey),
+<span style="color:#a6e22e">certPrivKeyPEM</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">Buffer</span>)
+<span style="color:#a6e22e">pem</span>.<span style="color:#a6e22e">Encode</span>(<span style="color:#a6e22e">certPrivKeyPEM</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">pem</span>.<span style="color:#a6e22e">Block</span>{
+	<span style="color:#a6e22e">Type</span>:  <span style="color:#e6db74">&#34;RSA PRIVATE KEY&#34;</span>,
+	<span style="color:#a6e22e">Bytes</span>: <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">MarshalPKCS1PrivateKey</span>(<span style="color:#a6e22e">certPrivKey</span>),
 })
-</code></pre>
-
-<p>Now let&rsquo;s create the server and client <code>tls.Config</code> we will use for testing:</p>
-
-<pre><code class="language-golang">serverCert, err := tls.X509KeyPair(certPEM.Bytes(), certPrivKeyPEM.Bytes())
-if err != nil {
-	return nil, nil, err
+</code></pre></div><p>Now let's create the server and client <code>tls.Config</code> we will use for testing:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#a6e22e">serverCert</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">X509KeyPair</span>(<span style="color:#a6e22e">certPEM</span>.<span style="color:#a6e22e">Bytes</span>(), <span style="color:#a6e22e">certPrivKeyPEM</span>.<span style="color:#a6e22e">Bytes</span>())
+<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
 }
 
-serverTLSConf = &amp;tls.Config{
-	Certificates: []tls.Certificate{serverCert},
+<span style="color:#a6e22e">serverTLSConf</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">Config</span>{
+	<span style="color:#a6e22e">Certificates</span>: []<span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">Certificate</span>{<span style="color:#a6e22e">serverCert</span>},
 }
 
-certpool := x509.NewCertPool()
-certpool.AppendCertsFromPEM(caPEM.Bytes())
-clientTLSConf = &amp;tls.Config{
-	RootCAs: certpool,
+<span style="color:#a6e22e">certpool</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">NewCertPool</span>()
+<span style="color:#a6e22e">certpool</span>.<span style="color:#a6e22e">AppendCertsFromPEM</span>(<span style="color:#a6e22e">caPEM</span>.<span style="color:#a6e22e">Bytes</span>())
+<span style="color:#a6e22e">clientTLSConf</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">Config</span>{
+	<span style="color:#a6e22e">RootCAs</span>: <span style="color:#a6e22e">certpool</span>,
 }
-</code></pre>
-
-<h1 id="using-our-certificate-in-an-httptest-server">Using our Certificate in an httptest.Server</h1>
-
+</code></pre></div><h1 id="using-our-certificate-in-an-httptestserver">Using our Certificate in an httptest.Server</h1>
 <p>Now we have everything we need to start our server using our new certificate signed by our CA, and for our client to trust that server.</p>
-
-<p>First we&rsquo;ll configure and start the <code>httptest.Server</code>:</p>
-
-<pre><code class="language-golang">server := httptest.NewUnstartedServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, &quot;success!&quot;)
+<p>First we'll configure and start the <code>httptest.Server</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#a6e22e">server</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">httptest</span>.<span style="color:#a6e22e">NewUnstartedServer</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">HandlerFunc</span>(<span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;success!&#34;</span>)
 }))
-server.TLS = serverTLSConf
-server.StartTLS()
-defer server.Close()
-</code></pre>
-
-<p>This will response with HTTP <code>200 OK</code> and a body containing <code>success!</code>. We can now set up the client to trust the CA, and send a request to the server:</p>
-
-<pre><code class="language-golang">transport := &amp;http.Transport{
-	TLSClientConfig: clientTLSConf,
+<span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">TLS</span> = <span style="color:#a6e22e">serverTLSConf</span>
+<span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">StartTLS</span>()
+<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">Close</span>()
+</code></pre></div><p>This will response with HTTP <code>200 OK</code> and a body containing <code>success!</code>. We can now set up the client to trust the CA, and send a request to the server:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#a6e22e">transport</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Transport</span>{
+	<span style="color:#a6e22e">TLSClientConfig</span>: <span style="color:#a6e22e">clientTLSConf</span>,
 }
-http := http.Client{
-	Transport: transport,
+<span style="color:#a6e22e">http</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Client</span>{
+	<span style="color:#a6e22e">Transport</span>: <span style="color:#a6e22e">transport</span>,
 }
-resp, err := http.Get(server.URL)
-if err != nil {
-	panic(err)
+<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">URL</span>)
+<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+	panic(<span style="color:#a6e22e">err</span>)
 }
-</code></pre>
-
-<p>If no errors occurred, we now have our <code>success!</code> response from the server, and can verify it:</p>
-
-<pre><code class="language-golang">respBodyBytes, err := ioutil.ReadAll(resp.Body)
-if err != nil {
-	panic(err)
+</code></pre></div><p>If no errors occurred, we now have our <code>success!</code> response from the server, and can verify it:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#a6e22e">respBodyBytes</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadAll</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>)
+<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+	panic(<span style="color:#a6e22e">err</span>)
 }
-body := strings.TrimSpace(string(respBodyBytes[:]))
-if body == &quot;success!&quot; {
-	fmt.Println(body)
-} else {
-	panic(&quot;not successful!&quot;)
+<span style="color:#a6e22e">body</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">TrimSpace</span>(string(<span style="color:#a6e22e">respBodyBytes</span>[:]))
+<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">body</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;success!&#34;</span> {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">body</span>)
+} <span style="color:#66d9ef">else</span> {
+	panic(<span style="color:#e6db74">&#34;not successful!&#34;</span>)
 }
-</code></pre>
+</code></pre></div><h1 id="bringing-it-all-together">Bringing It All Together</h1>
+<p>Here's a program that brings all the pieces together:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
-<h1 id="bringing-it-all-together">Bringing It All Together</h1>
-
-<p>Here&rsquo;s a program that brings all the pieces together:</p>
-
-<pre><code class="language-golang">package main
-
-import (
-	&quot;bytes&quot;
-	&quot;crypto/rand&quot;
-	&quot;crypto/rsa&quot;
-	&quot;crypto/tls&quot;
-	&quot;crypto/x509&quot;
-	&quot;crypto/x509/pkix&quot;
-	&quot;encoding/pem&quot;
-	&quot;fmt&quot;
-	&quot;io/ioutil&quot;
-	&quot;math/big&quot;
-	&quot;net&quot;
-	&quot;net/http&quot;
-	&quot;net/http/httptest&quot;
-	&quot;strings&quot;
-	&quot;time&quot;
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;bytes&#34;</span>
+	<span style="color:#e6db74">&#34;crypto/rand&#34;</span>
+	<span style="color:#e6db74">&#34;crypto/rsa&#34;</span>
+	<span style="color:#e6db74">&#34;crypto/tls&#34;</span>
+	<span style="color:#e6db74">&#34;crypto/x509&#34;</span>
+	<span style="color:#e6db74">&#34;crypto/x509/pkix&#34;</span>
+	<span style="color:#e6db74">&#34;encoding/pem&#34;</span>
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;io/ioutil&#34;</span>
+	<span style="color:#e6db74">&#34;math/big&#34;</span>
+	<span style="color:#e6db74">&#34;net&#34;</span>
+	<span style="color:#e6db74">&#34;net/http&#34;</span>
+	<span style="color:#e6db74">&#34;net/http/httptest&#34;</span>
+	<span style="color:#e6db74">&#34;strings&#34;</span>
+	<span style="color:#e6db74">&#34;time&#34;</span>
 )
 
-func main() {
-	// get our ca and server certificate
-	serverTLSConf, clientTLSConf, err := certsetup()
-	if err != nil {
-		panic(err)
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#75715e">// get our ca and server certificate
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">serverTLSConf</span>, <span style="color:#a6e22e">clientTLSConf</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">certsetup</span>()
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		panic(<span style="color:#a6e22e">err</span>)
 	}
 
-	// set up the httptest.Server using our certificate signed by our CA
-	server := httptest.NewUnstartedServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, &quot;success!&quot;)
+	<span style="color:#75715e">// set up the httptest.Server using our certificate signed by our CA
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">server</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">httptest</span>.<span style="color:#a6e22e">NewUnstartedServer</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">HandlerFunc</span>(<span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;success!&#34;</span>)
 	}))
-	server.TLS = serverTLSConf
-	server.StartTLS()
-	defer server.Close()
+	<span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">TLS</span> = <span style="color:#a6e22e">serverTLSConf</span>
+	<span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">StartTLS</span>()
+	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">Close</span>()
 
-	// communicate with the server using an http.Client configured to trust our CA
-	transport := &amp;http.Transport{
-		TLSClientConfig: clientTLSConf,
+	<span style="color:#75715e">// communicate with the server using an http.Client configured to trust our CA
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">transport</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Transport</span>{
+		<span style="color:#a6e22e">TLSClientConfig</span>: <span style="color:#a6e22e">clientTLSConf</span>,
 	}
-	http := http.Client{
-		Transport: transport,
+	<span style="color:#a6e22e">http</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Client</span>{
+		<span style="color:#a6e22e">Transport</span>: <span style="color:#a6e22e">transport</span>,
 	}
-	resp, err := http.Get(server.URL)
-	if err != nil {
-		panic(err)
+	<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">URL</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		panic(<span style="color:#a6e22e">err</span>)
 	}
 
-	// verify the response
-	respBodyBytes, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		panic(err)
+	<span style="color:#75715e">// verify the response
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">respBodyBytes</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadAll</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		panic(<span style="color:#a6e22e">err</span>)
 	}
-	body := strings.TrimSpace(string(respBodyBytes[:]))
-	if body == &quot;success!&quot; {
-		fmt.Println(body)
-	} else {
-		panic(&quot;not successful!&quot;)
+	<span style="color:#a6e22e">body</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">TrimSpace</span>(string(<span style="color:#a6e22e">respBodyBytes</span>[:]))
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">body</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;success!&#34;</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">body</span>)
+	} <span style="color:#66d9ef">else</span> {
+		panic(<span style="color:#e6db74">&#34;not successful!&#34;</span>)
 	}
 }
 
-func certsetup() (serverTLSConf *tls.Config, clientTLSConf *tls.Config, err error) {
-	// set up our CA certificate
-	ca := &amp;x509.Certificate{
-		SerialNumber: big.NewInt(2019),
-		Subject: pkix.Name{
-			Organization:  []string{&quot;Company, INC.&quot;},
-			Country:       []string{&quot;US&quot;},
-			Province:      []string{&quot;&quot;},
-			Locality:      []string{&quot;San Francisco&quot;},
-			StreetAddress: []string{&quot;Golden Gate Bridge&quot;},
-			PostalCode:    []string{&quot;94016&quot;},
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">certsetup</span>() (<span style="color:#a6e22e">serverTLSConf</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">Config</span>, <span style="color:#a6e22e">clientTLSConf</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">Config</span>, <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
+	<span style="color:#75715e">// set up our CA certificate
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ca</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">Certificate</span>{
+		<span style="color:#a6e22e">SerialNumber</span>: <span style="color:#a6e22e">big</span>.<span style="color:#a6e22e">NewInt</span>(<span style="color:#ae81ff">2019</span>),
+		<span style="color:#a6e22e">Subject</span>: <span style="color:#a6e22e">pkix</span>.<span style="color:#a6e22e">Name</span>{
+			<span style="color:#a6e22e">Organization</span>:  []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;Company, INC.&#34;</span>},
+			<span style="color:#a6e22e">Country</span>:       []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;US&#34;</span>},
+			<span style="color:#a6e22e">Province</span>:      []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;&#34;</span>},
+			<span style="color:#a6e22e">Locality</span>:      []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;San Francisco&#34;</span>},
+			<span style="color:#a6e22e">StreetAddress</span>: []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;Golden Gate Bridge&#34;</span>},
+			<span style="color:#a6e22e">PostalCode</span>:    []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;94016&#34;</span>},
 		},
-		NotBefore:             time.Now(),
-		NotAfter:              time.Now().AddDate(10, 0, 0),
-		IsCA:                  true,
-		ExtKeyUsage:           []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth},
-		KeyUsage:              x509.KeyUsageDigitalSignature | x509.KeyUsageCertSign,
-		BasicConstraintsValid: true,
+		<span style="color:#a6e22e">NotBefore</span>:             <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>(),
+		<span style="color:#a6e22e">NotAfter</span>:              <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>().<span style="color:#a6e22e">AddDate</span>(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>),
+		<span style="color:#a6e22e">IsCA</span>:                  <span style="color:#66d9ef">true</span>,
+		<span style="color:#a6e22e">ExtKeyUsage</span>:           []<span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">ExtKeyUsage</span>{<span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">ExtKeyUsageClientAuth</span>, <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">ExtKeyUsageServerAuth</span>},
+		<span style="color:#a6e22e">KeyUsage</span>:              <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">KeyUsageDigitalSignature</span> | <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">KeyUsageCertSign</span>,
+		<span style="color:#a6e22e">BasicConstraintsValid</span>: <span style="color:#66d9ef">true</span>,
 	}
 
-	// create our private and public key
-	caPrivKey, err := rsa.GenerateKey(rand.Reader, 4096)
-	if err != nil {
-		return nil, nil, err
+	<span style="color:#75715e">// create our private and public key
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">caPrivKey</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">rsa</span>.<span style="color:#a6e22e">GenerateKey</span>(<span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Reader</span>, <span style="color:#ae81ff">4096</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
 	}
 
-	// create the CA
-	caBytes, err := x509.CreateCertificate(rand.Reader, ca, ca, &amp;caPrivKey.PublicKey, caPrivKey)
-	if err != nil {
-		return nil, nil, err
+	<span style="color:#75715e">// create the CA
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">caBytes</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">CreateCertificate</span>(<span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Reader</span>, <span style="color:#a6e22e">ca</span>, <span style="color:#a6e22e">ca</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">caPrivKey</span>.<span style="color:#a6e22e">PublicKey</span>, <span style="color:#a6e22e">caPrivKey</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
 	}
 
-	// pem encode
-	caPEM := new(bytes.Buffer)
-	pem.Encode(caPEM, &amp;pem.Block{
-		Type:  &quot;CERTIFICATE&quot;,
-		Bytes: caBytes,
+	<span style="color:#75715e">// pem encode
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">caPEM</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">Buffer</span>)
+	<span style="color:#a6e22e">pem</span>.<span style="color:#a6e22e">Encode</span>(<span style="color:#a6e22e">caPEM</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">pem</span>.<span style="color:#a6e22e">Block</span>{
+		<span style="color:#a6e22e">Type</span>:  <span style="color:#e6db74">&#34;CERTIFICATE&#34;</span>,
+		<span style="color:#a6e22e">Bytes</span>: <span style="color:#a6e22e">caBytes</span>,
 	})
 
-	caPrivKeyPEM := new(bytes.Buffer)
-	pem.Encode(caPrivKeyPEM, &amp;pem.Block{
-		Type:  &quot;RSA PRIVATE KEY&quot;,
-		Bytes: x509.MarshalPKCS1PrivateKey(caPrivKey),
+	<span style="color:#a6e22e">caPrivKeyPEM</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">Buffer</span>)
+	<span style="color:#a6e22e">pem</span>.<span style="color:#a6e22e">Encode</span>(<span style="color:#a6e22e">caPrivKeyPEM</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">pem</span>.<span style="color:#a6e22e">Block</span>{
+		<span style="color:#a6e22e">Type</span>:  <span style="color:#e6db74">&#34;RSA PRIVATE KEY&#34;</span>,
+		<span style="color:#a6e22e">Bytes</span>: <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">MarshalPKCS1PrivateKey</span>(<span style="color:#a6e22e">caPrivKey</span>),
 	})
 
-	// set up our server certificate
-	cert := &amp;x509.Certificate{
-		SerialNumber: big.NewInt(2019),
-		Subject: pkix.Name{
-			Organization:  []string{&quot;Company, INC.&quot;},
-			Country:       []string{&quot;US&quot;},
-			Province:      []string{&quot;&quot;},
-			Locality:      []string{&quot;San Francisco&quot;},
-			StreetAddress: []string{&quot;Golden Gate Bridge&quot;},
-			PostalCode:    []string{&quot;94016&quot;},
+	<span style="color:#75715e">// set up our server certificate
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">cert</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">Certificate</span>{
+		<span style="color:#a6e22e">SerialNumber</span>: <span style="color:#a6e22e">big</span>.<span style="color:#a6e22e">NewInt</span>(<span style="color:#ae81ff">2019</span>),
+		<span style="color:#a6e22e">Subject</span>: <span style="color:#a6e22e">pkix</span>.<span style="color:#a6e22e">Name</span>{
+			<span style="color:#a6e22e">Organization</span>:  []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;Company, INC.&#34;</span>},
+			<span style="color:#a6e22e">Country</span>:       []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;US&#34;</span>},
+			<span style="color:#a6e22e">Province</span>:      []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;&#34;</span>},
+			<span style="color:#a6e22e">Locality</span>:      []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;San Francisco&#34;</span>},
+			<span style="color:#a6e22e">StreetAddress</span>: []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;Golden Gate Bridge&#34;</span>},
+			<span style="color:#a6e22e">PostalCode</span>:    []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;94016&#34;</span>},
 		},
-		IPAddresses:  []net.IP{net.IPv4(127, 0, 0, 1), net.IPv6loopback},
-		NotBefore:    time.Now(),
-		NotAfter:     time.Now().AddDate(10, 0, 0),
-		SubjectKeyId: []byte{1, 2, 3, 4, 6},
-		ExtKeyUsage:  []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth},
-		KeyUsage:     x509.KeyUsageDigitalSignature,
+		<span style="color:#a6e22e">IPAddresses</span>:  []<span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">IP</span>{<span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">IPv4</span>(<span style="color:#ae81ff">127</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>), <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">IPv6loopback</span>},
+		<span style="color:#a6e22e">NotBefore</span>:    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>(),
+		<span style="color:#a6e22e">NotAfter</span>:     <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>().<span style="color:#a6e22e">AddDate</span>(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>),
+		<span style="color:#a6e22e">SubjectKeyId</span>: []<span style="color:#66d9ef">byte</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">6</span>},
+		<span style="color:#a6e22e">ExtKeyUsage</span>:  []<span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">ExtKeyUsage</span>{<span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">ExtKeyUsageClientAuth</span>, <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">ExtKeyUsageServerAuth</span>},
+		<span style="color:#a6e22e">KeyUsage</span>:     <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">KeyUsageDigitalSignature</span>,
 	}
 
-	certPrivKey, err := rsa.GenerateKey(rand.Reader, 4096)
-	if err != nil {
-		return nil, nil, err
+	<span style="color:#a6e22e">certPrivKey</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">rsa</span>.<span style="color:#a6e22e">GenerateKey</span>(<span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Reader</span>, <span style="color:#ae81ff">4096</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
 	}
 
-	certBytes, err := x509.CreateCertificate(rand.Reader, cert, ca, &amp;certPrivKey.PublicKey, caPrivKey)
-	if err != nil {
-		return nil, nil, err
+	<span style="color:#a6e22e">certBytes</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">CreateCertificate</span>(<span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Reader</span>, <span style="color:#a6e22e">cert</span>, <span style="color:#a6e22e">ca</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">certPrivKey</span>.<span style="color:#a6e22e">PublicKey</span>, <span style="color:#a6e22e">caPrivKey</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
 	}
 
-	certPEM := new(bytes.Buffer)
-	pem.Encode(certPEM, &amp;pem.Block{
-		Type:  &quot;CERTIFICATE&quot;,
-		Bytes: certBytes,
+	<span style="color:#a6e22e">certPEM</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">Buffer</span>)
+	<span style="color:#a6e22e">pem</span>.<span style="color:#a6e22e">Encode</span>(<span style="color:#a6e22e">certPEM</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">pem</span>.<span style="color:#a6e22e">Block</span>{
+		<span style="color:#a6e22e">Type</span>:  <span style="color:#e6db74">&#34;CERTIFICATE&#34;</span>,
+		<span style="color:#a6e22e">Bytes</span>: <span style="color:#a6e22e">certBytes</span>,
 	})
 
-	certPrivKeyPEM := new(bytes.Buffer)
-	pem.Encode(certPrivKeyPEM, &amp;pem.Block{
-		Type:  &quot;RSA PRIVATE KEY&quot;,
-		Bytes: x509.MarshalPKCS1PrivateKey(certPrivKey),
+	<span style="color:#a6e22e">certPrivKeyPEM</span> <span style="color:#f92672">:=</span> new(<span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">Buffer</span>)
+	<span style="color:#a6e22e">pem</span>.<span style="color:#a6e22e">Encode</span>(<span style="color:#a6e22e">certPrivKeyPEM</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">pem</span>.<span style="color:#a6e22e">Block</span>{
+		<span style="color:#a6e22e">Type</span>:  <span style="color:#e6db74">&#34;RSA PRIVATE KEY&#34;</span>,
+		<span style="color:#a6e22e">Bytes</span>: <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">MarshalPKCS1PrivateKey</span>(<span style="color:#a6e22e">certPrivKey</span>),
 	})
 
-	serverCert, err := tls.X509KeyPair(certPEM.Bytes(), certPrivKeyPEM.Bytes())
-	if err != nil {
-		return nil, nil, err
+	<span style="color:#a6e22e">serverCert</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">X509KeyPair</span>(<span style="color:#a6e22e">certPEM</span>.<span style="color:#a6e22e">Bytes</span>(), <span style="color:#a6e22e">certPrivKeyPEM</span>.<span style="color:#a6e22e">Bytes</span>())
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
 	}
 
-	serverTLSConf = &amp;tls.Config{
-		Certificates: []tls.Certificate{serverCert},
+	<span style="color:#a6e22e">serverTLSConf</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">Config</span>{
+		<span style="color:#a6e22e">Certificates</span>: []<span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">Certificate</span>{<span style="color:#a6e22e">serverCert</span>},
 	}
 
-	certpool := x509.NewCertPool()
-	certpool.AppendCertsFromPEM(caPEM.Bytes())
-	clientTLSConf = &amp;tls.Config{
-		RootCAs: certpool,
+	<span style="color:#a6e22e">certpool</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">NewCertPool</span>()
+	<span style="color:#a6e22e">certpool</span>.<span style="color:#a6e22e">AppendCertsFromPEM</span>(<span style="color:#a6e22e">caPEM</span>.<span style="color:#a6e22e">Bytes</span>())
+	<span style="color:#a6e22e">clientTLSConf</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">Config</span>{
+		<span style="color:#a6e22e">RootCAs</span>: <span style="color:#a6e22e">certpool</span>,
 	}
 
-	return
+	<span style="color:#66d9ef">return</span>
 }
-</code></pre>
-
-<p>Which is also available <a href="https://gist.github.com/shaneutt/5e1995295cff6721c89a71d13a71c251">on Github</a>.</p>
-
+</code></pre></div><p>Which is also available <a href="https://gist.github.com/shaneutt/5e1995295cff6721c89a71d13a71c251">on Github</a>.</p>
 <p>Happy coding!</p>
 
               <hr>

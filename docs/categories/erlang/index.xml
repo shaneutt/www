@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>erlang on My Programming Blog</title>
@@ -17,10 +17,10 @@
       <pubDate>Tue, 28 Mar 2017 14:27:56 -0400</pubDate>
       
       <guid>https://shaneutt.com/blog/simple-erlang-webapps-cowboy-erlydtl-2017/</guid>
-      <description>Of all the programming languages I&amp;rsquo;ve written web applications in, Erlang is by far my favorite.
+      <description>Of all the programming languages I&#39;ve written web applications in, Erlang is by far my favorite.
 Perhaps the functional nature of Erlang, or the modular simplicity of apps and releases, or the easy primitives for concurrency make it most appealing.
-Whatever the reason I&amp;rsquo;ve gotten in the habit of building new web applications with Cowboy for the web server, and ErlyDTL to provide Django-like templates.
-As such I built a Rebar3 template to make it easy to build these kinds of apps:</description>
+Whatever the reason I&#39;ve gotten in the habit of building new web applications with Cowboyfor the web server, and ErlyDTLto provide Django-like templates.
+As such I built a Rebar3template to make it easy to build these kinds of apps:</description>
     </item>
     
   </channel>

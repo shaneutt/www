@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>systems on My Programming Blog</title>
@@ -17,12 +17,12 @@
       <pubDate>Tue, 21 Feb 2017 14:35:52 -0400</pubDate>
       
       <guid>https://shaneutt.com/blog/riak-in-docker-2017/</guid>
-      <description>Riak was designed to be deployed and run on dedicated infrastructure, as opposed to containers or virtualization platforms.
+      <description>Riakwas designed to be deployed and run on dedicated infrastructure, as opposed to containers or virtualization platforms.
 Nonetheless, being able to quickly deploy a Riak cluster for testing and development purposes can be very useful.
-I&amp;rsquo;ve created a repository today that enables the user to build Docker images for most versions of Riak KV, TS, and CS ever produced:
-https://github.com/shaneutt/riak-docker
-The dockerfile is relatively simple: FROM centos:7
-ARG major_version</description>
+I&#39;ve created a repository today that enables the user to build Dockerimages for most versions of Riak KV, TS, and CS ever produced:
+https://github.com/shaneutt/riak-docker&amp;lt;/a&amp;gt;
+The dockerfileis relatively simple:
+The script used to start the Riak service takes care of some basic configuration and then tails the logs:</description>
     </item>
     
   </channel>

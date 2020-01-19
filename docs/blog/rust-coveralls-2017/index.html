@@ -8,7 +8,7 @@
     <meta name="description" content="My Programming Blog">
     <link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/img/favicon.ico">
     <title>Rust - Coveralls.io for Rust</title>
-    <meta name="generator" content="Hugo 0.56.3" />
+    <meta name="generator" content="Hugo 0.62.2" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://shaneutt.com/css/main.css" /><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/tomorrow.min.css">
     
@@ -68,60 +68,17 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="blogpost">
-              <p>While looking for a way to provide code coverage with <a href="https://coveralls.io">https://coveralls.io</a> for Rust, I stumbled upon a solution while reading through <a href="https://github.com/hyperium/hyper">Iron</a>.</p>
-
-<p>The solution involves a tool called <a href="https://github.com/SimonKagstrom/kcov/">kcov</a> which is a Linux/OSX code coverage tester for compiled languages.</p>
-
-<p>This tool can be implemented inside a <strong>.travis.yml</strong> file to push coverage data from a <a href="https://travis-cs.org">Travis CI </a> build.</p>
-
-<p>Here is an example <strong>.travis.yml </strong>file:
-<pre class="lang:yaml decode:true" title=".travis.yml">sudo: required</p>
-
-<p>language: rust</p>
-
-<p>rust:
-  - stable
-  - beta
-  - nightly</p>
-
-<p>matrix:
-  allow_failures:
-    - rust: nightly</p>
-
-<p>services:
-  - docker</p>
-
-<p>script:
-- make test-docker-env</p>
-
-<p>cache:
-    apt: true
-    directories:
-        - target/debug/deps
-        - target/debug/build</p>
-
-<p>addons:
-  apt:
-    packages:
-      - libcurl4-openssl-dev
-      - libelf-dev
-      - libdw-dev</p>
-
-<p>after_success: |
-    [ $TRAVIS_RUST_VERSION = stable ] &amp;&amp;
-    wget <a href="https://github.com/shaneutt/kcov/archive/master.tar.gz">https://github.com/shaneutt/kcov/archive/master.tar.gz</a> &amp;&amp;
-    tar xzf master.tar.gz &amp;&amp; mkdir kcov-master/build &amp;&amp; cd kcov-master/build &amp;&amp; cmake .. &amp;&amp; make &amp;&amp; make install DESTDIR=../tmp &amp;&amp; cd ../.. &amp;&amp;
-    ls target/debug &amp;&amp;
-    ./kcov-master/tmp/usr/local/bin/kcov &ndash;coveralls-id=$TRAVIS_JOB_ID &ndash;exclude-pattern=/.cargo target/kcov target/debug/riak-*
-</pre>
-Basically all you have to do is run:
-<pre class="lang:sh decode:true ">./kcov-master/tmp/usr/local/bin/kcov &ndash;coveralls-id=$TRAVIS_JOB_ID &ndash;exclude-pattern=/.cargo target/kcov target/debug/riak-<em></pre>
-Changing &ldquo;riak-</em>&rdquo; for your own project, and everything before that is just to compiled kcov inside the Travis CI environment.</p>
-
-<p>This configuration was used for my <a href="https://github.com/shaneutt/riak-rust-client">Riak Rust Client</a>.</p>
-
-<p>Since the above example uses <strong>master.tar.gz</strong>, I recommend you fork the original repo and use your fork for stability.</p>
-
+              <p>While looking for a way to provide code coverage with <!-- raw HTML omitted --><a href="https://coveralls.io%3C/a%3E">https://coveralls.io&lt;/a&gt;</a> for Rust, I stumbled upon a solution while reading through <!-- raw HTML omitted -->Iron<!-- raw HTML omitted -->.</p>
+<p>The solution involves a tool called <!-- raw HTML omitted -->kcov<!-- raw HTML omitted --> which is a Linux/OSX code coverage tester for compiled languages.</p>
+<p>This tool can be implemented inside a <!-- raw HTML omitted -->.travis.yml<!-- raw HTML omitted --> file to push coverage data from a <!-- raw HTML omitted -->Travis CI <!-- raw HTML omitted --> build.</p>
+<p>Here is an example <!-- raw HTML omitted -->.travis.yml <!-- raw HTML omitted -->file:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Basically all you have to do is run:</p>
+<!-- raw HTML omitted -->
+<p>Changing &ldquo;riak-*&rdquo; for your own project, and everything before that is just to compiled kcov inside the Travis CI environment.</p>
+<p>This configuration was used for my <!-- raw HTML omitted -->Riak Rust Client<!-- raw HTML omitted -->.</p>
+<p>Since the above example uses <!-- raw HTML omitted -->master.tar.gz<!-- raw HTML omitted -->, I recommend you fork the original repo and use your fork for stability.</p>
 <p>Happy Coding!</p>
 
               <hr>

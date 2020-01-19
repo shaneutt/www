@@ -8,7 +8,7 @@
     <meta name="description" content="My Programming Blog">
     <link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/img/favicon.ico">
     <title>Rust - Fast &#43; Small Docker Image Builds</title>
-    <meta name="generator" content="Hugo 0.56.3" />
+    <meta name="generator" content="Hugo 0.62.2" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://shaneutt.com/css/main.css" /><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/tomorrow.min.css">
     
@@ -74,310 +74,216 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="blogpost">
-              
-
-<h1 id="fast-small-docker-image-builds-for-rust-apps">Fast + Small Docker Image Builds for Rust Apps</h1>
-
-<p>In this post I&rsquo;m going to demonstrate how to create small, quickly built <a href="https://hub.docker.com/explore/">Docker Images</a> for <a href="https://www.rust-lang.org/">Rust</a> applications.</p>
-
-<p>We&rsquo;ll start by creating a simple test application, and then building and iterating on a <a href="https://docs.docker.com/engine/reference/builder/">Dockerfile</a>.</p>
-
+              <h1 id="fast--small-docker-image-builds-for-rust-apps">Fast + Small Docker Image Builds for Rust Apps</h1>
+<p>In this post I'm going to demonstrate how to create small, quickly built <a href="https://hub.docker.com/explore/">Docker Images</a> for <a href="https://www.rust-lang.org/">Rust</a> applications.</p>
+<p>We'll start by creating a simple test application, and then building and iterating on a <a href="https://docs.docker.com/engine/reference/builder/">Dockerfile</a>.</p>
 <h2 id="requirements">Requirements</h2>
-
 <p>Ensure you have the following installed:</p>
-
 <ul>
 <li><a href="https://rustup.rs">rustup</a> v1.14.0+</li>
 <li><a href="https://docker.com">docker</a> v17.06.2+</li>
 </ul>
-
 <h2 id="setup-demo-app-setup">Setup: demo app setup</h2>
-
 <p>Make sure you have and are using the latest stable Rust with <code>rustup</code>:</p>
-
 <pre><code>rustup default stable
 rustup update
-</code></pre>
-
-<p>Create a new project called &ldquo;myapp&rdquo;:</p>
-
+</code></pre><p>Create a new project called &ldquo;myapp&rdquo;:</p>
 <pre><code>cargo new myapp
 cd myapp/
-</code></pre>
-
-<h2 id="setup-initial-dockerfile">Setup: initial dockerfile</h2>
-
-<p>The following is a starting place we&rsquo;ll use for our <a href="https://docs.docker.com/engine/reference/commandline/build/">docker build</a>, create a file named <code>Dockerfile</code> in the current directory:</p>
-
-<pre><code class="language-dockerfile">FROM rust:latest
-
-WORKDIR /usr/src/myapp
-
-COPY . .
-
-RUN cargo build --release
-
-RUN cargo install --path .
-
-CMD [&quot;/usr/local/cargo/bin/myapp&quot;]
-</code></pre>
-
-<p>And also create a <code>.dockerignore</code> file with the following contents:</p>
-
+</code></pre><h2 id="setup-initial-dockerfile">Setup: initial dockerfile</h2>
+<p>The following is a starting place we'll use for our <a href="https://docs.docker.com/engine/reference/commandline/build/">docker build</a>, create a file named <code>Dockerfile</code> in the current directory:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> rust:latest</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /usr/src/myapp</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> . .<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> cargo build --release<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> cargo install --path .<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;/usr/local/cargo/bin/myapp&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>And also create a <code>.dockerignore</code> file with the following contents:</p>
 <pre><code>target/
 Dockerfile
-</code></pre>
-
-<p>You can test building and running the app with:</p>
-
+</code></pre><p>You can test building and running the app with:</p>
 <pre><code>docker build -t myapp .
 docker run --rm -it myapp
-</code></pre>
-
-<p>If everything is working properly, you should see the response <code>Hello, world!</code>.</p>
-
+</code></pre><p>If everything is working properly, you should see the response <code>Hello, world!</code>.</p>
 <h2 id="problems-with-our-initial-docker-build">Problems with our initial docker build</h2>
-
-<p>At the time of writing this blog post, Rust&rsquo;s package manager <a href="https://github.com/rust-lang/cargo">cargo</a> has an issue where <a href="https://github.com/rust-lang/cargo/issues/2644">it does not have a &ndash;depedencies-only option to build depedencies independently</a>.</p>
-
+<p>At the time of writing this blog post, Rust's package manager <a href="https://github.com/rust-lang/cargo">cargo</a> has an issue where <a href="https://github.com/rust-lang/cargo/issues/2644">it does not have a &ndash;depedencies-only option to build depedencies independently</a>.</p>
 <p>The lack of an option with <code>cargo</code> to build the depedencies separately leads to a problem of having the dependencies for the application rebuilt on every change of the <code>src/</code> contents, when we really only want dependencies to be rebuilt if the <code>Cargo.toml</code> or <code>Cargo.lock</code> files are changed (e.g. when dependencies are added or updated).</p>
+<p>As an additional problem, while the <a href="https://hub.docker.com/r/library/rust/tags/">rust:latest</a> Docker image is great for building, it's a fairly large image coming in at over 1.5GB in size.</p>
+<h3 id="improving-builds-so-that-dependencies-dont-rebuild-on-src-file-changes">Improving builds so that dependencies don't rebuild on src/ file changes</h3>
+<p>To avoid this problem and enable docker build cache so that builds are quicker, let's start by modifying our <code>Cargo.toml</code> to add a dependency:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml">[<span style="color:#a6e22e">package</span>]
+<span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;myapp&#34;</span>
+<span style="color:#a6e22e">version</span> = <span style="color:#e6db74">&#34;0.1.0&#34;</span>
 
-<p>As an additional problem, while the <a href="https://hub.docker.com/r/library/rust/tags/">rust:latest</a> Docker image is great for building, it&rsquo;s a fairly large image coming in at over 1.5GB in size.</p>
-
-<h3 id="improving-builds-so-that-dependencies-don-t-rebuild-on-src-file-changes">Improving builds so that dependencies don&rsquo;t rebuild on src/ file changes</h3>
-
-<p>To avoid this problem and enable docker build cache so that builds are quicker, let&rsquo;s start by modifying our <code>Cargo.toml</code> to add a dependency:</p>
-
-<pre><code class="language-toml">[package]
-name = &quot;myapp&quot;
-version = &quot;0.1.0&quot;
-
-[dependencies]
-rand = &quot;0.5.5&quot;
-</code></pre>
-
-<p>We&rsquo;ve added a new <a href="https://crates.io">crate</a> as a dependency to our project named <a href="https://crates.io/crates/rand">rand</a> which provides convenient random number generation utilities.</p>
-
+[<span style="color:#a6e22e">dependencies</span>]
+<span style="color:#a6e22e">rand</span> = <span style="color:#e6db74">&#34;0.5.5&#34;</span>
+</code></pre></div><p>We've added a new <a href="https://crates.io">crate</a> as a dependency to our project named <a href="https://crates.io/crates/rand">rand</a> which provides convenient random number generation utilities.</p>
 <p>Now if we run:</p>
-
 <pre><code>docker build -t myapp .
-</code></pre>
-
-<p>It will build the <code>rand</code> dependency and add it to the cache, but changing <code>src/main.rs</code> will invalidate the cache for the next build:</p>
-
-<pre><code class="language-rust">cat &lt;&lt;EOF &gt; src/main.rs
-fn main() {
-    println!(&quot;I've been updated!&quot;);
+</code></pre><p>It will build the <code>rand</code> dependency and add it to the cache, but changing <code>src/main.rs</code> will invalidate the cache for the next build:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">cat <span style="color:#f92672">&lt;</span><span style="color:#f92672">&lt;</span>EOF <span style="color:#f92672">&gt;</span> src<span style="color:#f92672">/</span>main.rs
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    println<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;I&#39;ve been updated!&#34;</span>);
 }
 EOF
-docker build -t myapp .
-</code></pre>
-
-<p>Notice that this build again had to rebuild the <code>rand</code> dependency.</p>
-
-<p>While we&rsquo;re waiting on a <code>--dependencies-only</code> build options for <code>cargo</code>, we can overcome this problem by changing our <code>Dockerfile</code> to have a default <code>src/main.rs</code> with which the dependencies are built before we <code>COPY</code> any of our code into the build:</p>
-
-<pre><code class="language-dockerfile">FROM rust:latest
-
-WORKDIR /usr/src/myapp
-
-COPY Cargo.toml Cargo.toml
-
-RUN mkdir src/
-
-RUN echo &quot;fn main() {println!(\&quot;if you see this, the build broke\&quot;)}&quot; &gt; src/main.rs
-
-RUN cargo build --release
-
-RUN rm -f target/release/deps/myapp*
-
-COPY . .
-
-RUN cargo build --release
-
-RUN cargo install --path .
-
-CMD [&quot;/usr/local/cargo/bin/myapp&quot;]
-</code></pre>
-
-<p>The following line from the above <code>Dockerfile</code> will cause the following <code>cargo build</code> to rebuild only our application:</p>
-
+docker build <span style="color:#f92672">-</span>t myapp .
+</code></pre></div><p>Notice that this build again had to rebuild the <code>rand</code> dependency.</p>
+<p>While we're waiting on a <code>--dependencies-only</code> build options for <code>cargo</code>, we can overcome this problem by changing our <code>Dockerfile</code> to have a default <code>src/main.rs</code> with which the dependencies are built before we <code>COPY</code> any of our code into the build:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> rust:latest</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /usr/src/myapp</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> Cargo.toml Cargo.toml<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir src/<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> echo <span style="color:#e6db74">&#34;fn main() {println!(\&#34;if you see this, the build broke\&#34;)}&#34;</span> &gt; src/main.rs<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> cargo build --release<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> rm -f target/release/deps/myapp*<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> . .<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> cargo build --release<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> cargo install --path .<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;/usr/local/cargo/bin/myapp&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>The following line from the above <code>Dockerfile</code> will cause the following <code>cargo build</code> to rebuild only our application:</p>
 <pre><code>RUN rm -f target/release/deps/myapp*
-</code></pre>
-
-<p>So now if we build:</p>
-
+</code></pre><p>So now if we build:</p>
 <pre><code>docker build -t myapp .
-</code></pre>
-
-<p>And then make another change to <code>src/main.rs</code>:</p>
-
+</code></pre><p>And then make another change to <code>src/main.rs</code>:</p>
 <pre><code>cat &lt;&lt;EOF &gt; src/main.rs
 fn main() {
     println!(&quot;I've been updated yet again!&quot;);
 }
 EOF
-</code></pre>
-
-<p>We&rsquo;ll find that subsequent <code>docker build</code> runs only rebuild <code>myapp</code> and the depedencies have been cached for quicker builds.</p>
-
+</code></pre><p>We'll find that subsequent <code>docker build</code> runs only rebuild <code>myapp</code> and the depedencies have been cached for quicker builds.</p>
 <h3 id="reducing-the-size-of-the-image">Reducing the size of the image</h3>
-
 <p>The <a href="https://hub.docker.com/r/library/rust/tags/">rust:latest</a> image has all the tools we need to build our project, but is over 1.5GB in size. We can improve the image size by using <a href="https://alpinelinux.org/">Alpine Linux</a> which is an excellent small Linux distribution.</p>
-
 <p>The Alpine team provides <a href="https://hub.docker.com/_/alpine/">a docker image</a> which is only several megabytes in size and still has some shell functionality for debugging and can be used as a small base image for our Rust builds.</p>
-
 <p>Using <a href="https://docs.docker.com/develop/develop-images/multistage-build/">multi-stage docker build</a>s we can use <a href="https://hub.docker.com/r/library/rust/tags/">rust:latest</a> to do our build work, but then simply copy the app into a final build stage based on <a href="https://hub.docker.com/_/alpine/">alpine:latest</a>:</p>
-
-<pre><code class="language-dockerfile"># ------------------------------------------------------------------------------
-# Cargo Build Stage
-# ------------------------------------------------------------------------------
-
-FROM rust:latest as cargo-build
-
-WORKDIR /usr/src/myapp
-
-COPY Cargo.toml Cargo.toml
-
-RUN mkdir src/
-
-RUN echo &quot;fn main() {println!(\&quot;if you see this, the build broke\&quot;)}&quot; &gt; src/main.rs
-
-RUN cargo build --release
-
-RUN rm -f target/release/deps/myapp*
-
-COPY . .
-
-RUN cargo build --release
-
-RUN cargo install --path .
-
-# ------------------------------------------------------------------------------
-# Final Stage
-# ------------------------------------------------------------------------------
-
-FROM alpine:latest
-
-COPY --from=cargo-build /usr/local/cargo/bin/myapp /usr/local/bin/myapp
-
-CMD [&quot;myapp&quot;]
-</code></pre>
-
-<p>Now if you run:</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#75715e"># ------------------------------------------------------------------------------</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Cargo Build Stage</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ------------------------------------------------------------------------------</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> rust:latest as cargo-build</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /usr/src/myapp</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> Cargo.toml Cargo.toml<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir src/<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> echo <span style="color:#e6db74">&#34;fn main() {println!(\&#34;if you see this, the build broke\&#34;)}&#34;</span> &gt; src/main.rs<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> cargo build --release<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> rm -f target/release/deps/myapp*<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> . .<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> cargo build --release<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> cargo install --path .<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ------------------------------------------------------------------------------</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Final Stage</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ------------------------------------------------------------------------------</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> alpine:latest</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>cargo-build /usr/local/cargo/bin/myapp /usr/local/bin/myapp<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;myapp&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>Now if you run:</p>
 <pre><code>docker build -t myapp .
 docker images |grep myapp
-</code></pre>
-
-<p>You should see something like:</p>
-
+</code></pre><p>You should see something like:</p>
 <pre><code>myapp               latest              03a3838a37bc        7 seconds ago       8.54MB
-</code></pre>
-
-<h2 id="next-follow-up-fixing-and-further-improving-our-build">Next: Follow up - fixing and further improving our build</h2>
-
+</code></pre><h2 id="next-follow-up---fixing-and-further-improving-our-build">Next: Follow up - fixing and further improving our build</h2>
 <p>If you tried to run the above example with <code>docker run --rm -it myapp</code>, you probably got an error like:</p>
-
 <pre><code>standard_init_linux.go:187: exec user process caused &quot;no such file or directory&quot;
-</code></pre>
-
-<p>If you&rsquo;re familiar with <a href="https://en.wikipedia.org/wiki/Ldd_(Unix)">ldd</a> you can run the following to see that we&rsquo;re missing shared libraries for our application:</p>
-
+</code></pre><p>If you're familiar with <a href="https://en.wikipedia.org/wiki/Ldd_(Unix)">ldd</a> you can run the following to see that we're missing shared libraries for our application:</p>
 <pre><code>docker run --rm -it myapp ldd /usr/local/bin/myapp
-</code></pre>
-
-<p>In the above examples we show how to avoid rebuilding depdencies on every <code>src/</code> file change, and how to reduce our image footprint from 1.5GB+ to several megabytes, however our build doesn&rsquo;t currently work because we need to build against <a href="https://www.musl-libc.org/">MUSL Libc</a> which is a lightweight, fast standard library available as the default in <code>alpine:latest</code>.</p>
-
+</code></pre><p>In the above examples we show how to avoid rebuilding depdencies on every <code>src/</code> file change, and how to reduce our image footprint from 1.5GB+ to several megabytes, however our build doesn't currently work because we need to build against <a href="https://www.musl-libc.org/">MUSL Libc</a> which is a lightweight, fast standard library available as the default in <code>alpine:latest</code>.</p>
 <p>Beyond that, we also want to make sure that our application runs as an unprivileged user inside the container so as to adhere to the <a href="https://en.wikipedia.org/wiki/Principle_of_least_privilege">principle of least privilege</a>.</p>
-
 <h3 id="building-for-musl-libc">Building for MUSL Libc</h3>
-
-<p>To build for MUSL libc we&rsquo;ll need to install the <code>x86_64-unknown-linux-musl</code> <a href="https://doc.rust-lang.org/rustc/targets/built-in.html">target</a> so that <code>cargo</code> can be flagged to build for it with <code>--target</code>. We&rsquo;ll also need to flag Rust to use the <code>musl-gcc</code> linker.</p>
-
+<p>To build for MUSL libc we'll need to install the <code>x86_64-unknown-linux-musl</code> <a href="https://doc.rust-lang.org/rustc/targets/built-in.html">target</a> so that <code>cargo</code> can be flagged to build for it with <code>--target</code>. We'll also need to flag Rust to use the <code>musl-gcc</code> linker.</p>
 <p>The <code>rust:latest</code> image will come with <code>rustup</code> pre-installed. <code>rustup</code> allows you to install new targets with <code>rustup target add $NAME</code>, so we can modify our <code>Dockerfile</code> as such:</p>
-
-<pre><code class="language-dockerfile"># ------------------------------------------------------------------------------
-# Cargo Build Stage
-# ------------------------------------------------------------------------------
-
-FROM rust:latest as cargo-build
-
-RUN apt-get update
-
-RUN apt-get install musl-tools -y
-
-RUN rustup target add x86_64-unknown-linux-musl
-
-WORKDIR /usr/src/myapp
-
-COPY Cargo.toml Cargo.toml
-
-RUN mkdir src/
-
-RUN echo &quot;fn main() {println!(\&quot;if you see this, the build broke\&quot;)}&quot; &gt; src/main.rs
-
-RUN RUSTFLAGS=-Clinker=musl-gcc cargo build --release --target=x86_64-unknown-linux-musl
-
-RUN rm -f target/x86_64-unknown-linux-musl/release/deps/myapp*
-
-COPY . .
-
-RUN RUSTFLAGS=-Clinker=musl-gcc cargo build --release --target=x86_64-unknown-linux-musl
-
-# ------------------------------------------------------------------------------
-# Final Stage
-# ------------------------------------------------------------------------------
-
-FROM alpine:latest
-
-COPY --from=cargo-build /usr/src/myapp/target/x86_64-unknown-linux-musl/release/myapp /usr/local/bin/myapp
-
-CMD [&quot;myapp&quot;]
-</code></pre>
-
-<p>Note the following line which shows the new way in which we&rsquo;re building the app for MUSL Libc:</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#75715e"># ------------------------------------------------------------------------------</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Cargo Build Stage</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ------------------------------------------------------------------------------</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> rust:latest as cargo-build</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apt-get update<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apt-get install musl-tools -y<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> rustup target add x86_64-unknown-linux-musl<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /usr/src/myapp</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> Cargo.toml Cargo.toml<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir src/<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> echo <span style="color:#e6db74">&#34;fn main() {println!(\&#34;if you see this, the build broke\&#34;)}&#34;</span> &gt; src/main.rs<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> RUSTFLAGS<span style="color:#f92672">=</span>-Clinker<span style="color:#f92672">=</span>musl-gcc cargo build --release --target<span style="color:#f92672">=</span>x86_64-unknown-linux-musl<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> rm -f target/x86_64-unknown-linux-musl/release/deps/myapp*<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> . .<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> RUSTFLAGS<span style="color:#f92672">=</span>-Clinker<span style="color:#f92672">=</span>musl-gcc cargo build --release --target<span style="color:#f92672">=</span>x86_64-unknown-linux-musl<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ------------------------------------------------------------------------------</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Final Stage</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ------------------------------------------------------------------------------</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> alpine:latest</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>cargo-build /usr/src/myapp/target/x86_64-unknown-linux-musl/release/myapp /usr/local/bin/myapp<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;myapp&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>Note the following line which shows the new way in which we're building the app for MUSL Libc:</p>
 <pre><code>RUSTFLAGS=-Clinker=musl-gcc cargo build --release --target=x86_64-unknown-linux-musl
-</code></pre>
-
-<p>Do a fresh build of the app and run it:</p>
-
+</code></pre><p>Do a fresh build of the app and run it:</p>
 <pre><code>docker build -t myapp .
 docker run --rm -it myapp
-</code></pre>
-
-<p>If everything worked properly you should again see <code>I've been updated yet again!</code>.</p>
-
+</code></pre><p>If everything worked properly you should again see <code>I've been updated yet again!</code>.</p>
 <h3 id="running-as-an-unprivileged-user">Running as an unprivileged user</h3>
-
-<p>To follow <a href="https://en.wikipedia.org/wiki/Principle_of_least_privilege">principle of least privilege</a>, let&rsquo;s create a user named &ldquo;myapp&rdquo; which we&rsquo;ll use to run <code>myapp</code> as instead of as the <code>root</code> user.</p>
-
+<p>To follow <a href="https://en.wikipedia.org/wiki/Principle_of_least_privilege">principle of least privilege</a>, let's create a user named &ldquo;myapp&rdquo; which we'll use to run <code>myapp</code> as instead of as the <code>root</code> user.</p>
 <p>Change the <code>Final Stage</code> docker build stage to the following:</p>
-
-<pre><code class="language-dockerfile"># ------------------------------------------------------------------------------
-# Final Stage
-# ------------------------------------------------------------------------------
-
-FROM alpine:latest
-
-RUN addgroup -g 1000 myapp
-
-RUN adduser -D -s /bin/sh -u 1000 -G myapp myapp
-
-WORKDIR /home/myapp/bin/
-
-COPY --from=cargo-build /usr/src/myapp/target/x86_64-unknown-linux-musl/release/myapp .
-
-RUN chown myapp:myapp myapp
-
-USER myapp
-
-CMD [&quot;./myapp&quot;]
-</code></pre>
-
-<p>Update <code>src/main.rs</code>:</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#75715e"># ------------------------------------------------------------------------------</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Final Stage</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ------------------------------------------------------------------------------</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> alpine:latest</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> addgroup -g <span style="color:#ae81ff">1000</span> myapp<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> adduser -D -s /bin/sh -u <span style="color:#ae81ff">1000</span> -G myapp myapp<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /home/myapp/bin/</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>cargo-build /usr/src/myapp/target/x86_64-unknown-linux-musl/release/myapp .<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> chown myapp:myapp myapp<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">USER</span><span style="color:#e6db74"> myapp</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;./myapp&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>Update <code>src/main.rs</code>:</p>
 <pre><code>cat &lt;&lt;EOF &gt; src/main.rs
 use std::process::Command;
 
@@ -386,71 +292,60 @@ fn main() {
     user.pop();
     println!(&quot;I've once more been updated, and now I run as the user {}!&quot;, user)
 }
-</code></pre>
-
-<p>And now build the image and run:</p>
-
+</code></pre><p>And now build the image and run:</p>
 <pre><code>docker build -t myapp .
 docker run --rm -it myapp
-</code></pre>
-
-<p>If everything worked properly you should see <code>I've once more been updated, and now I run as the user myapp!</code>.</p>
-
+</code></pre><p>If everything worked properly you should see <code>I've once more been updated, and now I run as the user myapp!</code>.</p>
 <h2 id="wrapup">Wrapup!</h2>
-
-<p>The complete <code>Dockerfile</code> we have now for building our app while we&rsquo;re working on it now looks like:</p>
-
-<pre><code class="language-dockerfile"># ------------------------------------------------------------------------------
-# Cargo Build Stage
-# ------------------------------------------------------------------------------
-
-FROM rust:latest as cargo-build
-
-RUN apt-get update
-
-RUN apt-get install musl-tools -y
-
-RUN rustup target add x86_64-unknown-linux-musl
-
-WORKDIR /usr/src/myapp
-
-COPY Cargo.toml Cargo.toml
-
-RUN mkdir src/
-
-RUN echo &quot;fn main() {println!(\&quot;if you see this, the build broke\&quot;)}&quot; &gt; src/main.rs
-
-RUN RUSTFLAGS=-Clinker=musl-gcc cargo build --release --target=x86_64-unknown-linux-musl
-
-RUN rm -f target/x86_64-unknown-linux-musl/release/deps/myapp*
-
-COPY . .
-
-RUN RUSTFLAGS=-Clinker=musl-gcc cargo build --release --target=x86_64-unknown-linux-musl
-
-# ------------------------------------------------------------------------------
-# Final Stage
-# ------------------------------------------------------------------------------
-
-FROM alpine:latest
-
-RUN addgroup -g 1000 myapp
-
-RUN adduser -D -s /bin/sh -u 1000 -G myapp myapp
-
-WORKDIR /home/myapp/bin/
-
-COPY --from=cargo-build /usr/src/myapp/target/x86_64-unknown-linux-musl/release/myapp .
-
-RUN chown myapp:myapp myapp
-
-USER myapp
-
-CMD [&quot;./myapp&quot;]
-</code></pre>
-
-<p>From here see my demo on <a href="https://github.com/shaneutt/dcos-k8s-rust-skaffold-demo">deploying Rust to Kubernetes on DC/OS with Skaffold</a>. Utilizing some of the techniques in that demo, you could automate deployment of your application to <a href="https://kubernetes.io">Kubernetes</a> for testing on a local <a href="https://kubernetes.io/docs/setup/minikube/">minikube</a> system using <a href="https://github.com/GoogleContainerTools/skaffold">Skaffold</a>.</p>
-
+<p>The complete <code>Dockerfile</code> we have now for building our app while we're working on it now looks like:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#75715e"># ------------------------------------------------------------------------------</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Cargo Build Stage</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ------------------------------------------------------------------------------</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> rust:latest as cargo-build</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apt-get update<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apt-get install musl-tools -y<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> rustup target add x86_64-unknown-linux-musl<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /usr/src/myapp</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> Cargo.toml Cargo.toml<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir src/<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> echo <span style="color:#e6db74">&#34;fn main() {println!(\&#34;if you see this, the build broke\&#34;)}&#34;</span> &gt; src/main.rs<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> RUSTFLAGS<span style="color:#f92672">=</span>-Clinker<span style="color:#f92672">=</span>musl-gcc cargo build --release --target<span style="color:#f92672">=</span>x86_64-unknown-linux-musl<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> rm -f target/x86_64-unknown-linux-musl/release/deps/myapp*<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> . .<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> RUSTFLAGS<span style="color:#f92672">=</span>-Clinker<span style="color:#f92672">=</span>musl-gcc cargo build --release --target<span style="color:#f92672">=</span>x86_64-unknown-linux-musl<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ------------------------------------------------------------------------------</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Final Stage</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># ------------------------------------------------------------------------------</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> alpine:latest</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> addgroup -g <span style="color:#ae81ff">1000</span> myapp<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> adduser -D -s /bin/sh -u <span style="color:#ae81ff">1000</span> -G myapp myapp<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /home/myapp/bin/</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>cargo-build /usr/src/myapp/target/x86_64-unknown-linux-musl/release/myapp .<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> chown myapp:myapp myapp<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">USER</span><span style="color:#e6db74"> myapp</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;./myapp&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>From here see my demo on <a href="https://github.com/shaneutt/dcos-k8s-rust-skaffold-demo">deploying Rust to Kubernetes on DC/OS with Skaffold</a>. Utilizing some of the techniques in that demo, you could automate deployment of your application to <a href="https://kubernetes.io">Kubernetes</a> for testing on a local <a href="https://kubernetes.io/docs/setup/minikube/">minikube</a> system using <a href="https://github.com/GoogleContainerTools/skaffold">Skaffold</a>.</p>
 <p>Happy coding!</p>
 
               <hr>
