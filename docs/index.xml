@@ -6,10 +6,20 @@
     <description>Recent content on My Programming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 12 Aug 2019 12:50:13 -0400</lastBuildDate>
+    <lastBuildDate>Sun, 19 Jan 2020 14:51:55 -0500</lastBuildDate>
     
 	<atom:link href="https://shaneutt.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Rust - X86 to ARM builds for Raspberry Pi 4</title>
+      <link>https://shaneutt.com/blog/rust-x86-arm-raspberry-pi-4/</link>
+      <pubDate>Sun, 19 Jan 2020 14:51:55 -0500</pubDate>
+      
+      <guid>https://shaneutt.com/blog/rust-x86-arm-raspberry-pi-4/</guid>
+      <description>Rust x86 to ARM for Raspberry Pi 4 Recently the Raspberry Pi 4 was released and I purchased several of them to replace my previous Raspberry Pi 3&#39;s and RockPro64&#39;s which had made up my previous home cluster (but are now re-purposed for other tasks).
+My initial deployment of six Pi4&#39;s was all on Manjaro Linux&#39;s Arm Edition which was functional for the purposes of deploying a K3s kubernetes cluster, but I soon decided that I wanted to run an operating system with more of a security focus.</description>
+    </item>
     
     <item>
       <title>Konvoy: A new managed Kubernetes platform</title>

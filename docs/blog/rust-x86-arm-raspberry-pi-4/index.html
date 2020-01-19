@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Shane Utt" />
+    <meta name="description" content="My Programming Blog">
+    <link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/img/favicon.ico">
+    <title>Rust - X86 to ARM builds for Raspberry Pi 4</title>
+    <meta name="generator" content="Hugo 0.62.2" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://shaneutt.com/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="https://shaneutt.com/"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="/blog/">BLOG</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="https://shaneutt.com/blog/rust-x86-arm-raspberry-pi-4/">Rust - X86 to ARM builds for Raspberry Pi 4</a></strong>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          January 19, 2020
+            &nbsp;&nbsp;
+            
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              <h1 id="rust-x86-to-arm-for-raspberry-pi-4">Rust x86 to ARM for Raspberry Pi 4</h1>
+<p>Recently the <a href="https://www.raspberrypi.org/products/raspberry-pi-4-model-b/">Raspberry Pi 4</a> was released and I purchased several of them to replace my previous <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/">Raspberry Pi 3's</a> and <a href="https://store.pine64.org/?product=rockpro64-4gb-single-board-computer">RockPro64's</a> which had made up my previous home cluster (but are now re-purposed for other tasks).</p>
+<p>My initial deployment of six Pi4's was all on <a href="https://manjaro.org/download/#raspberry-pi-4">Manjaro Linux's Arm Edition</a> which was functional for the purposes of deploying a <a href="https://github.com/rancher/k3s/">K3s kubernetes cluster</a>, but I soon decided that I wanted to run an operating system with more of a security focus.</p>
+<p>Since then I've redeployed all machines with <a href="https://wiki.centos.org/SpecialInterestGroup/AltArch/armhfp">CentOS 7's ARMHFP Release</a> for stability and out-of-the-box SELinux functionality as these machines are intended to manage some sensitive data and applications.</p>
+<p>I'm using this cluster to work on a couple of different projects of mine in <a href="https://www.rust-lang.org/">Rust</a>, but had to overcome a couple of small hurdles to get to the point where I could build from my local <a href="https://manjaro.org/">Manjaro Linux</a> workstation and <a href="https://www.linux.com/tutorials/cross-compiling-arm/">cross-compile for ARM</a>.</p>
+<p>In this small post I'll walk through quickly cross-compiling your programs to Raspberry Pi4 from an <a href="https://en.wikipedia.org/wiki/X86">x86</a> host given the environment described above.</p>
+<h1 id="project-template">Project Template</h1>
+<p>To start, let's create a new project with <a href="https://doc.rust-lang.org/cargo/">Cargo</a> which we'll use for this demo:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cargo new testpi --bin
+cd testpi/
+</code></pre></div><p>A &ldquo;hello world&rdquo; example is templated by default, which you can test:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cargo run
+   Compiling testpi v0.1.0 <span style="color:#f92672">(</span>/home/shane/Code/testpi<span style="color:#f92672">)</span>
+    Finished dev <span style="color:#f92672">[</span>unoptimized + debuginfo<span style="color:#f92672">]</span> target<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> in 0.52s
+     Running <span style="color:#e6db74">`</span>target/debug/testpi<span style="color:#e6db74">`</span>
+Hello, world!
+</code></pre></div><p>Now we're compiling for the local x86 system and it's time to setup our build toolchain for cross-compiling to ARM.</p>
+<h1 id="cross-compile-build-toolchain">Cross-Compile Build Toolchain</h1>
+<p>We need to install a toolchain capable of building for ARM, for many operating systems this is the <code>arm-linux-gnueabihf-gcc</code> package available via your package manager.</p>
+<p>For instance if you're on <a href="https://archlinux.org/">Arch Linux</a> or <a href="https://manjaro.org/">Manjaro Linux</a> and you have <a href="https://aur.archlinux.org/packages/pamac-aur/">pamac</a> available on your system you can install the toolchain from the <a href="https://aur.archlinux.org/">AUR</a> with the following line:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">pamac build arm-linux-gnueabihf-gcc
+</code></pre></div><p>This will install the <a href="https://aur.archlinux.org/packages/arm-linux-gnueabihf-gcc/">AUR arm-linux-gnueabihf-gcc package</a>.</p>
+<h2 id="avoiding-glibc">Avoiding GLIBC</h2>
+<p>In this post I'm going to avoid <a href="https://www.gnu.org/software/libc/">GLIBC</a> altogether by using a <a href="https://www.musl-libc.org/">MUSL</a> based arm build target to emit statically linked binaries using MUSL libc instead, since <a href="https://centos.org">CentOS 7</a> only provides a very old version of GLIBC.</p>
+<h1 id="cargo-setup">Cargo Setup</h1>
+<p>Now that you have the build toolchain you'll need to configure Rust to use it. The best way to persistently configure cargo to build for your target appropriately is to add lines to the <code>~/.cargo/config</code> file (create it if it doesn't exist):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml">[<span style="color:#a6e22e">target</span>.<span style="color:#a6e22e">armv7</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#a6e22e">unknown</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#a6e22e">linux</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#a6e22e">musleabihf</span>]
+<span style="color:#a6e22e">linker</span> = <span style="color:#e6db74">&#34;arm-linux-gnueabihf-gcc&#34;</span>
+</code></pre></div><p>This configures <code>cargo</code> to use our arm compiler installed in the previous step and utilize that for managing libc. Using the <code>armv7-unknown-linux-musleabihf</code> target with this compiler will handle automatically statically linking <a href="https://www.musl-libc.org/">MUSL LIBC</a> instead of dynamically linking GLIBC so that we don't have to manage dynamic libraries for our binaries.</p>
+<h1 id="building">Building</h1>
+<p>Everything should be all set! Build your Raspberry Pi 4 binary with:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cargo build --target armv7-unknown-linux-musleabihf --release
+</code></pre></div><p>For a quick test you can use <code>scp</code> to copy the binary over to your Pi and run it:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">scp target/armv7-unknown-linux-musleabihf/release/testpi root@<span style="color:#e6db74">${</span>SERVER_IP<span style="color:#e6db74">}</span>:/usr/local/bin/testpi
+ssh root@<span style="color:#e6db74">${</span>SERVER_IP<span style="color:#e6db74">}</span> testpi
+</code></pre></div><p>From here you can expand upon this to build and deploy your Rust software to your Pi4's, happy coding!</p>
+
+              <hr>
+              <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+              </div>
+            </div>
+          </div>
+          <hr>
+        <div class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+
+    (function() {
+      
+      
+      if (window.location.hostname == "localhost")
+        return;
+
+      var disqus_shortname = '';
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+        </div>
+      </div>
+      
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://shaneutt.com/js/docs.min.js"></script>
+<script src="https://shaneutt.com/js/main.js"></script>
+
+<script src="https://shaneutt.com/js/ie10-viewport-bug-workaround.js"></script>
+
+
+    
+  </body>
+</html>
