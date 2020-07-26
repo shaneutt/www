@@ -18,7 +18,7 @@
       
       <guid>https://shaneutt.com/blog/konvoy-managed-kubernetes/</guid>
       <description>Konvoy Managed Kubernetes Platform After a long year of work my company both renamed and rebranded, and my team and I finally shipped the managed Kubernetes platform &amp;ldquo;Konvoy&amp;rdquo; we had been developing this year.
-Konvoy is a &amp;ldquo;turn-key&amp;rdquo; Kubernetes distribution which provides an easy to set up and maintain certified Kubernetes distro. It comes with a range of default addons which are deployed by default and include managed configurations, and at it&#39;s best it&#39;s konvoy up and then you have a fully operational Kubernetes cluster at your disposal.</description>
+Konvoy is a &amp;ldquo;turn-key&amp;rdquo; Kubernetes distribution which provides an easy to set up and maintain certified Kubernetes distro. It comes with a range of default addons which are deployed by default and include managed configurations, and at it&amp;rsquo;s best it&amp;rsquo;s konvoy up and then you have a fully operational Kubernetes cluster at your disposal.</description>
     </item>
     
     <item>
@@ -29,8 +29,8 @@ Konvoy is a &amp;ldquo;turn-key&amp;rdquo; Kubernetes distribution which provide
       <guid>https://shaneutt.com/blog/new-blog-2017/</guid>
       <description>Welcome to my new blog! This blog uses Hugo to generate fast static content, and Github Pages for hosting.
 See the source for this site on Github!
-If you&#39;re looking to create your own blog, I highly recommend checking out the &amp;ldquo;getting started&amp;rdquo; documenation for Hugo, and the docs for using Hugo with Github pages.
-Soon I&#39;ll start adding some more posts after I&#39;ve imported my old ones from the previous blog.</description>
+If you&amp;rsquo;re looking to create your own blog, I highly recommend checking out the &amp;ldquo;getting started&amp;rdquo; documenation for Hugo, and the docs for using Hugo with Github pages.
+Soon I&amp;rsquo;ll start adding some more posts after I&amp;rsquo;ve imported my old ones from the previous blog.</description>
     </item>
     
   </channel>

@@ -19,9 +19,8 @@
       <guid>https://shaneutt.com/blog/riak-in-docker-2017/</guid>
       <description>Riakwas designed to be deployed and run on dedicated infrastructure, as opposed to containers or virtualization platforms.
 Nonetheless, being able to quickly deploy a Riak cluster for testing and development purposes can be very useful.
-I&#39;ve created a repository today that enables the user to build Dockerimages for most versions of Riak KV, TS, and CS ever produced:
-https://github.com/shaneutt/riak-docker&amp;lt;/a&amp;gt;
-The dockerfileis relatively simple:
+I&amp;rsquo;ve created a repository today that enables the user to build Dockerimages for most versions of Riak KV, TS, and CS ever produced:
+https://github.com/shaneutt/riak-dockerThe dockerfileis relatively simple:
 The script used to start the Riak service takes care of some basic configuration and then tails the logs:</description>
     </item>
     

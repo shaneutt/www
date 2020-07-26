@@ -7,7 +7,7 @@
     <meta name="author" content="Shane Utt" />
     <meta name="description" content="My Programming Blog">
     <link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/img/favicon.ico">
-    <title>Konvoy: A new managed Kubernetes platform</title>
+    <title>The Git Package Manager</title>
     <meta name="generator" content="Hugo 0.74.3" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://shaneutt.com/css/main.css" />
@@ -52,12 +52,12 @@
       <div class="container">
         <div class="blog-post">
           <h3>
-            <strong><a href="https://shaneutt.com/blog/konvoy-managed-kubernetes/">Konvoy: A new managed Kubernetes platform</a></strong>
+            <strong><a href="https://shaneutt.com/blog/git-pkg/">The Git Package Manager</a></strong>
           </h3>
         </div>
         <div class="blog-title">
           <h4>
-          August 12, 2019
+          July 26, 2020
             &nbsp;&nbsp;
             
           </h4>
@@ -65,11 +65,13 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="blogpost">
-              <h1 id="konvoy-managed-kubernetes-platform">Konvoy Managed Kubernetes Platform</h1>
-<p>After a long year of work my company both renamed and rebranded, and my team and I finally shipped the managed <a href="https://kubernetes.io">Kubernetes</a> platform &ldquo;<a href="https://d2iq.com/solutions/ksphere/konvoy">Konvoy</a>&rdquo; we had been developing this year.</p>
-<p>Konvoy is a &ldquo;turn-key&rdquo; Kubernetes distribution which provides an easy to set up and maintain <a href="https://www.cncf.io/certification/software-conformance/">certified Kubernetes distro</a>. It comes with a range of default addons which are deployed by default and include managed configurations, and at it&rsquo;s best it&rsquo;s <code>konvoy up</code> and then you have a fully operational Kubernetes cluster at your disposal.</p>
-<p>It was a lot of work, and was ultimately very rewarding to develop and ship this software and I&rsquo;m very excited to continue working on Kubernetes at <a href="https://d2iq.com">D2iQ</a> and take our work to <a href="https://events.linuxfoundation.org/events/kubecon-cloudnativecon-north-america-2019/">Kubecon</a> this year where I&rsquo;ll be speaking about the project.</p>
-<p>I&rsquo;ll be working on some blog posts using Konvoy as the year progresses, happy coding!</p>
+              <h1 id="the-git-package-manager">The Git Package Manager</h1>
+<p>One of the most common things I do manually on my workstation is either <em>install</em> tools from Github by going to the releases, downloading the latest release and installing it <em>or</em> doing the same thing to update to a newer version of that tool.</p>
+<p>Recently I decided that I should take a shot at automating this bit of monotony in my life, because if nothing else automating the things that are automatable is something engineers do best.</p>
+<p>As such I present <a href="https://git-pkg.dev">https://git-pkg.dev</a> and the Github Org <a href="https://github.com/git-pkg,">https://github.com/git-pkg,</a> the purpose of which are to develop and provide tooling for automating the problem of managing &ldquo;packages&rdquo; that are based on Github releases.</p>
+<p>In the long term, I would also like to cover any other kind of Git repository by (hopefully) creating a standard way to express how to install your releases from the release artifacts.</p>
+<p>The <a href="https://github.com/git-pkg/cli">https://github.com/git-pkg/cli</a> repo is where I&rsquo;m starting a CLI for doing this and will continue to blog about things over the months as they come up. If you&rsquo;re interested feel free to catch me on the <code>git-pkg</code> <a href="https://gitter.im/git-pkg/community">Gitter page</a>.</p>
+<p>For now I&rsquo;m gonna be heads down working on the prototype in my free time. Happy coding!</p>
 
               <hr>
               <div class="related-posts">

@@ -8,7 +8,7 @@
     <meta name="description" content="My Programming Blog">
     <link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/img/favicon.ico">
     <title>Golang - Creating a Certificate Authority &#43; Signing Certificates in Go</title>
-    <meta name="generator" content="Hugo 0.62.2" />
+    <meta name="generator" content="Hugo 0.74.3" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://shaneutt.com/css/main.css" /><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/tomorrow.min.css">
     
@@ -73,13 +73,13 @@
           <div class="panel-body">
             <div class="blogpost">
               <h1 id="creating-a-certificate-authority--signing-certificates-in-go">Creating a Certificate Authority + Signing Certificates in Go</h1>
-<p>In this post I'm going to describe how to create a <a href="https://en.wikipedia.org/wiki/Certificate_authority">CA Certificate</a> and demonstrate signing certificates with that CA entirely in <a href="https://golang.org/">Golang</a>. For demonstration purposes, we'll use an <a href="https://godoc.org/net/http/httptest#Server">httptest</a> Server to deploy our cert, and an <a href="https://godoc.org/net/http#Client">net/http</a> Client to communicate with the server.</p>
+<p>In this post I&rsquo;m going to describe how to create a <a href="https://en.wikipedia.org/wiki/Certificate_authority">CA Certificate</a> and demonstrate signing certificates with that CA entirely in <a href="https://golang.org/">Golang</a>. For demonstration purposes, we&rsquo;ll use an <a href="https://godoc.org/net/http/httptest#Server">httptest</a> Server to deploy our cert, and an <a href="https://godoc.org/net/http#Client">net/http</a> Client to communicate with the server.</p>
 <h1 id="requirements">Requirements</h1>
 <ul>
 <li><a href="https://golang.org/dl/">Golang v1.11.4+</a></li>
 </ul>
 <h1 id="packages-used">Packages Used</h1>
-<p>In this demo we're going to make use of the following Go packages available in the Golang <a href="https://golang.org/pkg/#stdlib">standard library</a>:</p>
+<p>In this demo we&rsquo;re going to make use of the following Go packages available in the Golang <a href="https://golang.org/pkg/#stdlib">standard library</a>:</p>
 <ul>
 <li><a href="https://godoc.org/bytes">bytes</a></li>
 <li><a href="https://godoc.org/crypto/rand">crypto/rand</a></li>
@@ -98,7 +98,7 @@
 <li><a href="https://godoc.org/time">time</a></li>
 </ul>
 <h1 id="creating-a-certificate-authority">Creating a Certificate Authority</h1>
-<p>First we'll start off by creating our CA certificate. This is what we'll use to sign other certificates that we create:</p>
+<p>First we&rsquo;ll start off by creating our CA certificate. This is what we&rsquo;ll use to sign other certificates that we create:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#a6e22e">ca</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">Certificate</span>{
 	<span style="color:#a6e22e">SerialNumber</span>: <span style="color:#a6e22e">big</span>.<span style="color:#a6e22e">NewInt</span>(<span style="color:#ae81ff">2019</span>),
 	<span style="color:#a6e22e">Subject</span>: <span style="color:#a6e22e">pkix</span>.<span style="color:#a6e22e">Name</span>{
@@ -121,7 +121,7 @@
 <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
 }
-</code></pre></div><p>And then we'll generate the certificate:</p>
+</code></pre></div><p>And then we&rsquo;ll generate the certificate:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#a6e22e">caBytes</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">CreateCertificate</span>(<span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Reader</span>, <span style="color:#a6e22e">ca</span>, <span style="color:#a6e22e">ca</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">caPrivKey</span>.<span style="color:#a6e22e">PublicKey</span>, <span style="color:#a6e22e">caPrivKey</span>)
 <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
@@ -138,9 +138,9 @@
 	<span style="color:#a6e22e">Type</span>:  <span style="color:#e6db74">&#34;RSA PRIVATE KEY&#34;</span>,
 	<span style="color:#a6e22e">Bytes</span>: <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">MarshalPKCS1PrivateKey</span>(<span style="color:#a6e22e">caPrivKey</span>),
 })
-</code></pre></div><p>Now we've got our CA created and we're ready to sign certificates.</p>
+</code></pre></div><p>Now we&rsquo;ve got our CA created and we&rsquo;re ready to sign certificates.</p>
 <h1 id="creating-a-certificate">Creating a Certificate</h1>
-<p>Creating the certificate we'll use for our HTTP server is similar to how we generated the CA, but with some changes to <code>x509.Certificate</code> fields:</p>
+<p>Creating the certificate we&rsquo;ll use for our HTTP server is similar to how we generated the CA, but with some changes to <code>x509.Certificate</code> fields:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#a6e22e">cert</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">Certificate</span>{
 	<span style="color:#a6e22e">SerialNumber</span>: <span style="color:#a6e22e">big</span>.<span style="color:#a6e22e">NewInt</span>(<span style="color:#ae81ff">1658</span>),
 	<span style="color:#a6e22e">Subject</span>: <span style="color:#a6e22e">pkix</span>.<span style="color:#a6e22e">Name</span>{
@@ -158,14 +158,14 @@
 	<span style="color:#a6e22e">ExtKeyUsage</span>:  []<span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">ExtKeyUsage</span>{<span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">ExtKeyUsageClientAuth</span>, <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">ExtKeyUsageServerAuth</span>},
 	<span style="color:#a6e22e">KeyUsage</span>:     <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">KeyUsageDigitalSignature</span>,
 }
-</code></pre></div><p>Note that in this certificate we've specifically added <code>IPAddresses:  []net.IP{net.IPv4(127, 0, 0, 1), net.IPv6loopback},</code>, as we want this certificate to be valid at <code>localhost</code>.</p>
+</code></pre></div><p>Note that in this certificate we&rsquo;ve specifically added <code>IPAddresses:  []net.IP{net.IPv4(127, 0, 0, 1), net.IPv6loopback},</code>, as we want this certificate to be valid at <code>localhost</code>.</p>
 <p>Create a private and public key for the certificate:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#a6e22e">certPrivKey</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">rsa</span>.<span style="color:#a6e22e">GenerateKey</span>(<span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Reader</span>, <span style="color:#ae81ff">4096</span>)
 <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
 }
 </code></pre></div><h1 id="signing-the-certificate-with-the-ca">Signing the Certificate with the CA</h1>
-<p>Now we'll create the certificate and sign it with our CA:</p>
+<p>Now we&rsquo;ll create the certificate and sign it with our CA:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#a6e22e">certBytes</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">CreateCertificate</span>(<span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Reader</span>, <span style="color:#a6e22e">cert</span>, <span style="color:#a6e22e">ca</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">certPrivKey</span>.<span style="color:#a6e22e">PublicKey</span>, <span style="color:#a6e22e">caPrivKey</span>)
 <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
@@ -182,7 +182,7 @@
 	<span style="color:#a6e22e">Type</span>:  <span style="color:#e6db74">&#34;RSA PRIVATE KEY&#34;</span>,
 	<span style="color:#a6e22e">Bytes</span>: <span style="color:#a6e22e">x509</span>.<span style="color:#a6e22e">MarshalPKCS1PrivateKey</span>(<span style="color:#a6e22e">certPrivKey</span>),
 })
-</code></pre></div><p>Now let's create the server and client <code>tls.Config</code> we will use for testing:</p>
+</code></pre></div><p>Now let&rsquo;s create the server and client <code>tls.Config</code> we will use for testing:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#a6e22e">serverCert</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">tls</span>.<span style="color:#a6e22e">X509KeyPair</span>(<span style="color:#a6e22e">certPEM</span>.<span style="color:#a6e22e">Bytes</span>(), <span style="color:#a6e22e">certPrivKeyPEM</span>.<span style="color:#a6e22e">Bytes</span>())
 <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
@@ -199,7 +199,7 @@
 }
 </code></pre></div><h1 id="using-our-certificate-in-an-httptestserver">Using our Certificate in an httptest.Server</h1>
 <p>Now we have everything we need to start our server using our new certificate signed by our CA, and for our client to trust that server.</p>
-<p>First we'll configure and start the <code>httptest.Server</code>:</p>
+<p>First we&rsquo;ll configure and start the <code>httptest.Server</code>:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#a6e22e">server</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">httptest</span>.<span style="color:#a6e22e">NewUnstartedServer</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">HandlerFunc</span>(<span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
 	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;success!&#34;</span>)
 }))
@@ -229,7 +229,7 @@
 	panic(<span style="color:#e6db74">&#34;not successful!&#34;</span>)
 }
 </code></pre></div><h1 id="bringing-it-all-together">Bringing It All Together</h1>
-<p>Here's a program that brings all the pieces together:</p>
+<p>Here&rsquo;s a program that brings all the pieces together:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> (

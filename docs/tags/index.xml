@@ -75,15 +75,6 @@
     </item>
     
     <item>
-      <title>dc/os</title>
-      <link>https://shaneutt.com/tags/dc/os/</link>
-      <pubDate>Fri, 01 Jun 2018 12:50:13 -0400</pubDate>
-      
-      <guid>https://shaneutt.com/tags/dc/os/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>kubernetes</title>
       <link>https://shaneutt.com/tags/kubernetes/</link>
       <pubDate>Fri, 01 Jun 2018 12:50:13 -0400</pubDate>
@@ -116,6 +107,15 @@
       <pubDate>Tue, 21 Feb 2017 14:35:52 -0400</pubDate>
       
       <guid>https://shaneutt.com/tags/riak/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dc/os</title>
+      <link>https://shaneutt.com/tags/dc/os/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://shaneutt.com/tags/dc/os/</guid>
       <description></description>
     </item>
     

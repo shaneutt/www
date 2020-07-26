@@ -17,8 +17,8 @@
       <pubDate>Sun, 07 Oct 2018 18:57:00 -0400</pubDate>
       
       <guid>https://shaneutt.com/blog/rust-fast-small-docker-image-builds/</guid>
-      <description>Fast + Small Docker Image Builds for Rust Apps In this post I&#39;m going to demonstrate how to create small, quickly built Docker Images for Rust applications.
-We&#39;ll start by creating a simple test application, and then building and iterating on a Dockerfile.
+      <description>Fast + Small Docker Image Builds for Rust Apps In this post I&amp;rsquo;m going to demonstrate how to create small, quickly built Docker Images for Rust applications.
+We&amp;rsquo;ll start by creating a simple test application, and then building and iterating on a Dockerfile.
 Requirements Ensure you have the following installed:
  rustup v1.14.0+ docker v17.06.2+  Setup: demo app setup Make sure you have and are using the latest stable Rust with rustup:</description>
     </item>
@@ -31,9 +31,8 @@ Requirements Ensure you have the following installed:
       <guid>https://shaneutt.com/blog/riak-in-docker-2017/</guid>
       <description>Riakwas designed to be deployed and run on dedicated infrastructure, as opposed to containers or virtualization platforms.
 Nonetheless, being able to quickly deploy a Riak cluster for testing and development purposes can be very useful.
-I&#39;ve created a repository today that enables the user to build Dockerimages for most versions of Riak KV, TS, and CS ever produced:
-https://github.com/shaneutt/riak-docker&amp;lt;/a&amp;gt;
-The dockerfileis relatively simple:
+I&amp;rsquo;ve created a repository today that enables the user to build Dockerimages for most versions of Riak KV, TS, and CS ever produced:
+https://github.com/shaneutt/riak-dockerThe dockerfileis relatively simple:
 The script used to start the Riak service takes care of some basic configuration and then tails the logs:</description>
     </item>
     

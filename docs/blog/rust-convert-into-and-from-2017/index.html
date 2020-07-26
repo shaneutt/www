@@ -8,7 +8,7 @@
     <meta name="description" content="My Programming Blog">
     <link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/img/favicon.ico">
     <title>Rust - std::convert::Into and std::convert::From</title>
-    <meta name="generator" content="Hugo 0.62.2" />
+    <meta name="generator" content="Hugo 0.74.3" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://shaneutt.com/css/main.css" />
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -67,20 +67,20 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="blogpost">
-              <p>I've been spending time recently learning the <!-- raw HTML omitted -->Rust Programming Language<!-- raw HTML omitted --> by writing a <!-- raw HTML omitted -->Riak Client<!-- raw HTML omitted --> using <!-- raw HTML omitted -->Riak's Protocol Buffers API<!-- raw HTML omitted -->.</p>
+              <p>I&rsquo;ve been spending time recently learning the <!-- raw HTML omitted -->Rust Programming Language<!-- raw HTML omitted --> by writing a <!-- raw HTML omitted -->Riak Client<!-- raw HTML omitted --> using <!-- raw HTML omitted -->Riak&rsquo;s Protocol Buffers API<!-- raw HTML omitted -->.</p>
 <p>Through <!-- raw HTML omitted -->Ownership<!-- raw HTML omitted --> &amp; <!-- raw HTML omitted -->Borrowing<!-- raw HTML omitted --> Rust enables safety that generally comes at the cost of flexibility. Through features like <!-- raw HTML omitted -->Traits<!-- raw HTML omitted --> Rust is able to give some flexibility back to the programmer.</p>
-<p>Some traits I've started to use recently include <!-- raw HTML omitted -->std::convert::Into<!-- raw HTML omitted --> and <!-- raw HTML omitted -->std::convert::From<!-- raw HTML omitted -->.</p>
+<p>Some traits I&rsquo;ve started to use recently include <!-- raw HTML omitted -->std::convert::Into<!-- raw HTML omitted --> and <!-- raw HTML omitted -->std::convert::From<!-- raw HTML omitted -->.</p>
 <p>When the Into trait is applied to a type, it allows it to consume itself to convert to another type.</p>
 <p>The <!-- raw HTML omitted -->String<!-- raw HTML omitted --> type provides conversion into Vec&lt;u8&gt;:</p>
 <!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
-<p>One of the things I've been striving for while writing the Rust Riak Client has been clean interfaces where a Vec&lt;u8&gt; is ultimately needed under the hood, but I want to make it easy for the end-users to provide string types where applicable.</p>
+<p>One of the things I&rsquo;ve been striving for while writing the Rust Riak Client has been clean interfaces where a Vec&lt;u8&gt; is ultimately needed under the hood, but I want to make it easy for the end-users to provide string types where applicable.</p>
 <p>By using Into in a <!-- raw HTML omitted -->Generic<!-- raw HTML omitted --> one can make a very flexible interface to provide a Vec&lt;u8&gt;:</p>
 <!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
 <p>This function can now take String, &amp;String, &amp;str making the conversion of a string type to bytes (for the purposes of sending via TCP to Riak) a matter of function definition, which is super sleek.</p>
-<p>I really enjoy writing code in Rust. I expect I'll have a lot more write-ups to come as I discover things and learn better ways to do things I had already been doing.</p>
-<p>If you've never checked out rust, try the <!-- raw HTML omitted -->Rust Playground<!-- raw HTML omitted -->!</p>
+<p>I really enjoy writing code in Rust. I expect I&rsquo;ll have a lot more write-ups to come as I discover things and learn better ways to do things I had already been doing.</p>
+<p>If you&rsquo;ve never checked out rust, try the <!-- raw HTML omitted -->Rust Playground<!-- raw HTML omitted -->!</p>
 <p>Happy coding!</p>
 
               <hr>

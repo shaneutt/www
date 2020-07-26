@@ -8,7 +8,7 @@
     <meta name="description" content="My Programming Blog">
     <link rel="shortcut icon" type="image/x-icon" href="https://shaneutt.com/img/favicon.ico">
     <title>Erlang - Simple webapps in Erlang with Cowboy and ErlyDTL</title>
-    <meta name="generator" content="Hugo 0.62.2" />
+    <meta name="generator" content="Hugo 0.74.3" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://shaneutt.com/css/main.css" /><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/tomorrow.min.css">
     
@@ -68,22 +68,26 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="blogpost">
-              <p>Of all the programming languages I've written web applications in, Erlang is by far my favorite.</p>
+              <p>Of all the programming languages I&rsquo;ve written web applications in, Erlang is by far my favorite.</p>
 <p>Perhaps the functional nature of Erlang, or the modular simplicity of apps and releases, or the easy primitives for concurrency make it most appealing.</p>
-<p>Whatever the reason I've gotten in the habit of building new web applications with <!-- raw HTML omitted -->Cowboy<!-- raw HTML omitted --> for the web server, and <!-- raw HTML omitted -->ErlyDTL<!-- raw HTML omitted --> to provide <!-- raw HTML omitted -->Django<!-- raw HTML omitted -->-like templates.</p>
+<p>Whatever the reason I&rsquo;ve gotten in the habit of building new web applications with <!-- raw HTML omitted -->Cowboy<!-- raw HTML omitted --> for the web server, and <!-- raw HTML omitted -->ErlyDTL<!-- raw HTML omitted --> to provide <!-- raw HTML omitted -->Django<!-- raw HTML omitted -->-like templates.</p>
 <p>As such I built a <!-- raw HTML omitted -->Rebar3<!-- raw HTML omitted --> template to make it easy to build these kinds of apps:</p>
-<p><!-- raw HTML omitted --><a href="https://github.com/shaneutt/cowboy_erlydtl_rebar3_template%3C/a%3E">https://github.com/shaneutt/cowboy_erlydtl_rebar3_template&lt;/a&gt;</a></p>
+<p><!-- raw HTML omitted --><a href="https://github.com/shaneutt/cowboy_erlydtl_rebar3_template">https://github.com/shaneutt/cowboy_erlydtl_rebar3_template</a><!-- raw HTML omitted --></p>
 <p>To use this template with your local copy of Rebar3, simple clone the repository to the Rebar3 template directory:</p>
 <!-- raw HTML omitted -->
 <p>And now you can use <!-- raw HTML omitted -->new<!-- raw HTML omitted --> to build a base for your new app:</p>
 <!-- raw HTML omitted -->
-<p>And that's it, you should now have a base for your app deployed:</p>
+<p>And that&rsquo;s it, you should now have a base for your app deployed:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>This provides a default DTL template that works right out of the box.</p>
+<p>Just run:</p>
 <!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
 <p>Which will start the web server on <!-- raw HTML omitted -->http://localhost:8080<!-- raw HTML omitted -->:</p>
 <!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
-<p>And that's it, the sky is the limit!</p>
+<p>And that&rsquo;s it, the sky is the limit!</p>
 <p>From here you can add a Database like <!-- raw HTML omitted -->PostGreSQL<!-- raw HTML omitted --> with a client like <!-- raw HTML omitted -->ePGSQL<!-- raw HTML omitted -->, build your HTTP API using <!-- raw HTML omitted -->JSX<!-- raw HTML omitted --> for <!-- raw HTML omitted -->JSON<!-- raw HTML omitted -->, maybe even queue up work for another service with <!-- raw HTML omitted -->RabbitMQ<!-- raw HTML omitted -->.</p>
 <p>Happy coding!</p>
 

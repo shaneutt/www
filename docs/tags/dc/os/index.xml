@@ -6,7 +6,6 @@
     <description>Recent content in dc/os on My Programming Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 01 Jun 2018 12:50:13 -0400</lastBuildDate>
     
 	<atom:link href="https://shaneutt.com/tags/dc/os/index.xml" rel="self" type="application/rss+xml" />
     
@@ -17,8 +16,8 @@
       <pubDate>Fri, 01 Jun 2018 12:50:13 -0400</pubDate>
       
       <guid>https://shaneutt.com/blog/rust-k8s-skaffold-dcos/</guid>
-      <description>Deploying Rust Webapps on Kubernetes on DC/OS using Skaffold Since my last post I&#39;ve joined as an engineer at Mesosphere and have been developing data pipeline software for cluster diagnostics.
-During this same time I&#39;ve been deploying the software I&#39;ve been working on using Kubernetes on DC/OS, and I&#39;ve been keeping up my interest in the Rust, so I put together a demo of deploying webapps in Rust to Kubernetes on DC/OS using Skaffold:</description>
+      <description>Deploying Rust Webapps on Kubernetes on DC/OS using Skaffold Since my last post I&amp;rsquo;ve joined as an engineer at Mesosphere and have been developing data pipeline software for cluster diagnostics.
+During this same time I&amp;rsquo;ve been deploying the software I&amp;rsquo;ve been working on using Kubernetes on DC/OS, and I&amp;rsquo;ve been keeping up my interest in the Rust, so I put together a demo of deploying webapps in Rust to Kubernetes on DC/OS using Skaffold:</description>
     </item>
     
   </channel>
